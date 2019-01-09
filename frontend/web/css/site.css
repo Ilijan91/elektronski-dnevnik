@@ -30,6 +30,25 @@ body {
     font-size: 21px;
     padding: 14px 24px;
 }
+#login{
+        background-image: url("../img/cover.jpg"); /* The image used */
+        background-color: #cccccc; /* Used if the image is unavailable */
+        height: 900px; /* You must set a specified height */
+        background-position: center; /* Center the image */
+        background-repeat: no-repeat; /* Do not repeat the image */
+        background-size: cover; /* Resize the background image to cover the entire container */
+        /* color: #fff; */
+        position: relative;
+}
+.site-login{
+    width: 40%;
+    margin: 0 auto;
+    position: absolute;
+    top: 25%;
+    left: 20%;
+    background-color: #fffefe8c;
+    padding: 30px 50px;
+}
 
 .not-set {
     color: #c55;
