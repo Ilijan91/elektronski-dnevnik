@@ -22,7 +22,7 @@ use Yii;
  *
  * @property Roll $roll
  */
-class User extends \yii\db\ActiveRecord
+class User extends \common\models\User
 {
     /**
      * @inheritdoc
