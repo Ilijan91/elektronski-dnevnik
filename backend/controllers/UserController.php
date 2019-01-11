@@ -9,6 +9,7 @@ use backend\models\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use frontend\models\SignUpForm;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -65,15 +66,27 @@ class UserController extends Controller
      */
     public function actionCreate()
     {
+        /*
         $model = new User();
         $rola = Roll::find()->all();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
-
+        */
+        $model = new SignupForm();
+        if ($model->load(Yii::$app->request->post())) {
+            if ($user = $model->signup()) {
+                if (Yii::$app->getUser()->login($user)) {
+                    return $this->goHome();
+                }
+            }
+        }
         return $this->render('create', [
-            'model' => $model,'rola'=>$rola
+            'model' => $model,
         ]);
+      
+
+        
     }
 
     /**
