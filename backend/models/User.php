@@ -35,19 +35,7 @@ class User extends \common\models\User
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
-        return [
-            [['roll_id', 'first_name', 'last_name', 'username', 'auth_key', 'password_hash', 'email', 'created_at', 'updated_at'], 'required'],
-            [['roll_id', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['first_name', 'last_name', 'username', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
-            [['auth_key'], 'string', 'max' => 32],
-            [['username'], 'unique'],
-            [['email'], 'unique'],
-            [['password_reset_token'], 'unique'],
-            [['roll_id'], 'exist', 'skipOnError' => true, 'targetClass' => Roll::className(), 'targetAttribute' => ['roll_id' => 'id']],
-        ];
-    }
+
 
     /**
      * @inheritdoc
