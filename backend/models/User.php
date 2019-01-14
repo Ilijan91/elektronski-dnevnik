@@ -12,15 +12,17 @@ use Yii;
  * @property string $first_name
  * @property string $last_name
  * @property string $username
-
+ * @property string $auth_key
  * @property string $password_hash
-
+ * @property string $password_reset_token
  * @property string $email
- 
+ * @property int $status
+ * @property int $created_at
+ * @property int $updated_at
  *
  * @property Roll $roll
  */
-class User extends \common\models\User
+class User extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
@@ -36,9 +38,9 @@ class User extends \common\models\User
     public function rules()
     {
         return [
-            [['roll_id', 'first_name', 'last_name', 'username', 'password_hash', 'email'], 'required'],
-            [['roll_id', 'created_at', 'updated_at'], 'integer'],
-            [['first_name', 'last_name', 'username', 'password', 'password_reset_token', 'email'], 'string', 'max' => 255],
+            [['roll_id', 'first_name', 'last_name', 'username', 'auth_key', 'password_hash', 'email', 'created_at', 'updated_at'], 'required'],
+            [['roll_id', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['first_name', 'last_name', 'username', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32],
             [['username'], 'unique'],
             [['email'], 'unique'],
@@ -58,8 +60,13 @@ class User extends \common\models\User
             'first_name' => 'First Name',
             'last_name' => 'Last Name',
             'username' => 'Username',
-            'password' => 'Password',
-            'email' => 'Email',           
+            'auth_key' => 'Auth Key',
+            'password_hash' => 'Password Hash',
+            'password_reset_token' => 'Password Reset Token',
+            'email' => 'Email',
+            'status' => 'Status',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
         ];
     }
 
