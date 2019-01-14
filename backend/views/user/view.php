@@ -32,6 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'roll_id',
             'first_name',
             'last_name',
+            'JMBG',
             'username',
             'auth_key',
             'password_hash',
