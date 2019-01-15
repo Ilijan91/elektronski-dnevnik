@@ -22,7 +22,7 @@ use Yii;
  *
  * @property Roll $roll
  */
-class User extends \yii\db\ActiveRecord
+class User extends \common\models\User
 {
     /**
      * @inheritdoc
@@ -35,14 +35,17 @@ class User extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+
     public function rules()
     {
         return [
-            [['roll_id', 'first_name', 'last_name', 'username', 'auth_key', 'password_hash', 'email', 'created_at', 'updated_at'], 'required'],
-            [['roll_id', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['roll_id', 'first_name', 'last_name', 'JMBG', 'username', 'auth_key', 'password_hash', 'email', 'created_at', 'updated_at'], 'required'],
+            [['roll_id', 'status', 'JMBG', 'created_at', 'updated_at'], 'integer'],
             [['first_name', 'last_name', 'username', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32],
             [['username'], 'unique'],
+            [['JMBG'], 'unique',],
+            [['JMBG'], 'integer', 'min' => 13],
             [['email'], 'unique'],
             [['password_reset_token'], 'unique'],
             [['roll_id'], 'exist', 'skipOnError' => true, 'targetClass' => Roll::className(), 'targetAttribute' => ['roll_id' => 'id']],
@@ -59,6 +62,7 @@ class User extends \yii\db\ActiveRecord
             'roll_id' => 'Roll ID',
             'first_name' => 'First Name',
             'last_name' => 'Last Name',
+            'JMBG' => 'JMBG',
             'username' => 'Username',
             'auth_key' => 'Auth Key',
             'password_hash' => 'Password Hash',
