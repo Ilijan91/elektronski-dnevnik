@@ -46,7 +46,7 @@ class Department extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Name',
             'year' => 'Year',
-            'user_id' => 'User ID',
+            'user_id' => 'Teacher',
         ];
     }
 
