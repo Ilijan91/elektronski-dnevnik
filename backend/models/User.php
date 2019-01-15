@@ -82,4 +82,8 @@ class User extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Roll::className(), ['id' => 'roll_id']);
     }
+
+    // public function getFullName() {
+    //     return $this->first_name . ' ' . $this->last_name;
+    // }
 }
