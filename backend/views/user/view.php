@@ -39,8 +39,14 @@ $this->params['breadcrumbs'][] = $this->title;
            
             'email:email',
             'status',
-            'created_at',
-            'updated_at',
+            [
+                'attribute' => 'created_at',
+                'format' => ['date']
+            ],
+            [
+                'attribute' => 'updated_at',
+                'format' => ['date']
+            ],
         ],
     ]) ?>
 

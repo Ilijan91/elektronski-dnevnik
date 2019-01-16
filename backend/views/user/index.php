@@ -2,6 +2,10 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\Pjax;
+use yii\helpers\ArrayHelper;
+use backend\controllers\RollController;
+use backend\models\Roll;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\UserSearch */
@@ -25,8 +29,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'roll_id',
+            [
+                'attribute' => 'roll_id',
+                'value' => 'roll.title'
+            ],
             'first_name',
             'last_name',
             'username',
