@@ -17,7 +17,7 @@ use backend\models\Roll;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'name')->textInput() ?>
+    <?= $form->field($model, 'name')->dropDownList([ '1' => '1', '2' => '2', '3' => '3', '4' => '4', ], ['prompt' => 'Select name'])  ?>
 
     <?= $form->field($model, 'year')->dropDownList([ 'I' => 'I', 'II' => 'II', 'III' => 'III', 'IV' => 'IV', ], ['prompt' => 'Select year']) ?>
     
