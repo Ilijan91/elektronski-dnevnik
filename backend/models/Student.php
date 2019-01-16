@@ -56,8 +56,8 @@ class Student extends \yii\db\ActiveRecord
             'JMBG' => 'Jmbg',
             'address' => 'Address',
             'phone' => 'Phone',
-            'user_id' => 'User ID',
-            'department_id' => 'Department ID',
+            'user_id' => 'Parent',
+            'department_id' => 'Department',
         ];
     }
 
