@@ -14,6 +14,7 @@ class SignupForm extends Model
     public $last_name;
     public $roll_id;
     public $JMBG;
+  
     public $email;
     public $password;
 
@@ -40,6 +41,8 @@ class SignupForm extends Model
             ['first_name', 'string','max'=>100,],
             ['last_name', 'string','max'=>100,],
             ['roll_id', 'integer',],
+            ['JMBG', 'integer', 'min' => 13]
+            
         ];
     }
 
@@ -56,8 +59,12 @@ class SignupForm extends Model
         
         $user = new User();
         $user->username = $this->username;
+        $user->first_name = $this->first_name;
+        $user->last_name = $this->last_name;
         $user->email = $this->email;
-
+        $user->roll_id = $this->roll_id;
+        $user->JMBG = $this->JMBG;
+        $user->setPassword($this->JMBG);
         $user->generateAuthKey();
         
         return $user->save() ? $user : null;
