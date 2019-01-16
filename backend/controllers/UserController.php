@@ -125,4 +125,8 @@ class UserController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+    public function actionTeachers(){
+        $model = User::find()->where('roll_id=2')->all();
+        return $this->render('teachers',[ 'model'=>$model]);
+    }
 }
