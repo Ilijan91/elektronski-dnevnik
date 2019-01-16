@@ -19,9 +19,9 @@ use backend\models\Roll;
 
     <?= $form->field($model, 'name')->textInput() ?>
 
-    <?= $form->field($model, 'year')->dropDownList([ 'I' => 'I', 'II' => 'II', 'III' => 'III', 'IV' => 'IV', ], ['prompt' => '']) ?>
+    <?= $form->field($model, 'year')->dropDownList([ 'I' => 'I', 'II' => 'II', 'III' => 'III', 'IV' => 'IV', ], ['prompt' => 'Select year']) ?>
     
-    <?= $form->field($model, 'user_id')->dropDownList(ArrayHelper::map(User::find()->where('roll_id = 4')->all(), 'id', 'first_name', 'last_name')) ?>
+    <?= $form->field($model, 'user_id')->dropDownList(ArrayHelper::map(User::find()->select(['id', 'CONCAT(first_name, " ", last_name) AS "first_name"'])->where('roll_id = 2')->all(), 'id', 'first_name')) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
