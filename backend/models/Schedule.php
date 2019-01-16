@@ -33,6 +33,7 @@ class Schedule extends \yii\db\ActiveRecord
         return [
             [['day', 'subject_id', 'department_id'], 'required'],
             [['day'], 'string'],
+            [['class'], 'string'],
             [['subject_id', 'department_id'], 'integer'],
             [['department_id'], 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['department_id' => 'id']],
             [['subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => Subject::className(), 'targetAttribute' => ['subject_id' => 'id']],
@@ -49,6 +50,7 @@ class Schedule extends \yii\db\ActiveRecord
             'day' => 'Day',
             'subject_id' => 'Subject ID',
             'department_id' => 'Department ID',
+            'class'=> 'class'
         ];
     }
 
