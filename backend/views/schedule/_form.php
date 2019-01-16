@@ -19,9 +19,13 @@ use backend\models\Department;
 
     <?= $form->field($model, 'day')->dropDownList([ 'Monday' => 'Monday', 'Tuesday' => 'Tuesday', 'Wednesday' => 'Wednesday', 'Thursday' => 'Thursday', 'Friday' => 'Friday', 'Saturday' => 'Saturday', ], ['prompt' => '']) ?>
 
-    <?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title')) ?>
+    <?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Select subject']) ?>
 
-    <?= $form->field($model, 'department_id')->textInput() ?>
+    <?= $form->field($model, 'department_id')->dropDownList(ArrayHelper::map(Department::find()->select(['id', 'CONCAT(year, "/" ,name) AS "year"'])->where('id=id')->all(), 'id', 'year' ),['prompt' => 'Select department']) ?>
+
+
+
+    <?= $form->field($model, 'class')->dropDownList([ '1.' => '1.', '2.' => '2.', '3.' => '3.', '4.' => '4.', '5.' => '5.', '6.' => '6.', '/' => '/', ], ['prompt' => 'Select class'])?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
