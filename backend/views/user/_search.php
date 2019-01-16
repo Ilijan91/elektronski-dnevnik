@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
+use backend\controllers\RollController;
+use backend\models\Roll;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\UserSearch */
