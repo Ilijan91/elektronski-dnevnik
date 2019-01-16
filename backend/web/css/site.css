@@ -118,6 +118,7 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
 /* The side navigation menu */
 .sidenav {
     height: 100%; /* 100% Full-height */
@@ -135,6 +136,7 @@ a.desc:after {
   }
   
   /* The navigation menu links */
+
   .sidenav a {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
@@ -142,6 +144,7 @@ a.desc:after {
     color: #818181;
     display: block;
     transition: 0.3s;
+
   }
   
   /* When you mouse over the navigation links, change their color */
@@ -184,3 +187,4 @@ a.desc:after {
       width: 80%;
       float:right;
   }
+
