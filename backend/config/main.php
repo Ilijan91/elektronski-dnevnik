@@ -8,6 +8,7 @@ $params = array_merge(
 
 return [
     'id' => 'app-backend',
+    'name'=>'Elektronski dnevnik',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
@@ -16,6 +17,8 @@ return [
         'request' => [
             'csrfParam' => '_csrf-backend',
         ],
+        
+
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,

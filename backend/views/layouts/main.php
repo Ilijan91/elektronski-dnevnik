@@ -27,90 +27,13 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 
 <div class="wrap">
-   
 
-    <?php
-    NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
+   <div id="header">
+<?= $this->render('header')?>
+</div>
 
-            'class' => '',
-        ],
-    ]);
-    $menuItems = [
-        ['label' => 'Dashboard', 'url' => ['/site/index']],
-        ['label' => 'Users', 'url' => ['/user/index']],
-        ['label' => 'Departments', 'url' => ['/department/index']],
-        ['label' => 'Subject', 'url' => ['/subject/index']],
-        ['label' => 'Schedule', 'url' => ['/schedule/index']],
-        ['label' => 'News Feed', 'url' => ['/site/index']],
-        ['label' => 'Teachers', 'url' => ['/user/teachers']],
-        ['label' => 'Students', 'url' => ['/site/index']],
-        ['label' => 'Director', 'url' => ['/site/index']],
-
-    ];
-    if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-    } else {
-        $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>';
-    }
-    echo Nav::widget([
-
-        'options' => ['class' => 'sidenav'],
-
-        'items' => $menuItems,
-    ]);
-    NavBar::end();
-    ?>
-
-    <?php
-    NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => '',
-        ],
-    ]);
-    $menuItems = [
-        ['label' => 'Dashboard', 'url' => ['/site/index']],
-        ['label' => 'Users', 'url' => ['/user/index']],
-        ['label' => 'Departments', 'url' => ['/department/index']],
-        ['label' => 'Subject', 'url' => ['/subject/index']],
-        ['label' => 'Schedule', 'url' => ['/schedule/index']],
-        ['label' => 'News Feed', 'url' => ['/site/index']],
-        ['label' => 'Teachers', 'url' => ['/user/teachers']],
-        ['label' => 'Students', 'url' => ['/site/index']],
-        ['label' => 'Director', 'url' => ['/site/index']],
-    ];
-    if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-    } else {
-        $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>';
-    }
-    echo Nav::widget([
-        'options' => ['class' => 'sidenav'],
-        'items' => $menuItems,
-    ]);
-    NavBar::end();
-    ?>
-  
-    <div class="container" id="main-container">
-
+    <div id="main-container">
+      
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
@@ -118,14 +41,9 @@ AppAsset::register($this);
         <?= $content ?>
     </div>
 </div>
-
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
-</footer>
+<div id="footer">
+<?= $this->render('footer')?>
+</div>
 
 <?php $this->endBody() ?>
 </body>
