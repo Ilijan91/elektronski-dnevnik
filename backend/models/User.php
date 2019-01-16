@@ -22,7 +22,7 @@ use Yii;
  *
  * @property Roll $roll
  */
-class User extends \common\models\User
+class User extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
@@ -35,6 +35,7 @@ class User extends \common\models\User
     /**
      * @inheritdoc
      */
+
 
     public function rules()
     {
@@ -81,4 +82,8 @@ class User extends \common\models\User
     {
         return $this->hasOne(Roll::className(), ['id' => 'roll_id']);
     }
+
+    // public function getFullName() {
+    //     return $this->first_name . ' ' . $this->last_name;
+    // }
 }
