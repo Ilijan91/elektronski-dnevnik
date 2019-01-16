@@ -27,16 +27,28 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 
 <div class="wrap">
+   
+
     <?php
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
+
+            'class' => '',
         ],
     ]);
     $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
+        ['label' => 'Dashboard', 'url' => ['/site/index']],
+        ['label' => 'Users', 'url' => ['/user/index']],
+        ['label' => 'Departments', 'url' => ['/department/index']],
+        ['label' => 'Subject', 'url' => ['/subject/index']],
+        ['label' => 'Schedule', 'url' => ['/schedule/index']],
+        ['label' => 'News Feed', 'url' => ['/site/index']],
+        ['label' => 'Teachers', 'url' => ['/user/teachers']],
+        ['label' => 'Students', 'url' => ['/site/index']],
+        ['label' => 'Director', 'url' => ['/site/index']],
+
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
@@ -51,13 +63,18 @@ AppAsset::register($this);
             . '</li>';
     }
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
+
+        'options' => ['class' => 'sidenav'],
+
         'items' => $menuItems,
     ]);
     NavBar::end();
     ?>
 
-    <div class="container">
+
+  
+    <div class="container" id="main-container">
+
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
