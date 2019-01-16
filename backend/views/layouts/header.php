@@ -18,7 +18,7 @@ use yii\helpers\Html;
         ['label' => 'Schedule', 'url' => ['/schedule/index']],
         ['label' => 'News Feed', 'url' => ['/site/index']],
         ['label' => 'Teachers', 'url' => ['/user/teachers']],
-        ['label' => 'Students', 'url' => ['/site/index']],
+        ['label' => 'Students', 'url' => ['/student/index']],
         ['label' => 'Director', 'url' => ['/site/index']],
 
     ];
