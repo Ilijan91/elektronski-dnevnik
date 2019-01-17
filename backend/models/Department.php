@@ -31,8 +31,8 @@ class Department extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'year', 'user_id'], 'required'],
-            [['name', 'user_id'], 'integer'],
-            [['year'], 'string'],
+            [['user_id'], 'integer'],
+            [['name', 'year'], 'string'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }

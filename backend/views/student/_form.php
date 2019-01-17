@@ -28,9 +28,9 @@ use backend\models\Department;
 
     <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'user_id')->dropDownList(ArrayHelper::map(User::find()->select(['id', 'CONCAT(first_name, " ", last_name) AS "first_name"'])->where('roll_id = 4')->all(), 'id', 'first_name')) ?>
+    <?= $form->field($model, 'user_id')->dropDownList(ArrayHelper::map(User::find()->select(['id', 'CONCAT(first_name, " ", last_name) AS "first_name"'])->where('roll_id = 4')->all(), 'id', 'first_name'), ['prompt' => 'Select parent']) ?>
 
-    <?= $form->field($model, 'department_id')->dropDownList(ArrayHelper::map(Department::find()->select(['id', 'CONCAT(year, " ", name) AS "year"'])->all(), 'id', 'year')) ?>
+    <?= $form->field($model, 'department_id')->dropDownList(ArrayHelper::map(Department::find()->select(['id', 'CONCAT(year, name) AS "year"'])->all(), 'id', 'year'), ['prompt' => 'Select department']) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
