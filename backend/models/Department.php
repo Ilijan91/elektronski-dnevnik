@@ -57,4 +57,8 @@ class Department extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
+
+    public function getYearName() {
+        return $this->year . $this->name;
+    }
 }

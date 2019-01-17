@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\Department;
+use backend\models\User;
 use backend\models\DepartmentSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

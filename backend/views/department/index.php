@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use backend\models\User;
+use backend\controllers\UserController;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\DepartmentSearch */
@@ -18,17 +20,20 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Department', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'name',
-            'year',
-            'user_id',
+            [
+                'attribute' => 'year',
+                'value' => 'yearname'
+            ],
+            [
+                'attribute' => 'user_id',
+                'value' => 'user.fullname',
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
