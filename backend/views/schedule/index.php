@@ -25,10 +25,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
+            [
+                'attribute' => 'department_id',
+                'value' => 'department.year',
+            ],
 
             //'day',
             //'subject_id',
-            'department_id',
+            //'department_id',
             //'class',
 
             ['class' => 'yii\grid\ActionColumn'],
