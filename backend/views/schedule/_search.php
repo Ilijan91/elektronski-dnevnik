@@ -15,7 +15,7 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    
+
 
     <?= $form->field($model, 'department_id') ?>
 

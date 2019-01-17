@@ -4,6 +4,7 @@ namespace backend\models;
 
 use Yii;
 
+
 /**
  * This is the model class for table "schedule".
  *
@@ -69,4 +70,7 @@ class Schedule extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Subject::className(), ['id' => 'subject_id']);
     }
+
+
+
 }

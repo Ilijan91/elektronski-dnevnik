@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 
+
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\SearchSchedule */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -26,13 +27,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             [
-                'attribute' => 'Razred',
-                'value' => 'department.year',
-            ],
-
-            [
-                'attribute' => 'Odeljenje',
-                'value' => 'department.name',
+                'attribute' => 'department_id',
+                'value' => 'department.yearname'
             ],
 
             ['class' => 'yii\grid\ActionColumn'],
