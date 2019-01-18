@@ -32,7 +32,7 @@ class Diary extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['grade', 'final_grade', 'student_id', 'subject_id'], 'required'],
+            [['grade', 'student_id', 'subject_id'], 'required'],
             [['grade', 'final_grade', 'student_id', 'subject_id'], 'integer'],
             [['subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => Subject::className(), 'targetAttribute' => ['subject_id' => 'id']],
             [['student_id'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['student_id' => 'id']],
@@ -48,8 +48,8 @@ class Diary extends \yii\db\ActiveRecord
             'id' => 'ID',
             'grade' => 'Grade',
             'final_grade' => 'Final Grade',
-            'student_id' => 'Student ID',
-            'subject_id' => 'Subject ID',
+            'student_id' => 'Student',
+            'subject_id' => 'Subject',
         ];
     }
 
