@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\DiarySearch */
+/* @var $model backend\models\GradeSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="diary-search">
+<div class="grade-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -17,13 +17,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'student_id') ?>
-
-    <?= $form->field($model, 'subject_id') ?>
-
-    <?= $form->field($model, 'grade_id') ?>
-
-    <?= $form->field($model, 'final_grade') ?>
+    <?= $form->field($model, 'title') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

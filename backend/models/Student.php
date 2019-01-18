@@ -84,4 +84,7 @@ class Student extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Department::className(), ['id' => 'department_id']);
     }
+    public function getFullName() {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 }
