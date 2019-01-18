@@ -5,8 +5,8 @@ use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use backend\models\Student;
 use backend\controllers\StudentController;
-use backend\models\Subject;
 use backend\controllers\SubjectController;
+use backend\models\Subject;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Diary */

@@ -4,7 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\Diary;
-use backend\models\SearchDiary;
+use backend\models\DiarySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -35,7 +35,7 @@ class DiaryController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new SearchDiary();
+        $searchModel = new DiarySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
