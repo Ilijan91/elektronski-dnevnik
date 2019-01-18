@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="schedule-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?= Html::a('Create Schedule', ['create'], ['class' => 'btn btn-success']) ?>
@@ -25,10 +25,15 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'day',
-            'subject_id',
-            'department_id',
+            [
+                'attribute' => 'Razred',
+                'value' => 'department.year',
+            ],
+
+            [
+                'attribute' => 'Odeljenje',
+                'value' => 'department.name',
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

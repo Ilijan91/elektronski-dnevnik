@@ -53,7 +53,7 @@ class Student extends \yii\db\ActiveRecord
             'id' => 'ID',
             'first_name' => 'First Name',
             'last_name' => 'Last Name',
-            'JMBG' => 'Jmbg',
+            'JMBG' => 'JMBG',
             'address' => 'Address',
             'phone' => 'Phone',
             'user_id' => 'Parent',

@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\Department;
+use backend\models\User;
 use backend\models\DepartmentSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -67,7 +68,7 @@ class DepartmentController extends Controller
         $model = new Department();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index', 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -87,7 +88,7 @@ class DepartmentController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index', 'id' => $model->id]);
         }
 
         return $this->render('update', [
