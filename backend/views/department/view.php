@@ -2,11 +2,13 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use backend\models\User;
+use backend\controllers\UserController;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Department */
 
-$this->title = $model->name;
+$this->title = $model->year . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Departments', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -29,9 +31,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'name',
-            'year',
-            'user_id',
+            [
+                'attribute' => 'department',
+                'value' => $model->yearname
+            ],
+            [
+                'attribute' => 'user_id',
+                'value' => $model->user->fullName
+            ],
         ],
     ]) ?>
 

@@ -28,6 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
                 'attribute' => 'year',
+                'label' => 'Department',
                 'value' => 'yearname'
             ],
             [
