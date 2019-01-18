@@ -5,12 +5,12 @@ namespace backend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\Diary;
+use backend\models\Grade;
 
 /**
- * DiarySearch represents the model behind the search form of `backend\models\Diary`.
+ * GradeSearch represents the model behind the search form of `backend\models\Grade`.
  */
-class DiarySearch extends Diary
+class GradeSearch extends Grade
 {
     /**
      * @inheritdoc
@@ -18,8 +18,7 @@ class DiarySearch extends Diary
     public function rules()
     {
         return [
-
-            [['id', 'student_id', 'subject_id', 'grade_id', 'final_grade'], 'integer'],
+            [['id', 'title'], 'integer'],
         ];
     }
 
@@ -41,7 +40,7 @@ class DiarySearch extends Diary
      */
     public function search($params)
     {
-        $query = Diary::find();
+        $query = Grade::find();
 
         // add conditions that should always apply here
 
@@ -60,11 +59,7 @@ class DiarySearch extends Diary
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-
-            'student_id' => $this->student_id,
-            'subject_id' => $this->subject_id,
-            'grade_id' => $this->grade_id,
-            'final_grade' => $this->final_grade,
+            'title' => $this->title,
         ]);
 
         return $dataProvider;

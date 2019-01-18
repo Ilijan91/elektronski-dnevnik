@@ -8,13 +8,14 @@ use Yii;
  * This is the model class for table "diary".
  *
  * @property int $id
- * @property int $grade
- * @property int $final_grade
  * @property int $student_id
  * @property int $subject_id
+ * @property int $grade_id
+ * @property int $final_grade
  *
  * @property Subject $subject
  * @property Student $student
+ * @property Grade $grade
  */
 class Diary extends \yii\db\ActiveRecord
 {
@@ -32,10 +33,11 @@ class Diary extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['grade', 'student_id', 'subject_id'], 'required'],
-            [['grade', 'final_grade', 'student_id', 'subject_id'], 'integer'],
+            [['student_id', 'subject_id', 'grade_id'], 'required'],
+            [['student_id', 'subject_id', 'grade_id', 'final_grade'], 'integer'],
             [['subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => Subject::className(), 'targetAttribute' => ['subject_id' => 'id']],
             [['student_id'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['student_id' => 'id']],
+            [['grade_id'], 'exist', 'skipOnError' => true, 'targetClass' => Grade::className(), 'targetAttribute' => ['grade_id' => 'id']],
         ];
     }
 
@@ -46,10 +48,10 @@ class Diary extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'grade' => 'Grade',
+            'student_id' => 'Student ID',
+            'subject_id' => 'Subject ID',
+            'grade_id' => 'Grade ID',
             'final_grade' => 'Final Grade',
-            'student_id' => 'Student',
-            'subject_id' => 'Subject',
         ];
     }
 
@@ -68,4 +70,14 @@ class Diary extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Student::className(), ['id' => 'student_id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getGrade()
+    {
+        return $this->hasOne(Grade::className(), ['id' => 'grade_id']);
+    }
+    
+    
 }
