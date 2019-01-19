@@ -16,6 +16,8 @@ use yii\helpers\Html;
         ['label' => 'Departments', 'url' => ['/department/index']],
         ['label' => 'Subject', 'url' => ['/subject/index']],
         ['label' => 'Schedule', 'url' => ['/schedule/index']],
+        ['label' => 'Diary', 'url' => ['/diary/index']],
+        ['label' => 'Grades', 'url' => ['/grade/index']],
         ['label' => 'News Feed', 'url' => ['/site/index']],
         ['label' => 'Teachers', 'url' => ['/user/teachers']],
         ['label' => 'Students', 'url' => ['/student/index']],
