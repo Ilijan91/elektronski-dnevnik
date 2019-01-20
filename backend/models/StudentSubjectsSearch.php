@@ -5,12 +5,12 @@ namespace backend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\Grade;
+use backend\models\StudentSubjects;
 
 /**
- * GradeSearch represents the model behind the search form of `backend\models\Grade`.
+ * StudentSubjectsSearch represents the model behind the search form of `backend\models\StudentSubjects`.
  */
-class GradeSearch extends Grade
+class StudentSubjectsSearch extends StudentSubjects
 {
     /**
      * @inheritdoc
@@ -18,8 +18,7 @@ class GradeSearch extends Grade
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['title', 'date'], 'safe'],
+            [[ 'student_id', 'subject_id'], 'string'],
         ];
     }
 
@@ -41,7 +40,9 @@ class GradeSearch extends Grade
      */
     public function search($params)
     {
-        $query = Grade::find();
+        $query = StudentSubjects::find();
+        $query->leftJoin('student', 'student.id=student_subjects.student_id');
+        $query->leftJoin('subject', 'subject.id=student_subjects.subject_id');
 
         // add conditions that should always apply here
 
@@ -60,10 +61,13 @@ class GradeSearch extends Grade
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'date' => $this->date,
+            
+            
         ]);
-
-        $query->andFilterWhere(['like', 'title', $this->title]);
+         //Pretrazi kolonu student_id po imenu i prezimenu ucenika (kao kolonu subject first_name i kolonu last_name)
+         $query->andFilterWhere(['like', 'concat(student.first_name, " " , student.last_name) ', $this->student_id]);
+          //Pretrazi kolonu subject_id po nazivima predmeta (kao kolonu subject title)
+        $query->andFilterWhere(['like', 'subject.title',$this->subject_id ]);
 
         return $dataProvider;
     }

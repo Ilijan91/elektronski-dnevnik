@@ -78,6 +78,7 @@ class Diary extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Grade::className(), ['id' => 'grade_id']);
     }
+   
     
     
 }

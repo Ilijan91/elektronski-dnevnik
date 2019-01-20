@@ -25,14 +25,17 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
+                'label'=>'Student',
                 'attribute' => 'student_id',
                 'value' => 'student.fullName'
             ],
             [
+                'label'=>'Subject',
                 'attribute' => 'subject_id',
                 'value' => 'subject.title'
             ],
             [
+                'label'=>'Grade',
                 'attribute' => 'grade_id',
                 'value' => 'grade.title'
             ],
