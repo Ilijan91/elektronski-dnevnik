@@ -40,12 +40,20 @@ class StudentSubjectController extends Controller
 
         $gradeModel = new StudentSubject();
         $grades = $gradeModel->getGrades();
+        // $grades = $gradeModel->getSubject();
+
+        // $subject_id = $gradeModel->getSubjects();
+
+
+        // $subjectModel = new StudentSubject();
+        $subjects = $gradeModel->getSubjects();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'gradeModel' => $gradeModel,
-            'grades' => $grades
+            'grades' => $grades,
+            'subjects' => $subjects,
         ]);
     }
 

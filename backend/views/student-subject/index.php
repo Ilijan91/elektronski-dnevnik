@@ -51,8 +51,9 @@ $this->params['breadcrumbs'][] = $this->title;
             <tr>
                 <th>Student</th>
                 <?php
-                    foreach($grades as $grade) {
-                        echo '<th>'.$grade['title'].'</th>';
+                    foreach($subjects as $subject) {
+                        $subject_id = $subject['id'];
+                        echo '<th>'.$subject['title'].'</th>';
                     }
                 ?>
             </tr>
@@ -60,9 +61,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     foreach($grades as $grade) {
                         echo '<tr>';
                             echo '<td>'.$grade['first_name'].' '.$grade['last_name'].'</td>';
-                            echo '<td>'.$grade['grades'].'</td>';
+                                echo '<td>'.$grade['grades'].'</td>';
                         echo '</tr>';
                     }
+                
             ?>
         </table>
 </div>

@@ -32,7 +32,7 @@ class StudentSubject extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['student_id', 'subject_id', 'grade'], 'required'],
+            [['student_id', 'subject_id'], 'required'],
             [['student_id', 'subject_id', 'grade', 'final_grade'], 'integer'],
             [['student_id'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['student_id' => 'id']],
             [['subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => Subject::className(), 'targetAttribute' => ['subject_id' => 'id']],
@@ -72,6 +72,16 @@ class StudentSubject extends \yii\db\ActiveRecord
     public function getGrades()
     {
         $sql = 'SELECT student_subject.id, student_id, subject_id, subject.title, student.first_name, student.last_name, GROUP_CONCAT(grade) AS grades FROM student_subject INNER JOIN student ON student_subject.student_id = student.id INNER JOIN subject ON student_subject.subject_id = subject.id GROUP BY student_id, subject_id';
+
+        $subject_id = $this->getSubject();
+
+        $data = Yii::$app->db->createCommand($sql)->queryAll();
+
+        return $data;
+    }
+
+    public function getSubjects() {
+        $sql = 'SELECT subject.id, title FROM subject';
 
         $data = Yii::$app->db->createCommand($sql)->queryAll();
 
