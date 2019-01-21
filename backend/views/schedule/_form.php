@@ -7,6 +7,9 @@ use yii\helpers\ArrayHelper;
 use backend\controllers\SubjectController;
 use backend\models\Subject;
 use backend\models\Department;
+use backend\models\Days;
+use backend\models\Classes;
+
 
 
 
@@ -15,9 +18,8 @@ use backend\models\Department;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 <?php $form = ActiveForm::begin(); ?>
+
 <div class="schedule-form">
-
-
 
     <?= $form->field($model, 'department_id')->dropDownList(ArrayHelper::map(Department::find()->select(['id', 'CONCAT(year, "/" ,name) AS "year"'])->where('id = id')->all(), 'id', 'year' ),['prompt' => 'Select department']) ?>
 
@@ -25,88 +27,43 @@ use backend\models\Department;
 
 
 
-<table border="1px">
-    <tr>
-        <td align="center">
-        <td><?= $form->field($model, 'day')->dropDownList([ 'Monday' => 'Monday', 'Tuesday' => 'Tuesday', 'Wednesday' => 'Wednesday', 'Thursday' => 'Thursday', 'Friday' => 'Friday', 'Saturday' => 'Saturday', ], ['prompt' => '']) ?>
+<table class="table table-borderd table striped">
 
-        <td><?= $form->field($model, 'day')->dropDownList([ 'Monday' => 'Monday', 'Tuesday' => 'Tuesday', 'Wednesday' => 'Wednesday', 'Thursday' => 'Thursday', 'Friday' => 'Friday', 'Saturday' => 'Saturday', ], ['prompt' => '']) ?>
+    <tr>  
+        <td>CAS/DAN</td> 
+            <?php foreach($modelDay as $day){ ?>
+            
+                <td align="center">
 
-        <td><?= $form->field($model, 'day')->dropDownList([ 'Monday' => 'Monday', 'Tuesday' => 'Tuesday', 'Wednesday' => 'Wednesday', 'Thursday' => 'Thursday', 'Friday' => 'Friday', 'Saturday' => 'Saturday', ], ['prompt' => '']) ?>
+                    <?=$day->Title?>
 
-        <td><?= $form->field($model, 'day')->dropDownList([ 'Monday' => 'Monday', 'Tuesday' => 'Tuesday', 'Wednesday' => 'Wednesday', 'Thursday' => 'Thursday', 'Friday' => 'Friday', 'Saturday' => 'Saturday', ], ['prompt' => '']) ?>
-
-        <td><?= $form->field($model, 'day')->dropDownList([ 'Monday' => 'Monday', 'Tuesday' => 'Tuesday', 'Wednesday' => 'Wednesday', 'Thursday' => 'Thursday', 'Friday' => 'Friday', 'Saturday' => 'Saturday', ], ['prompt' => '']) ?>
-
-    </tr>
-    <tr>
-        <td align="center">
-            <?= $form->field($model, 'class')->dropDownList([ '1.' => '1.', '2.' => '2.', '3.' => '3.', '4.' => '4.', '5.' => '5.', '6.' => '6.', '/' => '/', ], ['prompt' => 'Select class'])?>
-
-        <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Select subject']) ?><br>
-        <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Select subject']) ?><br>
-        <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Select subject']) ?><br>
-        <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Select subject']) ?><br>
-        <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Select subject']) ?><br>
-    </tr>
-    <tr>
-        <td align="center">
-            <?= $form->field($model, 'class')->dropDownList([ '1.' => '1.', '2.' => '2.', '3.' => '3.', '4.' => '4.', '5.' => '5.', '6.' => '6.', '/' => '/', ], ['prompt' => 'Select class'])?>
-
-        <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Select subject']) ?><br>
-        <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Select subject']) ?><br>
-        <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Select subject']) ?><br>
-        <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Select subject']) ?><br>
-        <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Select subject']) ?><br>
-
+                </td>
+           <?php } ?> 
 
     </tr>
+
+        <?php foreach($modelClasses as $class){ ?>
+
     <tr>
-        <td align="center">
-            <?= $form->field($model, 'class')->dropDownList([ '1.' => '1.', '2.' => '2.', '3.' => '3.', '4.' => '4.', '5.' => '5.', '6.' => '6.', '/' => '/', ], ['prompt' => 'Select class'])?>
-
-        <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Select subject']) ?><br>
-        <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Select subject']) ?><br>
-        <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Select subject']) ?><br>
-        <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Select subject']) ?><br>
-        <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Select subject']) ?><br>
-
+        
+        <td align="center"><?=$class->title?></td>
+        
+         <?php for($i=0;$i<6;$i++){ ?>
+            <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Izaberi predmet']) ?><br>
+         <?php } ?>
+        
+            
+    
     </tr>
-    <tr>
-        <td align="center">
-            <?= $form->field($model, 'class')->dropDownList([ '1.' => '1.', '2.' => '2.', '3.' => '3.', '4.' => '4.', '5.' => '5.', '6.' => '6.', '/' => '/', ], ['prompt' => 'Select class'])?>
 
-        <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Select subject']) ?><br>
-        <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Select subject']) ?><br>
-        <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Select subject']) ?><br>
-        <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Select subject']) ?><br>
-        <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Select subject']) ?><br>
-    </tr>
-    <tr>
-        <td align="center">
-            <?= $form->field($model, 'class')->dropDownList([ '1.' => '1.', '2.' => '2.', '3.' => '3.', '4.' => '4.', '5.' => '5.', '6.' => '6.', '/' => '/', ], ['prompt' => 'Select class'])?>
+        <?php } ?> 
 
-        <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Select subject']) ?><br>
-        <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Select subject']) ?><br>
-        <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Select subject']) ?><br>
-        <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Select subject']) ?><br>
-        <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Select subject']) ?><br>
-    </tr>
-    <tr>
-        <td align="center">
-            <?= $form->field($model, 'class')->dropDownList([ '1.' => '1.', '2.' => '2.', '3.' => '3.', '4.' => '4.', '5.' => '5.', '6.' => '6.', '/' => '/', ], ['prompt' => 'Select class'])?>
-
-        <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Select subject']) ?><br>
-        <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Select subject']) ?><br>
-        <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Select subject']) ?><br>
-        <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Select subject']) ?><br>
-        <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Select subject']) ?><br>
-    </tr>
 </table>
 
 <div class="form-group">
     <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-
+ 
 </div>
+
 
 <?php ActiveForm::end(); ?>

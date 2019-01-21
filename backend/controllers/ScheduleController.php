@@ -4,6 +4,8 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\Schedule;
+use backend\models\Days;
+use backend\models\Classes;
 use backend\models\SearchSchedule;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -35,14 +37,15 @@ class ScheduleController extends Controller
      */
     public function actionIndex()
     {
+        
         $searchModel = new SearchSchedule();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
+            'dataProvider' => $dataProvider
+            ]);
+        }
 
     /**
      * Displays a single Schedule model.
@@ -64,14 +67,20 @@ class ScheduleController extends Controller
      */
     public function actionCreate()
     {
+        
+        $modelDay= Days::find()->all();
+        $modelClasses= Classes::find()->all();
         $model = new Schedule();
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
+
         return $this->render('create', [
             'model' => $model,
+            'modelDay'=>$modelDay,
+            'modelClasses'=>$modelClasses
+
         ]);
     }
 

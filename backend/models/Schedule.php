@@ -4,17 +4,19 @@ namespace backend\models;
 
 use Yii;
 
-
 /**
  * This is the model class for table "schedule".
  *
  * @property int $id
- * @property string $day
  * @property int $subject_id
  * @property int $department_id
+ * @property int $days_id
+ * @property int $class_id
  *
  * @property Department $department
  * @property Subject $subject
+ * @property Days $days
+ * @property Classes $class
  */
 class Schedule extends \yii\db\ActiveRecord
 {
@@ -32,12 +34,14 @@ class Schedule extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['day', 'subject_id', 'department_id'], 'required'],
-            [['day'], 'string'],
-            [['class'], 'string'],
-            [['subject_id', 'department_id'], 'integer'],
+            [['subject_id', 'department_id', 'days_id', 'class_id'], 'required'],
+            [['subject_id', 'department_id', 'days_id', 'class_id'], 'integer'],
+            [['days_id'], 'unique'],
+            [['class_id'], 'unique'],
             [['department_id'], 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['department_id' => 'id']],
             [['subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => Subject::className(), 'targetAttribute' => ['subject_id' => 'id']],
+            [['days_id'], 'exist', 'skipOnError' => true, 'targetClass' => Days::className(), 'targetAttribute' => ['days_id' => 'id']],
+            [['class_id'], 'exist', 'skipOnError' => true, 'targetClass' => Classes::className(), 'targetAttribute' => ['class_id' => 'id']],
         ];
     }
 
@@ -48,10 +52,10 @@ class Schedule extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'day' => 'Day',
             'subject_id' => 'Subject ID',
             'department_id' => 'Department ID',
-            'class'=> 'class'
+            'days_id' => 'Days ID',
+            'class_id' => 'Class ID',
         ];
     }
 
@@ -71,6 +75,19 @@ class Schedule extends \yii\db\ActiveRecord
         return $this->hasOne(Subject::className(), ['id' => 'subject_id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDays()
+    {
+        return $this->hasOne(Days::className(), ['id' => 'days_id']);
+    }
 
-
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getClass()
+    {
+        return $this->hasOne(Classes::className(), ['id' => 'class_id']);
+    }
 }
