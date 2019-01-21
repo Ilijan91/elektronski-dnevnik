@@ -5,12 +5,12 @@ namespace backend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\StudentSubjects;
+use backend\models\StudentSubject;
 
 /**
- * StudentSubjectsSearch represents the model behind the search form of `backend\models\StudentSubjects`.
+ * StudentSubjectSearch represents the model behind the search form of `backend\models\StudentSubject`.
  */
-class StudentSubjectsSearch extends StudentSubjects
+class StudentSubjectSearch extends StudentSubject
 {
     /**
      * @inheritdoc
@@ -18,7 +18,7 @@ class StudentSubjectsSearch extends StudentSubjects
     public function rules()
     {
         return [
-            [[ 'student_id', 'subject_id'], 'string'],
+            [['id', 'student_id', 'subject_id', 'grade', 'final_grade'], 'integer'],
         ];
     }
 
@@ -40,9 +40,7 @@ class StudentSubjectsSearch extends StudentSubjects
      */
     public function search($params)
     {
-        $query = StudentSubjects::find();
-        $query->leftJoin('student', 'student.id=student_subjects.student_id');
-        $query->leftJoin('subject', 'subject.id=student_subjects.subject_id');
+        $query = StudentSubject::find();
 
         // add conditions that should always apply here
 
@@ -61,13 +59,11 @@ class StudentSubjectsSearch extends StudentSubjects
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            
-            
+            'student_id' => $this->student_id,
+            'subject_id' => $this->subject_id,
+            'grade' => $this->grade,
+            'final_grade' => $this->final_grade,
         ]);
-         //Pretrazi kolonu student_id po imenu i prezimenu ucenika (kao kolonu subject first_name i kolonu last_name)
-         $query->andFilterWhere(['like', 'concat(student.first_name, " " , student.last_name) ', $this->student_id]);
-          //Pretrazi kolonu subject_id po nazivima predmeta (kao kolonu subject title)
-        $query->andFilterWhere(['like', 'subject.title',$this->subject_id ]);
 
         return $dataProvider;
     }

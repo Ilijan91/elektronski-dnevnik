@@ -91,8 +91,28 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        $this->layout = 'login';
+        if (!Yii::$app->user->isGuest) {
+            $a = 'niste korisnik';
+          //  return $this->render('login');
+          return $a;
+        }
+
+        $model = new LoginForm();
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            
+            return $this->redirect('site/dashboard');
+        } else {
+            $model->password = '';
+
+            return $this->render('login', [
+                'model' => $model,
+            ]);
+        }
         
-        return $this->render('index');
+    }
+    public function actionDashboard(){
+        return $this->render('dashboard');
     }
 
     /**

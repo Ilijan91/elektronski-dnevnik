@@ -1,7 +1,12 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 use yii\grid\GridView;
+use backend\models\Diary;
+use backend\controllers\DiaryController;
+use yii\db\ActiveRecord;
+
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\DiarySearch */
@@ -32,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label'=>'Subject',
                 'attribute' => 'subject_id',
-                'value' => 'subject.title'
+                'value' => 'subject.title',
             ],
             [
                 'label'=>'Grade',
@@ -44,4 +49,5 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
+
 </div>
