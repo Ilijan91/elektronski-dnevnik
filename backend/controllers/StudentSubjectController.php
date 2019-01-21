@@ -3,17 +3,16 @@
 namespace backend\controllers;
 
 use Yii;
-use backend\models\Diary;
-use backend\models\DiarySearch;
+use backend\models\StudentSubject;
+use backend\models\StudentSubjectSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\data\SqlDataProvider;
 
 /**
- * DiaryController implements the CRUD actions for Diary model.
+ * StudentSubjectController implements the CRUD actions for StudentSubject model.
  */
-class DiaryController extends Controller
+class StudentSubjectController extends Controller
 {
     /**
      * @inheritdoc
@@ -31,22 +30,27 @@ class DiaryController extends Controller
     }
 
     /**
-     * Lists all Diary models.
+     * Lists all StudentSubject models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new DiarySearch();
+        $searchModel = new StudentSubjectSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $gradeModel = new StudentSubject();
+        $grades = $gradeModel->getGrades();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'gradeModel' => $gradeModel,
+            'grades' => $grades
         ]);
     }
 
     /**
-     * Displays a single Diary model.
+     * Displays a single StudentSubject model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -59,13 +63,13 @@ class DiaryController extends Controller
     }
 
     /**
-     * Creates a new Diary model.
+     * Creates a new StudentSubject model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Diary();
+        $model = new StudentSubject();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -77,7 +81,7 @@ class DiaryController extends Controller
     }
 
     /**
-     * Updates an existing Diary model.
+     * Updates an existing StudentSubject model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -97,7 +101,7 @@ class DiaryController extends Controller
     }
 
     /**
-     * Deletes an existing Diary model.
+     * Deletes an existing StudentSubject model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -111,15 +115,15 @@ class DiaryController extends Controller
     }
 
     /**
-     * Finds the Diary model based on its primary key value.
+     * Finds the StudentSubject model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Diary the loaded model
+     * @return StudentSubject the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Diary::findOne($id)) !== null) {
+        if (($model = StudentSubject::findOne($id)) !== null) {
             return $model;
         }
 
