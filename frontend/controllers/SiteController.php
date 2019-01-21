@@ -91,14 +91,15 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        $model = new LoginForm();
         $this->layout = 'login';
         if (!Yii::$app->user->isGuest) {
-            $a = 'niste korisnik';
-          //  return $this->render('login');
-          return $a;
+            return $this->render('login', [
+                'model' => $model,
+            ]);
         }
 
-        $model = new LoginForm();
+       
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             
             return $this->redirect('site/dashboard');
@@ -158,6 +159,7 @@ class SiteController extends Controller
      */
     public function actionContact()
     {
+       
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
@@ -181,6 +183,7 @@ class SiteController extends Controller
      */
     public function actionAbout()
     {
+        
         return $this->render('about');
     }
 
@@ -191,6 +194,14 @@ class SiteController extends Controller
      */
     public function actionSignup()
     {
+         //Ukoliko korisnik nije ulogovan nema pristum ovoj stranici
+         if (!Yii::$app->user->isGuest) {
+            $this->layout = 'login';
+            $modelLogin = new LoginForm();
+            return $this->render('login', [
+                'model' => $modelLogin,
+            ]);
+        }
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {

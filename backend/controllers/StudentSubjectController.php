@@ -78,10 +78,22 @@ class StudentSubjectController extends Controller
     public function actionCreate()
     {
         $model = new StudentSubject();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) ) {
+            if(sizeof(array_filter($_POST['StudentSubject']['subject_id'])) > 0){
+                foreach($_POST['StudentSubject']['subject_id'] as $key => $row){
+                    //Set value for each subject from current array subject_id
+                    $model->setIsNewRecord(true);
+                    $model->id =
+                    $model->subject_id = $row;
+                    $model->save();
+                }
+                return $this->redirect(['index']);
+            } 
+           
         }
+        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        //     return $this->redirect(['view', 'id' => $model->id]);
+        // }
 
         return $this->render('create', [
             'model' => $model,

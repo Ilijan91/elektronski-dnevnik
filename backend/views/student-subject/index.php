@@ -45,26 +45,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
-    ]); ?>
-
-        <table class="table">
-            <tr>
-                <th>Student</th>
-                <?php
-                    foreach($subjects as $subject) {
-                        $subject_id = $subject['id'];
-                        echo '<th>'.$subject['title'].'</th>';
-                    }
-                ?>
-            </tr>
-            <?php
-                    foreach($grades as $grade) {
-                        echo '<tr>';
-                            echo '<td>'.$grade['first_name'].' '.$grade['last_name'].'</td>';
-                                echo '<td>'.$grade['grades'].'</td>';
-                        echo '</tr>';
-                    }
-                
-            ?>
-        </table>
+    ]); 
+     ?>
+    
+        
+ 
+       
 </div>
