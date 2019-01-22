@@ -6,6 +6,9 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use backend\models\Schedule;
+use backend\models\Days;
+use backend\models\Classes;
+
 
 /**
  * SearchSchedule represents the model behind the search form of `backend\models\Schedule`.
@@ -19,7 +22,8 @@ class SearchSchedule extends Schedule
     {
         return [
             [['id', 'subject_id', 'department_id'], 'integer'],
-            [['day'], 'safe'],
+            [['days_id','class_id'], 'safe']
+           
         ];
     }
 
@@ -62,9 +66,13 @@ class SearchSchedule extends Schedule
             'id' => $this->id,
             'subject_id' => $this->subject_id,
             'department_id' => $this->department_id,
+            
+            
+           
         ]);
 
-        $query->andFilterWhere(['like', 'day', $this->day]);
+        $query->andFilterWhere(['like', 'days', $this->days]);
+      
 
         return $dataProvider;
     }

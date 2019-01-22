@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use backend\models\Department;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\ScheduleSearch */
@@ -15,6 +16,7 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
+<<<<<<< HEAD
     <?= $form->field($model, 'id') ?>
 
     <?= $form->field($model, 'days_id') ?>
@@ -23,7 +25,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'subject_id') ?>
 
+=======
+>>>>>>> 79c1607dc6a2a34e15375b0a400caed5004f3ae8
     <?= $form->field($model, 'department_id') ?>
+
+   
+
+    
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

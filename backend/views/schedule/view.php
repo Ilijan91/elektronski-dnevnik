@@ -29,10 +29,17 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
+<<<<<<< HEAD
             'days_id',
             'class_id',
             'subject_id',
             'department_id',
+=======
+            'subject_id',
+            'department_id',
+            'days_id',
+            'class_id',
+>>>>>>> 79c1607dc6a2a34e15375b0a400caed5004f3ae8
         ],
     ]) ?>
 

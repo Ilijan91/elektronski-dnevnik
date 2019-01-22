@@ -8,10 +8,15 @@ use Yii;
  * This is the model class for table "schedule".
  *
  * @property int $id
+<<<<<<< HEAD
  * @property int $days_id
  * @property int $class_id
+=======
+>>>>>>> 79c1607dc6a2a34e15375b0a400caed5004f3ae8
  * @property int $subject_id
  * @property int $department_id
+ * @property int $days_id
+ * @property int $class_id
  *
  * @property Department $department
  * @property Subject $subject
