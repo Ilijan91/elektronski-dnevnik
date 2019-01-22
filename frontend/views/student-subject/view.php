@@ -2,17 +2,15 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use backend\controllers\DaysController;
-use backend\models\Days;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\Schedule */
+/* @var $model frontend\modules\Teacher\models\StudentSubject */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Schedules', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Student Subjects', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="schedule-view">
+<div class="student-subject-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -31,10 +29,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
+            'student_id',
             'subject_id',
-            'department_id',
-            'days_id',
-            'class_id',
+            'grade',
+            'final_grade',
         ],
     ]) ?>
 

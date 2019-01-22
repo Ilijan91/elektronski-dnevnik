@@ -1,22 +1,18 @@
 <?php
 
-namespace backend\controllers;
+namespace frontend\modules\Teacher\controllers;
 
 use Yii;
-use backend\models\Schedule;
-use backend\models\ScheduleSearch;
-use backend\models\Days;
-use backend\models\Classes;
-use backend\controllers\ClassesController;
+use frontend\modules\Teacher\models\StudentSubject;
+use frontend\modules\Teacher\models\StudentSubjectSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-
 /**
- * ScheduleController implements the CRUD actions for Schedule model.
+ * StudentSubjectController implements the CRUD actions for StudentSubject model.
  */
-class ScheduleController extends Controller
+class StudentSubjectController extends Controller
 {
     /**
      * @inheritdoc
@@ -34,22 +30,22 @@ class ScheduleController extends Controller
     }
 
     /**
-     * Lists all Schedule models.
+     * Lists all StudentSubject models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ScheduleSearch();
+        $searchModel = new StudentSubjectSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider
-            ]);
-        }
+            'dataProvider' => $dataProvider,
+        ]);
+    }
 
     /**
-     * Displays a single Schedule model.
+     * Displays a single StudentSubject model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -62,31 +58,25 @@ class ScheduleController extends Controller
     }
 
     /**
-     * Creates a new Schedule model.
+     * Creates a new StudentSubject model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        
-        $modelDay= Days::find()->all();
-        $modelClasses= Classes::find()->all();
-        $model = new Schedule();
+        $model = new StudentSubject();
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
-
         return $this->render('create', [
             'model' => $model,
-            'modelDay'=>$modelDay,
-            'modelClasses'=>$modelClasses
-
         ]);
     }
 
     /**
-     * Updates an existing Schedule model.
+     * Updates an existing StudentSubject model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -106,7 +96,7 @@ class ScheduleController extends Controller
     }
 
     /**
-     * Deletes an existing Schedule model.
+     * Deletes an existing StudentSubject model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -120,15 +110,15 @@ class ScheduleController extends Controller
     }
 
     /**
-     * Finds the Schedule model based on its primary key value.
+     * Finds the StudentSubject model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Schedule the loaded model
+     * @return StudentSubject the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Schedule::findOne($id)) !== null) {
+        if (($model = StudentSubject::findOne($id)) !== null) {
             return $model;
         }
 

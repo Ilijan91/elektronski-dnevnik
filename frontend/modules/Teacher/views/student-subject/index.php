@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
 use backend\models\StudentSubject;
-use backend\controllers\StudentSubjectController;
+use frontend\controllers\StudentSubjectController;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\StudentSubjectSearch */

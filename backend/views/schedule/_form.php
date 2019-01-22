@@ -3,18 +3,13 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-<<<<<<< HEAD
-=======
 use yii\helpers\ArrayHelper;
 use backend\controllers\SubjectController;
+use backend\controllers\DaysController;
 use backend\models\Subject;
 use backend\models\Department;
 use backend\models\Days;
 use backend\models\Classes;
-
-
-
->>>>>>> 79c1607dc6a2a34e15375b0a400caed5004f3ae8
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Schedule */
@@ -26,15 +21,7 @@ use backend\models\Classes;
 
     <?= $form->field($model, 'department_id')->dropDownList(ArrayHelper::map(Department::find()->select(['id', 'CONCAT(year, "/" ,name) AS "year"'])->where('id = id')->all(), 'id', 'year' ),['prompt' => 'Select department']) ?>
 
-<<<<<<< HEAD
-    <?= $form->field($model, 'days_id')->textInput() ?>
 
-    <?= $form->field($model, 'class_id')->textInput() ?>
-
-    <?= $form->field($model, 'subject_id')->textInput() ?>
-
-    <?= $form->field($model, 'department_id')->textInput() ?>
-=======
 </div>
 
 
@@ -45,10 +32,9 @@ use backend\models\Classes;
         <td>CAS/DAN</td> 
             <?php foreach($modelDay as $day){ ?>
             
-                <td align="center">
+                <td>
 
-                    <?=$day->Title?>
->>>>>>> 79c1607dc6a2a34e15375b0a400caed5004f3ae8
+                    <?=$day->title?>
 
                 </td>
            <?php } ?> 
@@ -59,10 +45,10 @@ use backend\models\Classes;
 
     <tr>
         
-        <td align="center"><?=$class->title?></td>
+        <td><?=$class->title?></td>
         
          <?php for($i=0;$i<6;$i++){ ?>
-            <td align="center"><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Izaberi predmet']) ?><br>
+            <td><?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->all(), 'id', 'title'),['prompt' => 'Izaberi predmet']) ?><br>
          <?php } ?>
         
             

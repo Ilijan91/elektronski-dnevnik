@@ -3,7 +3,9 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use backend\models\Department;
+use backend\models\Days;
 use backend\controllers\DepartmentController;
+use backend\controllers\DaysController;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\ScheduleSearch */
@@ -17,10 +19,6 @@ $this->title = 'Schedules';
     
 
     <h1><?= Html::encode($this->title) ?></h1>
-<<<<<<< HEAD
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-=======
->>>>>>> 79c1607dc6a2a34e15375b0a400caed5004f3ae8
 
     <p>
         <?= Html::a('Create Schedule', ['create'], ['class' => 'btn btn-success']) ?>
@@ -35,14 +33,7 @@ $this->title = 'Schedules';
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-<<<<<<< HEAD
-            'id',
-            'days_id',
-            'class_id',
-            'subject_id',
-            'department_id',
 
-=======
           
             
            /* [
@@ -51,7 +42,6 @@ $this->title = 'Schedules';
                 'value' => 'department.yearname'
             ],
         */
->>>>>>> 79c1607dc6a2a34e15375b0a400caed5004f3ae8
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
