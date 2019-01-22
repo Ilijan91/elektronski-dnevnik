@@ -82,7 +82,7 @@ class ScheduleController extends Controller
                     for($i=0;$i<count($modelClasses);$i++){
                         $subject_name_attribute = $day.$i;
                         $model->setIsNewRecord(true);
-                        $model->id =null;
+                        $model->id = null;
                         //Posto brojac petlje krece od nule, day_id mora da ima vrednost brojaca +1
                         $model->days_id = $j+1;
                         //Posto brojac petlje krece od nule, classes_id mora da ima vrednost brojaca +1
