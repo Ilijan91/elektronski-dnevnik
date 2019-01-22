@@ -71,27 +71,31 @@ class ScheduleController extends Controller
         $modelDay= Days::find()->all();
         $modelClasses= Classes::find()->all();
         $model = new Schedule();
+        //Ako je primljen post zahtev obradjujemo primljene podatke
         if($model->load(Yii::$app->request->post()) ) {
-            // if(sizeof(array_filter($_POST['Schedule']['subject_id'])) > 0){
-                // foreach($_POST['Schedule']['subject_id'] as $key => $row){
-                    //Set value for each subject from current array subject_id
+                //Prvo proveravamo koliko imamo dana u nedelji i za svaki dan obradjujemo podatke
+                for($j=0;$j<count($modelDay);$j++){  
+                    $day = $modelDay[$j]['title'];
                    
-                    $model->setIsNewRecord(true);
+                    //Brojimo casove po danu i u zavisnosti od casa dodeljujemo vrednosti
                     for($i=0;$i<count($modelClasses);$i++){
-                    // foreach($_POST['Schedule']['class_id'] as $key => $row1){
-                        //Set value for each subject from current array subject_id
-
+                        $subject_name_attribute = $day.$i;
+                        $model->setIsNewRecord(true);
                         $model->id =null;
-                        $name = $_POST['subj'.$i];
-                        $class = $_POST['class'.$i];
-                        $model->subject_id = $name;
-                        $model->class_id = $class;
+                        //Posto brojac petlje krece od nule, day_id mora da ima vrednost brojaca +1
+                        $model->days_id = $j+1;
+                        //Posto brojac petlje krece od nule, classes_id mora da ima vrednost brojaca +1
+                        $model->classes_id =$i+1;
+                        //Ako nije definisan predmet za dati cas, predmet za taj cas ima vrednost null.
+                        //Ako je definisan predmet za dati cas on se poziva preko name atributa i dodeljuje mu se vrednosst
+                        if(!isset($_POST[$subject_name_attribute])){
+                            $model->subject_id = null;
+                        }else{
+                            $model->subject_id = $_POST[$subject_name_attribute];
+                        }
                         $model->save();
                     }
- 
- 
-                // }
-            // }
+                }
         }
             return $this->render('create', [
                 'model' => $model,
