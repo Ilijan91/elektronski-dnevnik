@@ -8,8 +8,10 @@ use Yii;
  * This is the model class for table "grade".
  *
  * @property int $id
- * @property string $title
- * @property string $date
+ * @property int $title
+ * @property int $grade
+ *
+ * @property Diary[] $diaries
  */
 class Grade extends \yii\db\ActiveRecord
 {
@@ -27,8 +29,8 @@ class Grade extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title'], 'string'],
-            [['date'], 'safe'],
+            [['title'], 'required'],
+            [['title', 'grade'], 'integer'],
         ];
     }
 
@@ -40,7 +42,15 @@ class Grade extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'title' => 'Title',
-            'date' => 'Date',
+            'grade' => 'Grade',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDiaries()
+    {
+        return $this->hasMany(Diary::className(), ['grade_id' => 'id']);
     }
 }

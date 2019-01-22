@@ -46,8 +46,8 @@ class StudentSubject extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'student_id' => 'Student',
-            'subject_id' => 'Subject',
+            'student_id' => 'Student ID',
+            'subject_id' => 'Subject ID',
             'grade' => 'Grade',
             'final_grade' => 'Final Grade',
         ];
@@ -60,6 +60,13 @@ class StudentSubject extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Student::className(), ['id' => 'student_id']);
     }
+    public function getGrades()
+    {
+        $sql = 'SELECT student_subject.id, student_id, subject_id, subject.title, student.first_name, student.last_name, GROUP_CONCAT(grade) AS grades FROM student_subject INNER JOIN student ON student_subject.student_id = student.id INNER JOIN subject ON student_subject.subject_id = subject.id GROUP BY student_id, subject_id';
+        $subject_id = $this->getSubject();
+        $data = Yii::$app->db->createCommand($sql)->queryAll();
+        return $data;
+    }
 
     /**
      * @return \yii\db\ActiveQuery
@@ -69,33 +76,4 @@ class StudentSubject extends \yii\db\ActiveRecord
         return $this->hasOne(Subject::className(), ['id' => 'subject_id']);
     }
 
-    public function getGrades()
-    {
-        $sql = "SELECT student_subject.id, student_id, subject_id, subject.title, student.first_name, student.last_name, GROUP_CONCAT(grade) AS grades 
-        FROM student_subject 
-        INNER JOIN student 
-        ON student_subject.student_id = student.id 
-        INNER JOIN subject 
-        ON student_subject.subject_id = subject.id 
-        WHERE subject.id = '1'
-        GROUP BY student_id, subject_id";
-            
-        $data = Yii::$app->db->createCommand($sql)->queryAll();
-        
-        
-        $subject_id = $this->getSubject();
-
-        // $data = Yii::$app->db->createCommand($sql)->queryAll();
-
-        return $data;
-    }
-
-
-    public function getSubjects() {
-        $sql = 'SELECT subject.id, title FROM subject';
-
-        $data = Yii::$app->db->createCommand($sql)->queryAll();
-
-        return $data;
-    }
 }

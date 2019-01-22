@@ -8,7 +8,7 @@ use backend\models\StudentSubjectSearch;
 /**
  * Default controller for the `Teacher` module
  */
-class DefaultController extends Controller
+class DefaultController extends StudentSubjectController
 {
     /**
      * Renders the index view for the module

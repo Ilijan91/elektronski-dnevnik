@@ -10,15 +10,14 @@ use backend\controllers\DaysController;
  * This is the model class for table "schedule".
  *
  * @property int $id
+ * @property int $days_id
  * @property int $subject_id
  * @property int $department_id
- * @property int $days_id
- * @property int $class_id
+ * @property int $classes_id
  *
  * @property Department $department
  * @property Subject $subject
  * @property Days $days
- * @property Classes $class
  */
 class Schedule extends \yii\db\ActiveRecord
 {
@@ -36,12 +35,12 @@ class Schedule extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['days_id', 'class_id', 'subject_id', 'department_id'], 'integer'],
+
+            [['days_id', 'subject_id', 'department_id', 'classes_id'], 'integer'],
             [['department_id'], 'required'],
             [['department_id'], 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['department_id' => 'id']],
             [['subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => Subject::className(), 'targetAttribute' => ['subject_id' => 'id']],
             [['days_id'], 'exist', 'skipOnError' => true, 'targetClass' => Days::className(), 'targetAttribute' => ['days_id' => 'id']],
-            [['class_id'], 'exist', 'skipOnError' => true, 'targetClass' => Classes::className(), 'targetAttribute' => ['class_id' => 'id']],
         ];
     }
 
@@ -53,9 +52,10 @@ class Schedule extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'days_id' => 'Days ID',
-            'class_id' => 'Class ID',
+
             'subject_id' => 'Subject ID',
             'department_id' => 'Department ID',
+            'classes_id' => 'Classes ID',
         ];
     }
 
@@ -81,13 +81,5 @@ class Schedule extends \yii\db\ActiveRecord
     public function getDays()
     {
         return $this->hasOne(Days::className(), ['id' => 'days_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getClass()
-    {
-        return $this->hasOne(Classes::className(), ['id' => 'class_id']);
     }
 }

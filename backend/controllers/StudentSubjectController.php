@@ -46,7 +46,7 @@ class StudentSubjectController extends Controller
 
 
         // $subjectModel = new StudentSubject();
-        $subjects = $gradeModel->getSubjects();
+        $subjects = $gradeModel->getSubject();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -83,7 +83,8 @@ class StudentSubjectController extends Controller
                 foreach($_POST['StudentSubject']['subject_id'] as $key => $row){
                     //Set value for each subject from current array subject_id
                     $model->setIsNewRecord(true);
-                    $model->id = null;
+
+                    $model->id =null;
                     $model->subject_id = $row;
                     $model->save();
                 }
@@ -91,10 +92,6 @@ class StudentSubjectController extends Controller
             } 
            
         }
-        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
-        //     return $this->redirect(['view', 'id' => $model->id]);
-        // }
-
         return $this->render('create', [
             'model' => $model,
         ]);
