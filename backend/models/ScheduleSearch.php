@@ -18,8 +18,7 @@ class ScheduleSearch extends Schedule
     public function rules()
     {
         return [
-            [['id', 'subject_id', 'department_id'], 'integer'],
-            [['day', 'class'], 'safe'],
+            [['id', 'days_id', 'class_id', 'subject_id', 'department_id'], 'integer'],
         ];
     }
 
@@ -60,12 +59,11 @@ class ScheduleSearch extends Schedule
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'days_id' => $this->days_id,
+            'class_id' => $this->class_id,
             'subject_id' => $this->subject_id,
             'department_id' => $this->department_id,
         ]);
-
-        $query->andFilterWhere(['like', 'day', $this->day])
-            ->andFilterWhere(['like', 'class', $this->class]);
 
         return $dataProvider;
     }

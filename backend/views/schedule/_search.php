@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\SearchSchedule */
+/* @var $model backend\models\ScheduleSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -15,7 +15,13 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    
+    <?= $form->field($model, 'id') ?>
+
+    <?= $form->field($model, 'days_id') ?>
+
+    <?= $form->field($model, 'class_id') ?>
+
+    <?= $form->field($model, 'subject_id') ?>
 
     <?= $form->field($model, 'department_id') ?>
 
