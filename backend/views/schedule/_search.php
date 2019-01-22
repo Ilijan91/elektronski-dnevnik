@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use backend\models\Department;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\SearchSchedule */
@@ -15,9 +16,11 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    
-
     <?= $form->field($model, 'department_id') ?>
+
+   
+
+    
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

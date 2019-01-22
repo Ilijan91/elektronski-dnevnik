@@ -4,6 +4,8 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\Schedule;
+use backend\models\Days;
+use backend\models\Classes;
 use backend\models\SearchSchedule;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -35,14 +37,15 @@ class ScheduleController extends Controller
      */
     public function actionIndex()
     {
+        
         $searchModel = new SearchSchedule();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
+            'dataProvider' => $dataProvider
+            ]);
+        }
 
     /**
      * Displays a single Schedule model.
@@ -64,16 +67,39 @@ class ScheduleController extends Controller
      */
     public function actionCreate()
     {
+        
+        $modelDay= Days::find()->all();
+        $modelClasses= Classes::find()->all();
         $model = new Schedule();
+        if($model->load(Yii::$app->request->post()) ) {
+            // if(sizeof(array_filter($_POST['Schedule']['subject_id'])) > 0){
+                // foreach($_POST['Schedule']['subject_id'] as $key => $row){
+                    //Set value for each subject from current array subject_id
+                   
+                    $model->setIsNewRecord(true);
+                    for($i=0;$i<count($modelClasses);$i++){
+                    // foreach($_POST['Schedule']['class_id'] as $key => $row1){
+                        //Set value for each subject from current array subject_id
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+                        $model->id =null;
+                        $name = $_POST['subj'.$i];
+                        $class = $_POST['class'.$i];
+                        $model->subject_id = $name;
+                        $model->class_id = $class;
+                        $model->save();
+                    }
+ 
+ 
+                // }
+            // }
         }
+            return $this->render('create', [
+                'model' => $model,
+                'modelDay'=>$modelDay,
+                'modelClasses'=>$modelClasses
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-    }
+            ]);
+        }
 
     /**
      * Updates an existing Schedule model.

@@ -8,14 +8,10 @@ use backend\models\DiarySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-<<<<<<< HEAD
 use backend\models\Student;
 use backend\models\Subject;
 use backend\models\StudentSearch;
 
-=======
-use yii\data\SqlDataProvider;
->>>>>>> 5b4e00fd09f50003dbe2eb2ad3761f52ade3e8ba
 
 /**
  * DiaryController implements the CRUD actions for Diary model.

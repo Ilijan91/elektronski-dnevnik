@@ -5,22 +5,21 @@ namespace backend\models;
 use Yii;
 
 /**
- * This is the model class for table "grade".
+ * This is the model class for table "days".
  *
  * @property int $id
- * @property int $title
- * @property int $grade
+ * @property string $title
  *
- * @property Diary[] $diaries
+ * @property Schedule[] $schedules
  */
-class Grade extends \yii\db\ActiveRecord
+class Days extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'grade';
+        return 'days';
     }
 
     /**
@@ -30,7 +29,7 @@ class Grade extends \yii\db\ActiveRecord
     {
         return [
             [['title'], 'required'],
-            [['title', 'grade'], 'integer'],
+            [['title'], 'string', 'max' => 20],
         ];
     }
 
@@ -42,15 +41,14 @@ class Grade extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'title' => 'Title',
-            'grade' => 'Grade',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDiaries()
+    public function getSchedules()
     {
-        return $this->hasMany(Diary::className(), ['grade_id' => 'id']);
+        return $this->hasMany(Schedule::className(), ['days_id' => 'id']);
     }
 }
