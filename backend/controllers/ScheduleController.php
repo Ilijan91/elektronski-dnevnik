@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\Schedule;
+use backend\models\Department;
 use backend\models\Days;
 use backend\models\Classes;
 use backend\models\SearchSchedule;
@@ -37,13 +38,19 @@ class ScheduleController extends Controller
      */
     public function actionIndex()
     {
-        
+        $modelDepartment= Department::find()
+        ->orderBy([
+            'year' => SORT_ASC,
+            'name'=>SORT_ASC
+          ])
+        ->all();
         $searchModel = new SearchSchedule();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider
+            'dataProvider' => $dataProvider,
+            'modelDepartment'=>$modelDepartment,
             ]);
         }
 
@@ -114,14 +121,19 @@ class ScheduleController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $modelDay= Days::find()->all();
+        $modelClasses= Classes::find()->all();
+        $schedule= new Schedule();
+        $model = $schedule->getScheduleByDeparmentId();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
+        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        //     return $this->redirect(['view', 'id' => $model->id]);
+        // }
 
         return $this->render('update', [
             'model' => $model,
+            'modelDay'=>$modelDay,
+            'modelClasses'=>$modelClasses
         ]);
     }
 
