@@ -46,8 +46,8 @@ class StudentSubject extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'student_id' => 'Student ID',
-            'subject_id' => 'Subject ID',
+            'student_id' => 'Student',
+            'subject_id' => 'Subject',
             'grade' => 'Grade',
             'final_grade' => 'Final Grade',
         ];

@@ -15,9 +15,12 @@ use backend\models\Classes;
 /* @var $model backend\models\Schedule */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-<?php $form = ActiveForm::begin(); ?>
+<?php $form = ActiveForm::begin(); 
+
+?>
 
 <div class="schedule-form">
+
     <!-- Prvo biramo odeljenje za koje se kreira raspored casova -->
     <?= $form->field($model, 'department_id')->dropDownList(ArrayHelper::map(Department::find()->select(['id', 'CONCAT(year, "/" ,name) AS "year"'])->where('id = id')->all(), 'id', 'year' ),['prompt' => 'Select department']); ?>
    

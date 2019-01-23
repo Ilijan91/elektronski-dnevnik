@@ -2,8 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use backend\models\Student;
-use backend\models\Subject;
+use frontend\modules\Teacher\models\Student;
+use frontend\modules\Teacher\models\Subject;
 use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
