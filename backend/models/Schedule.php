@@ -81,7 +81,11 @@ class Schedule extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Days::className(), ['id' => 'days_id']);
     }
-    public function getScheduleByDeparmentId(){
+    public function getClasses()
+    {
+        return $this->hasOne(Classes::className(), ['id' => 'classes_id']);
+    }
+    public function getScheduleByDepartmentId($id){
         $subjQuery = 
             "SELECT department_id, subject_id, days_id, classes_id, CONCAT(department.year, department.name) AS dep, subject.title AS subject_title, days.title as days_title ,classes.title AS classes_title
             FROM schedule 
@@ -93,9 +97,14 @@ class Schedule extends \yii\db\ActiveRecord
             ON schedule.days_id = days.id
             INNER JOIN classes 
             ON schedule.classes_id = classes.id
-            WHERE department_id = '1'
+            WHERE department_id = $id
             GROUP BY days_id, classes_id";
          $data = Yii::$app->db->createCommand($subjQuery)->queryAll();
+         return $data;
+    }
+    public function getSchedule(){
+        
+         $data = Schedule::find()->select('department_id, subject_id, days_id, classes_id, CONCAT(department.year, department.name) AS dep')->innerJoin('department', 'schedule.department_id = department.id')->all();
          return $data;
     }
 }

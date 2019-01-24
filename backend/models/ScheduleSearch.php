@@ -18,7 +18,7 @@ class ScheduleSearch extends Schedule
     public function rules()
     {
         return [
-            [['id', 'days_id', 'class_id', 'subject_id', 'department_id'], 'integer'],
+            [['id', 'days_id', 'classes_id', 'subject_id', 'department_id'], 'integer'],
         ];
     }
 
@@ -60,7 +60,7 @@ class ScheduleSearch extends Schedule
         $query->andFilterWhere([
             'id' => $this->id,
             'days_id' => $this->days_id,
-            'class_id' => $this->class_id,
+            'classes_id' => $this->classes_id,
             'subject_id' => $this->subject_id,
             'department_id' => $this->department_id,
         ]);

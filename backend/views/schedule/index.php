@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
 use backend\models\Department;
 use backend\models\Days;
@@ -30,9 +31,12 @@ $this->title = 'Schedules';
         </tr>
         <?php 
         foreach($modelDepartment as $department){
+        $dep = $department['year'].$department['name'];
+            
             echo '
+            
             <tr>
-                <td >'.$department['year'].''.$department['name'].'</td>
+                <td>'.Html::a($dep, ['view', 'id' => $department['id']]).'</td>
                 <td>'. Html::a('Update Schedule', ['update', 'id' =>$department['id']], ['class' => 'btn btn-primary']).' '. Html::a('Delete Schedule', ['delete'], ['class' => 'btn btn-danger']).'</td>
                 
             </tr>
@@ -46,22 +50,5 @@ $this->title = 'Schedules';
 
     
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-
-          
-            
-            [
-                'attribute' => 'department_id',
-                'label' => 'Departments',
-                'value' => 'department.yearname'
-            ],
-        
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+    
 </div>

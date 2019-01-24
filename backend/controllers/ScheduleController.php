@@ -4,10 +4,13 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\Schedule;
+use backend\models\Subject;
+use backend\models\ScheduleSearch;
 use backend\models\Department;
 use backend\models\Days;
 use backend\models\Classes;
 use backend\controllers\ClassesController;
+use backend\controllers\SubjectController;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -45,7 +48,7 @@ class ScheduleController extends Controller
             'name'=>SORT_ASC
           ])
         ->all();
-        $searchModel = new SearchSchedule();
+        $searchModel = new ScheduleSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -63,8 +66,21 @@ class ScheduleController extends Controller
      */
     public function actionView($id)
     {
+        $modelDay= Days::find()->all();
+        $modelClasses= Classes::find()->all();
+        // $modelSubject = Subject::find()->where()->all();
+        $schedule = new Schedule();
+        // $model2 = $schedule->getSchedule();
+        $model = $schedule->getScheduleByDepartmentId($id);
+        $model2 = Schedule::find()->where('department_id = 2')->groupBy('days_id, classes_id')->all();
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'modelDay' => $modelDay,
+            'modelClasses' => $modelClasses,
+            // 'modelSubject' => $modelSubject,
+            'schedule' => $schedule,
+            'model' => $model,
+            'model2' => $model2
         ]);
     }
 
@@ -125,7 +141,7 @@ class ScheduleController extends Controller
         $modelDay= Days::find()->all();
         $modelClasses= Classes::find()->all();
         $schedule= new Schedule();
-        $model = $schedule->getScheduleByDeparmentId();
+        $model = $schedule->getScheduleByDepartmentId($id);
 
         // if ($model->load(Yii::$app->request->post()) && $model->save()) {
         //     return $this->redirect(['view', 'id' => $model->id]);
