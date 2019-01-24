@@ -8,6 +8,9 @@ use backend\models\SearchNews;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
+use yii\web\UploadedFile;
+
 
 /**
  * NewsController implements the CRUD actions for News model.
@@ -35,8 +38,14 @@ class NewsController extends Controller
      */
     public function actionIndex()
     {
-        $model=News::find()->all();
+        //$model=News::find()->all();
 
+        $model= new ActiveDataProvider([
+            'query'=>News::find(),
+            'pagination'=>[
+                'pageSize'=>5
+            ]
+        ]);
         $searchModel = new SearchNews();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -67,20 +76,22 @@ class NewsController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($id)
+    public function actionCreate()
     {
-        $roll_id=Yii::$app->user->identity->id;
-        $model =News::findOne(['id'=>$id,'roll_id'=>$roll_id]);
+       
+       $model=new News();
         
-
         if ($model->load(Yii::$app->request->post())) {
-              
+            $image=UploadedFile::getInstance($model, 'image');
+            $image->saveAs('img/upload/'.$image->baseName. '.'.$image->extension);
+            $model->image=$image->baseName. '.'.$image->extension;
+        }
             if($model->save()){
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['view', 'id' => $model->id]);   
             }
             
-        }
-
+        
+        
         return $this->render('create', [
             'model' => $model,
         ]);

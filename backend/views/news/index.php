@@ -20,15 +20,19 @@ $this->title = 'News';
 </p>
 
 <?= GridView::widget([
-    'dataProvider' => $dataProvider,
+    'dataProvider' => $model,
     'filterModel' => $searchModel,
     'columns' => [
         ['class' => 'yii\grid\SerialColumn'],
 
-        'id',
         'title',
-        'body:ntext',
-        'created_at',
+        [
+            'attribute'=>'created_at',
+            'label'=>'Published at',
+            'format'=>['date','d/M/Y'],
+            'contentOptions' => ['style' => 'width: 110px;', 'class' => 'text-right'],
+        ],
+
 
         ['class' => 'yii\grid\ActionColumn'],
     ],

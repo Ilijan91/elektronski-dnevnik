@@ -12,9 +12,9 @@ use Yii;
  * @property string $body
  * @property string $image
  * @property string $created_at
- * @property int $roll_id
+
  *
- * @property Roll $roll
+
  */
 class News extends \yii\db\ActiveRecord
 {
@@ -32,13 +32,12 @@ class News extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'body',], 'required'],
+            [['title', 'body','image'], 'required'],
             [['body'], 'string'],
             [['created_at'], 'safe'],
-            [['roll_id'], 'integer'],
             [['title'], 'string', 'max' => 256],
-            [['image'], 'string', 'max' => 100],
-            [['roll_id'], 'exist', 'skipOnError' => true, 'targetClass' => Roll::className(), 'targetAttribute' => ['roll_id' => 'id']],
+            [['image'], 'file', 'extensions'=>'jpg,png,gif']
+           
         ];
     }
 
@@ -52,16 +51,10 @@ class News extends \yii\db\ActiveRecord
             'title' => 'Title',
             'body' => 'Body',
             'image' => 'Image',
-            'created_at' => 'Created At',
-            'roll_id' => 'Roll ID',
+            'created_at' => 'Created At'  
         ];
     }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRoll()
-    {
-        return $this->hasOne(Roll::className(), ['id' => 'roll_id']);
-    }
 }
+
+   
+
