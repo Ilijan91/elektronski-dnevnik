@@ -2,12 +2,13 @@
 
 use yii\helpers\Html;
 
-$this->title = 'Update Schedule: {nameAttribute}';
+// $this->title = $department_name;
+$this->title = 'View Schedule: ' . $department_name;
 $this->params['breadcrumbs'][] = ['label' => 'Schedules', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 
-
+<h1><?=$department_name?></h1>
 
 <?php
 //$model(svi podaci dobijeni prilikom kreiranje rasporeda casova), $modelDays(dani u nedelji) i $modelClasses(casovi) salje ScheduleController
