@@ -34,7 +34,7 @@ class Schedule extends \yii\db\ActiveRecord
     {
         return [
             [['days_id', 'subject_id', 'department_id', 'classes_id'], 'integer'],
-            [['department_id','subject_id'
+            [['department_id'
          ], 'required'],
             [['department_id'], 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['department_id' => 'id']],
             [['subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => Subject::className(), 'targetAttribute' => ['subject_id' => 'id']],
@@ -99,12 +99,6 @@ class Schedule extends \yii\db\ActiveRecord
             GROUP BY days_id, classes_id";
          $data = Yii::$app->db->createCommand($subjQuery)->queryAll();
          return $data;
-    }
-    //NE RADI
-    public function deleteScheduleByDepartmentId($id){
-        $sql = "DELETE * FROM schedule WHERE department_id= $id";
-        $data = Yii::$app->db->createCommand($sql)->queryAll();
-        return $data;
     }
     public function getDayForUpdate($day_id){
         $day= Days::find()->where(['id'=>$day_id])->one();

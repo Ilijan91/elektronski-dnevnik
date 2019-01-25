@@ -28,7 +28,7 @@ class ScheduleController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                   
                 ],
             ],
         ];
@@ -123,6 +123,8 @@ class ScheduleController extends Controller
                         $model->save();
                     }
                 }
+                Yii::$app->session->setFlash('success', "Schedule created successfully."); 
+                return $this->redirect(['index']);
         }
             return $this->render('create', [
                 'model' => $model,
@@ -169,15 +171,20 @@ class ScheduleController extends Controller
      */
     public function actionDelete($id)
     {
-        $schedule= new Schedule();
-        if($schedule->deleteScheduleByDepartmentId($id)){
-            return $this->redirect(['index']);
-        }else {
-            return $this->redirect(['kkk']);
-        }
 
-        // return $this->redirect(['index']);
+    $delete = \Yii::$app
+    ->db
+    ->createCommand()
+    ->delete('schedule', ['department_id' => $id])
+    ->execute();
+
+    if ($delete) {
+        Yii::$app->session->setFlash('success', "Schedule deleted successfully."); 
+    } else {
+        Yii::$app->session->setFlash('error', "Schedule not found.");
     }
+    return $this->redirect(['index']);
+}
 
     /**
      * Finds the Schedule model based on its primary key value.
