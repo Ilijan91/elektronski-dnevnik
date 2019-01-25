@@ -9,18 +9,20 @@ use backend\models\Department;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="schedule-search">
+<div class="department-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'department_id') ?>
+    <?= $form->field($model, 'id') ?>
 
-   
-
+    <?= $form->field($model, 'year') ?>
     
+    <?= $form->field($model, 'name') ?>
+
+    <?= $form->field($model, 'user_id') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
