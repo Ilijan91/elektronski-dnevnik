@@ -2,13 +2,9 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\helpers\ArrayHelper;
-use backend\models\StudentSubject;
-use backend\models\StudentSubjectSearch;
-use backend\controllers\StudentSubjectController;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\models\StudentSubjectSearch */
+/* @var $searchModel frontend\modules\Teacher\models\StudentSubjectSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Student Subjects';
@@ -29,21 +25,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            [
-                'attribute' => 'student_id',
-                'value' => 'student.fullName'
-            ],
-            [
-                'attribute' => 'subject_id',
-                'value' => 'subject.title',
-            ],
+            'id',
+            'student_id',
+            'subject_id',
+            'grade',
+            'final_grade',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
-    ]); 
-     ?>
-    
-        
- 
-       
+    ]); ?>
 </div>

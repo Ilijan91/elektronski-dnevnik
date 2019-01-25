@@ -15,6 +15,9 @@ return [
         'teacher' => [
             'class' => 'frontend\modules\teacher\Module',
         ],
+        'parent' => [
+            'class' => 'frontend\modules\parent\Module',
+        ],
     ],
     'components' => [
         'request' => [

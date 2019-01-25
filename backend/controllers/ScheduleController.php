@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\Schedule;
+use backend\models\ScheduleSearch;
 use backend\models\Department;
 use backend\models\Days;
 use backend\models\Classes;
@@ -13,6 +14,7 @@ use yii\web\Controller;
 use backend\models\Subject;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+
 
 /**
  * ScheduleController implements the CRUD actions for Schedule model.
@@ -108,7 +110,7 @@ class ScheduleController extends Controller
                     for($i=0;$i<count($modelClasses);$i++){
                         $subject_name_attribute = $day.$i;
                         $model->setIsNewRecord(true);
-                        $model->id =null;
+                        $model->id = null;
                         //Posto brojac petlje krece od nule, day_id mora da ima vrednost brojaca +1
                         $model->days_id = $j+1;
                         //Posto brojac petlje krece od nule, classes_id mora da ima vrednost brojaca +1
@@ -172,6 +174,7 @@ class ScheduleController extends Controller
     public function actionDelete($id)
     {
 
+
     $delete = \Yii::$app
     ->db
     ->createCommand()
@@ -182,6 +185,7 @@ class ScheduleController extends Controller
         Yii::$app->session->setFlash('success', "Schedule deleted successfully."); 
     } else {
         Yii::$app->session->setFlash('error', "Schedule not found.");
+
     }
     return $this->redirect(['index']);
 }

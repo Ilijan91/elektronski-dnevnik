@@ -23,10 +23,6 @@ use yii\helpers\ArrayHelper;
     'class' => 'check-all',
 ]);?>  
 
-    <?= $form->field($model, 'grade')->textInput(['readonly'=> true]) ?>
-
-    <?= $form->field($model, 'final_grade')->textInput(['readonly'=> true]) ?>
-
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
