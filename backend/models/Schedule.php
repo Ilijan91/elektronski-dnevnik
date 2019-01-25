@@ -8,15 +8,15 @@ use Yii;
  * This is the model class for table "schedule".
  *
  * @property int $id
+ * @property int $days_id
+ * @property int $classes_id
  * @property int $subject_id
  * @property int $department_id
- * @property int $days_id
- * @property int $class_id
  *
  * @property Department $department
  * @property Subject $subject
  * @property Days $days
- * @property Classes $class
+ * @property Classes $classes
  */
 class Schedule extends \yii\db\ActiveRecord
 {
@@ -34,14 +34,12 @@ class Schedule extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['subject_id', 'department_id', 'days_id', 'class_id'], 'required'],
-            [['subject_id', 'department_id', 'days_id', 'class_id'], 'integer'],
-            [['days_id'], 'unique'],
-            [['class_id'], 'unique'],
+            [['days_id', 'classes_id', 'subject_id', 'department_id'], 'integer'],
+            [['department_id'], 'required'],
             [['department_id'], 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['department_id' => 'id']],
             [['subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => Subject::className(), 'targetAttribute' => ['subject_id' => 'id']],
             [['days_id'], 'exist', 'skipOnError' => true, 'targetClass' => Days::className(), 'targetAttribute' => ['days_id' => 'id']],
-            [['class_id'], 'exist', 'skipOnError' => true, 'targetClass' => Classes::className(), 'targetAttribute' => ['class_id' => 'id']],
+            [['classes_id'], 'exist', 'skipOnError' => true, 'targetClass' => Classes::className(), 'targetAttribute' => ['classes_id' => 'id']],
         ];
     }
 
@@ -52,10 +50,10 @@ class Schedule extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'days_id' => 'Days ID',
+            'classes_id' => 'Classes ID',
             'subject_id' => 'Subject ID',
             'department_id' => 'Department ID',
-            'days_id' => 'Days ID',
-            'class_id' => 'Class ID',
         ];
     }
 
@@ -86,8 +84,8 @@ class Schedule extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getClass()
+    public function getClasses()
     {
-        return $this->hasOne(Classes::className(), ['id' => 'class_id']);
+        return $this->hasOne(Classes::className(), ['id' => 'classes_id']);
     }
 }

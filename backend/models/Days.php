@@ -8,9 +8,9 @@ use Yii;
  * This is the model class for table "days".
  *
  * @property int $id
- * @property string $Title
+ * @property string $title
  *
- * @property Schedule $schedule
+ * @property Schedule[] $schedules
  */
 class Days extends \yii\db\ActiveRecord
 {
@@ -28,8 +28,8 @@ class Days extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['Title'], 'required'],
-            [['Title'], 'string', 'max' => 20],
+            [['title'], 'required'],
+            [['title'], 'string', 'max' => 20],
         ];
     }
 
@@ -40,16 +40,15 @@ class Days extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'Title' => 'Title',
+            'title' => 'Title',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSchedule()
+    public function getSchedules()
     {
-        return $this->hasOne(Schedule::className(), ['days_id' => 'id']);
+        return $this->hasMany(Schedule::className(), ['days_id' => 'id']);
     }
-  
 }
