@@ -21,25 +21,30 @@ $this->title = 'Schedules';
     <p>
         <?= Html::a('Create Schedule', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
+   
+   
 
     
-
+<!-- Koristimo model DepartmentSearch, view _search.php iz Department foldera, dataProvider i searchModel su vezani za Department tabelu -->
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-          
             
-           /* [
-                'attribute' => 'department_id',
-                'label' => 'Departments',
-                'value' => 'department.yearname'
+           
+            [
+                'attribute' => 'name',
+                'label' => 'Department',
+                'value' => 'yearname'
             ],
-        */
+            [
+                'attribute' => 'user_id',
+                'value' => 'user.fullname',
+            ],
+        
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 </div>
+<?php echo $this->render('_search', ['model' => $searchModel]); ?>

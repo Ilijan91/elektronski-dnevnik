@@ -4,10 +4,13 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\Schedule;
+use backend\models\Department;
 use backend\models\Days;
 use backend\models\Classes;
 use backend\models\SearchSchedule;
+use backend\models\DepartmentSearch;
 use yii\web\Controller;
+use backend\models\Subject;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -37,13 +40,20 @@ class ScheduleController extends Controller
      */
     public function actionIndex()
     {
-        
-        $searchModel = new SearchSchedule();
+        $modelDepartment= Department::find()
+        ->orderBy([
+            'year' => SORT_ASC,
+            'name'=>SORT_ASC
+          ])
+        ->all();
+       
+        $searchModel = new DepartmentSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+     
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider
+            'dataProvider' => $dataProvider,
+            'modelDepartment'=>$modelDepartment,
             ]);
         }
 
@@ -55,9 +65,26 @@ class ScheduleController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        $modelDays= Days::find()->all();
+        $modelClasses= Classes::find()->all();
+        $schedule= new Schedule();
+        $model = $schedule->getScheduleByDepartmentId($id);
+        $department_name = $schedule->getDepartmentFullName($id);
+        //Ako nije kreiran raspored za izabrano odeljenje izbaci gresku
+        if(count($model) < 1){
+            $msg= "<h4>There is no data for department</h4>";
+            return $this->render('error', [
+                'msg' => $msg,
+            ]);
+        }else{
+            return $this->render('view', [
+                'model' => $model,
+                'modelDays'=>$modelDays,
+                'modelClasses'=>$modelClasses,
+                'department_name'=>$department_name,
+            ]);
+        }
+        
     }
 
     /**
@@ -71,18 +98,39 @@ class ScheduleController extends Controller
         $modelDay= Days::find()->all();
         $modelClasses= Classes::find()->all();
         $model = new Schedule();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        //Ako je primljen post zahtev obradjujemo primljene podatke
+        if($model->load(Yii::$app->request->post()) ) {
+                //Prvo proveravamo koliko imamo dana u nedelji i za svaki dan obradjujemo podatke
+                for($j=0;$j<count($modelDay);$j++){  
+                    $day = $modelDay[$j]['title'];
+                   
+                    //Brojimo casove po danu i u zavisnosti od casa dodeljujemo vrednosti
+                    for($i=0;$i<count($modelClasses);$i++){
+                        $subject_name_attribute = $day.$i;
+                        $model->setIsNewRecord(true);
+                        $model->id =null;
+                        //Posto brojac petlje krece od nule, day_id mora da ima vrednost brojaca +1
+                        $model->days_id = $j+1;
+                        //Posto brojac petlje krece od nule, classes_id mora da ima vrednost brojaca +1
+                        $model->classes_id =$i+1;
+                        //Ako nije definisan predmet za dati cas, predmet za taj cas ima vrednost null.
+                        //Ako je definisan predmet za dati cas on se poziva preko name atributa i dodeljuje mu se vrednosst
+                        if(!isset($_POST[$subject_name_attribute])){
+                            $model->subject_id = null;
+                        }else{
+                            $model->subject_id = $_POST[$subject_name_attribute];
+                        }
+                        $model->save();
+                    }
+                }
         }
+            return $this->render('create', [
+                'model' => $model,
+                'modelDay'=>$modelDay,
+                'modelClasses'=>$modelClasses
 
-
-        return $this->render('create', [
-            'model' => $model,
-            'modelDay'=>$modelDay,
-            'modelClasses'=>$modelClasses
-
-        ]);
-    }
+            ]);
+        }
 
     /**
      * Updates an existing Schedule model.
@@ -93,14 +141,22 @@ class ScheduleController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $modelDays= Days::find()->all();
+        $modelClasses= Classes::find()->all();
+        $schedule= new Schedule();
+        $model = $schedule->getScheduleByDepartmentId($id);
+        $department_name = $schedule->getDepartmentFullName($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
+
+        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        //     return $this->redirect(['view', 'id' => $model->id]);
+        // }
 
         return $this->render('update', [
             'model' => $model,
+            'modelDays'=>$modelDays,
+            'modelClasses'=>$modelClasses,
+            'department_name'=>$department_name,
         ]);
     }
 
@@ -113,9 +169,14 @@ class ScheduleController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $schedule= new Schedule();
+        if($schedule->deleteScheduleByDepartmentId($id)){
+            return $this->redirect(['index']);
+        }else {
+            return $this->redirect(['kkk']);
+        }
 
-        return $this->redirect(['index']);
+        // return $this->redirect(['index']);
     }
 
     /**

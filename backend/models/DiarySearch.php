@@ -19,7 +19,8 @@ class DiarySearch extends Diary
     {
         return [
 
-            [['id', 'student_id', 'subject_id', 'grade_id', 'final_grade'], 'integer'],
+            [['id', 'final_grade'], 'integer'],
+            [[ 'student_id', 'subject_id', 'grade_id',], 'string'],
         ];
     }
 
@@ -42,6 +43,10 @@ class DiarySearch extends Diary
     public function search($params)
     {
         $query = Diary::find();
+        //Prilikom pretrage tabele diary dodaj tabele student, subject i grade
+        $query->leftJoin('student', 'student.id=diary.student_id');
+        $query->leftJoin('subject', 'subject.id=diary.subject_id');
+        $query->leftJoin('grade', 'grade.id=diary.grade_id');
 
         // add conditions that should always apply here
 
@@ -60,12 +65,14 @@ class DiarySearch extends Diary
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-
-            'student_id' => $this->student_id,
-            'subject_id' => $this->subject_id,
-            'grade_id' => $this->grade_id,
             'final_grade' => $this->final_grade,
         ]);
+        //Pretrazi kolonu subject_id po nazivima predmeta (kao kolonu subject title)
+        $query->andFilterWhere(['like', 'subject.title',$this->subject_id ]);
+        //Pretrazi kolonu grade_id po ocenama (kao kolonu grade title)
+        $query->andFilterWhere(['like', 'grade.title',$this->grade_id ]);
+        //Pretrazi kolonu student_id po imenu i prezimenu ucenika (kao kolonu subject first_name i kolonu last_name)
+        $query->andFilterWhere(['like', 'concat(student.first_name, " " , student.last_name) ', $this->student_id]);
 
         return $dataProvider;
     }

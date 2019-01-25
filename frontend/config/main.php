@@ -12,10 +12,19 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'modules' => [
+<<<<<<< HEAD
         'superTeacher' => [
             'class' => 'frontend\modules\superTeacher\Teacher',
         ],
     ],
+=======
+        'Teacher' => [
+            'class' => 'frontend\modules\Teacher\Module',
+        ],
+    ],
+    
+
+>>>>>>> 5ab1fe0d3a228e0b213e3c48ba7077a64a548a3d
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',

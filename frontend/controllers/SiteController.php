@@ -91,8 +91,29 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        $model = new LoginForm();
+        $this->layout = 'login';
+        if (!Yii::$app->user->isGuest) {
+            return $this->render('login', [
+                'model' => $model,
+            ]);
+        }
+
+       
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            
+            return $this->redirect('site/dashboard');
+        } else {
+            $model->password = '';
+
+            return $this->render('login', [
+                'model' => $model,
+            ]);
+        }
         
-        return $this->render('index');
+    }
+    public function actionDashboard(){
+        return $this->render('dashboard');
     }
 
     /**
@@ -138,6 +159,7 @@ class SiteController extends Controller
      */
     public function actionContact()
     {
+       
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
@@ -161,6 +183,7 @@ class SiteController extends Controller
      */
     public function actionAbout()
     {
+        
         return $this->render('about');
     }
 
@@ -171,6 +194,14 @@ class SiteController extends Controller
      */
     public function actionSignup()
     {
+         //Ukoliko korisnik nije ulogovan nema pristum ovoj stranici
+         if (!Yii::$app->user->isGuest) {
+            $this->layout = 'login';
+            $modelLogin = new LoginForm();
+            return $this->render('login', [
+                'model' => $modelLogin,
+            ]);
+        }
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {

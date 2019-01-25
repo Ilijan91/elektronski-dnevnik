@@ -3,7 +3,10 @@
 namespace backend\models;
 
 use Yii;
-
+use yii\helpers\ArrayHelper;
+use yii\base\Model;
+use yii\data\ActiveDataProvider;
+use yii\db\ActiveRecord;
 /**
  * This is the model class for table "diary".
  *
@@ -48,9 +51,9 @@ class Diary extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'student_id' => 'Student ID',
-            'subject_id' => 'Subject ID',
-            'grade_id' => 'Grade ID',
+            'student_id' => 'Student',
+            'subject_id' => 'Subject',
+            'grade_id' => 'Grade',
             'final_grade' => 'Final Grade',
         ];
     }
@@ -78,6 +81,6 @@ class Diary extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Grade::className(), ['id' => 'grade_id']);
     }
-    
+   
     
 }

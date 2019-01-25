@@ -3,20 +3,16 @@
 namespace backend\controllers;
 
 use Yii;
-use backend\models\Diary;
-use backend\models\DiarySearch;
+use backend\models\StudentSubject;
+use backend\models\StudentSubjectSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use backend\models\Student;
-use backend\models\Subject;
-use backend\models\StudentSearch;
-
 
 /**
- * DiaryController implements the CRUD actions for Diary model.
+ * StudentSubjectController implements the CRUD actions for StudentSubject model.
  */
-class DiaryController extends Controller
+class StudentSubjectController extends Controller
 {
     /**
      * @inheritdoc
@@ -32,22 +28,37 @@ class DiaryController extends Controller
             ],
         ];
     }
+
     /**
-     * Lists all Diary models.
+     * Lists all StudentSubject models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new DiarySearch();
+        $searchModel = new StudentSubjectSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $gradeModel = new StudentSubject();
+        $grades = $gradeModel->getGrades();
+        // $grades = $gradeModel->getSubject();
+
+        // $subject_id = $gradeModel->getSubjects();
+
+
+        // $subjectModel = new StudentSubject();
+        $subjects = $gradeModel->getSubject();
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'gradeModel' => $gradeModel,
+            'grades' => $grades,
+            'subjects' => $subjects,
         ]);
     }
 
     /**
-     * Displays a single Diary model.
+     * Displays a single StudentSubject model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -60,25 +71,33 @@ class DiaryController extends Controller
     }
 
     /**
-     * Creates a new Diary model.
+     * Creates a new StudentSubject model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Diary();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $model = new StudentSubject();
+        if ($model->load(Yii::$app->request->post()) ) {
+            if(sizeof(array_filter($_POST['StudentSubject']['subject_id'])) > 0){
+                foreach($_POST['StudentSubject']['subject_id'] as $key => $row){
+                    //Set value for each subject from current array subject_id
+                    $model->setIsNewRecord(true);
+                    $model->id =null;
+                    $model->subject_id = $row;
+                    $model->save();
+                }
+                return $this->redirect(['index']);
+            } 
+           
         }
-
         return $this->render('create', [
             'model' => $model,
         ]);
     }
 
     /**
-     * Updates an existing Diary model.
+     * Updates an existing StudentSubject model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -98,7 +117,7 @@ class DiaryController extends Controller
     }
 
     /**
-     * Deletes an existing Diary model.
+     * Deletes an existing StudentSubject model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -112,43 +131,18 @@ class DiaryController extends Controller
     }
 
     /**
-     * Finds the Diary model based on its primary key value.
+     * Finds the StudentSubject model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Diary the loaded model
+     * @return StudentSubject the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Diary::findOne($id)) !== null) {
+        if (($model = StudentSubject::findOne($id)) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
-    }
-    // public function getGrade()
-    // {
-    //     $student= Student::find()
-    //         ->select('first_name, last_name')
-    //         ->where
-    // }
-   // select diary.id, student_id, subject_id, GROUP_CONCAT(grade.title) as grades from diary inner join grade on diary.grade_id = grade.id where student_id = 1
-    public function actionGrades($id){
-      
-        $model = Diary::find()
-        ->select(['grade_id', 'student_id', 'subject_id'])
-        ->with(['grade'])
-        ->with(['student'])
-        ->with(['subject'])
-        ->where(['student_id'=>$id])
-        ->all();
-        $subjects = Subject::find()->all();
-        // $grades = $model->grade->title;
-       
-        return $this->render('grades', [
-            'model' => $model,
-            'subjects'=>$subjects,
-          
-        ]);
     }
 }

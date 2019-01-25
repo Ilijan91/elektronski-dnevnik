@@ -10,7 +10,7 @@ use Yii;
  * @property int $id
  * @property int $title
  *
- * @property Schedule $schedule
+ * @property Schedule[] $schedules
  */
 class Classes extends \yii\db\ActiveRecord
 {
@@ -47,8 +47,8 @@ class Classes extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSchedule()
+    public function getSchedules()
     {
-        return $this->hasOne(Schedule::className(), ['class_id' => 'id']);
+        return $this->hasMany(Schedule::className(), ['class_id' => 'id']);
     }
 }

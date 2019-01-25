@@ -9,14 +9,13 @@ use Yii;
  *
  * @property int $id
  * @property int $days_id
- * @property int $classes_id
  * @property int $subject_id
  * @property int $department_id
+ * @property int $classes_id
  *
  * @property Department $department
  * @property Subject $subject
  * @property Days $days
- * @property Classes $classes
  */
 class Schedule extends \yii\db\ActiveRecord
 {
@@ -34,12 +33,12 @@ class Schedule extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['days_id', 'classes_id', 'subject_id', 'department_id'], 'integer'],
-            [['department_id'], 'required'],
+            [['days_id', 'subject_id', 'department_id', 'classes_id'], 'integer'],
+            [['department_id','subject_id'
+         ], 'required'],
             [['department_id'], 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['department_id' => 'id']],
             [['subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => Subject::className(), 'targetAttribute' => ['subject_id' => 'id']],
             [['days_id'], 'exist', 'skipOnError' => true, 'targetClass' => Days::className(), 'targetAttribute' => ['days_id' => 'id']],
-            [['classes_id'], 'exist', 'skipOnError' => true, 'targetClass' => Classes::className(), 'targetAttribute' => ['classes_id' => 'id']],
         ];
     }
 
@@ -51,9 +50,9 @@ class Schedule extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'days_id' => 'Days ID',
-            'classes_id' => 'Classes ID',
             'subject_id' => 'Subject ID',
             'department_id' => 'Department ID',
+            'classes_id' => 'Classes ID',
         ];
     }
 
@@ -63,6 +62,10 @@ class Schedule extends \yii\db\ActiveRecord
     public function getDepartment()
     {
         return $this->hasOne(Department::className(), ['id' => 'department_id']);
+    }
+    public function getDepartmentFullName($id){
+        $dep = Department::find()->where(['id'=> $id])->one();
+        return $dep['year'].''.$dep['name'];
     }
 
     /**
@@ -80,12 +83,31 @@ class Schedule extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Days::className(), ['id' => 'days_id']);
     }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getClasses()
-    {
-        return $this->hasOne(Classes::className(), ['id' => 'classes_id']);
+    public function getScheduleByDepartmentId($id){
+        $subjQuery = 
+            "SELECT department_id, subject_id, days_id, classes_id, CONCAT(department.year, department.name) AS dep, subject.title AS subject_title, days.title as days_title ,classes.title AS classes_title
+            FROM schedule 
+            INNER JOIN department 
+            ON schedule.department_id = department.id 
+            INNER JOIN subject 
+            ON schedule.subject_id = subject.id
+            INNER JOIN days 
+            ON schedule.days_id = days.id
+            INNER JOIN classes 
+            ON schedule.classes_id = classes.id
+            WHERE department_id = $id
+            GROUP BY days_id, classes_id";
+         $data = Yii::$app->db->createCommand($subjQuery)->queryAll();
+         return $data;
+    }
+    //NE RADI
+    public function deleteScheduleByDepartmentId($id){
+        $sql = "DELETE * FROM schedule WHERE department_id= $id";
+        $data = Yii::$app->db->createCommand($sql)->queryAll();
+        return $data;
+    }
+    public function getDayForUpdate($day_id){
+        $day= Days::find()->where(['id'=>$day_id])->one();
+        return $day['title'];
     }
 }

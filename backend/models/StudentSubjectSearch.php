@@ -5,12 +5,12 @@ namespace backend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\Grade;
+use backend\models\StudentSubject;
 
 /**
- * GradeSearch represents the model behind the search form of `backend\models\Grade`.
+ * StudentSubjectSearch represents the model behind the search form of `backend\models\StudentSubject`.
  */
-class GradeSearch extends Grade
+class StudentSubjectSearch extends StudentSubject
 {
     /**
      * @inheritdoc
@@ -18,8 +18,7 @@ class GradeSearch extends Grade
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['title', 'date'], 'safe'],
+            [['id', 'student_id', 'subject_id', 'grade', 'final_grade'], 'integer'],
         ];
     }
 
@@ -41,7 +40,7 @@ class GradeSearch extends Grade
      */
     public function search($params)
     {
-        $query = Grade::find();
+        $query = StudentSubject::find();
 
         // add conditions that should always apply here
 
@@ -60,10 +59,11 @@ class GradeSearch extends Grade
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'date' => $this->date,
+            'student_id' => $this->student_id,
+            'subject_id' => $this->subject_id,
+            'grade' => $this->grade,
+            'final_grade' => $this->final_grade,
         ]);
-
-        $query->andFilterWhere(['like', 'title', $this->title]);
 
         return $dataProvider;
     }
