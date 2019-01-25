@@ -37,7 +37,8 @@ class Schedule extends \yii\db\ActiveRecord
         return [
 
             [['days_id', 'subject_id', 'department_id', 'classes_id'], 'integer'],
-            [['department_id'], 'required'],
+            [['department_id','subject_id'
+         ], 'required'],
             [['department_id'], 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['department_id' => 'id']],
             [['subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => Subject::className(), 'targetAttribute' => ['subject_id' => 'id']],
             [['days_id'], 'exist', 'skipOnError' => true, 'targetClass' => Days::className(), 'targetAttribute' => ['days_id' => 'id']],
@@ -65,6 +66,10 @@ class Schedule extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Department::className(), ['id' => 'department_id']);
     }
+    public function getDepartmentFullName($id){
+        $dep = Department::find()->where(['id'=> $id])->one();
+        return $dep['year'].''.$dep['name'];
+    }
 
     /**
      * @return \yii\db\ActiveQuery
@@ -80,10 +85,6 @@ class Schedule extends \yii\db\ActiveRecord
     public function getDays()
     {
         return $this->hasOne(Days::className(), ['id' => 'days_id']);
-    }
-    public function getClasses()
-    {
-        return $this->hasOne(Classes::className(), ['id' => 'classes_id']);
     }
     public function getScheduleByDepartmentId($id){
         $subjQuery = 
@@ -102,9 +103,14 @@ class Schedule extends \yii\db\ActiveRecord
          $data = Yii::$app->db->createCommand($subjQuery)->queryAll();
          return $data;
     }
-    public function getSchedule(){
-        
-         $data = Schedule::find()->select('department_id, subject_id, days_id, classes_id, CONCAT(department.year, department.name) AS dep')->innerJoin('department', 'schedule.department_id = department.id')->all();
-         return $data;
+    //NE RADI
+    public function deleteScheduleByDepartmentId($id){
+        $sql = "DELETE * FROM schedule WHERE department_id= $id";
+        $data = Yii::$app->db->createCommand($sql)->queryAll();
+        return $data;
+    }
+    public function getDayForUpdate($day_id){
+        $day= Days::find()->where(['id'=>$day_id])->one();
+        return $day['title'];
     }
 }

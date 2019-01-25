@@ -10,8 +10,9 @@ use Yii;
  * @property int $id
  * @property string $title
  *
- * @property Diary[] $diaries
  * @property Schedule[] $schedules
+ * @property StudentSubject[] $studentSubjects
+ * @property StudentSubjects[] $studentSubjects0
  */
 class Subject extends \yii\db\ActiveRecord
 {
@@ -48,16 +49,24 @@ class Subject extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDiaries()
+    public function getSchedules()
     {
-        return $this->hasMany(Diary::className(), ['subject_id' => 'id']);
+        return $this->hasMany(Schedule::className(), ['subject_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSchedules()
+    public function getStudentSubjects()
     {
-        return $this->hasMany(Schedule::className(), ['subject_id' => 'id']);
+        return $this->hasMany(StudentSubject::className(), ['subject_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getStudentSubjects0()
+    {
+        return $this->hasMany(StudentSubjects::className(), ['subject_id' => 'id']);
     }
 }

@@ -1,154 +1,47 @@
 <?php
 
 use yii\helpers\Html;
-use yii\helpers\ArrayHelper;
-use yii\widgets\DetailView;
-use backend\controllers\DaysController;
-use backend\controllers\ScheduleController;
-use backend\controllers\ClassesController;
-use backend\models\Days;
-use backend\models\Classes;
-use backend\models\Schedule;
 
-/* @var $this yii\web\View */
-/* @var $model backend\models\Schedule */
-
-// $this->title = "View";
-// $this->params['breadcrumbs'][] = ['label' => 'Schedules', 'url' => ['index']];
-// $this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Update Schedule: {nameAttribute}';
+$this->params['breadcrumbs'][] = ['label' => 'Schedules', 'url' => ['index']];
+$this->params['breadcrumbs'][] = 'Update';
 ?>
-<div class="schedule-view">
 
+<?php
+//$model(svi podaci dobijeni prilikom kreiranje rasporeda casova), $modelDays(dani u nedelji) i $modelClasses(casovi) salje ScheduleController
+foreach($modelDays as $modelDay){
+  //Kreiramo array $day u koji smestamo dane u nedelji
+  $day= $modelDay['title'];  
+  //Kreiramo array $array_day gde je key dan u nedelji, a value je array sa casovima po rasporedu za taj dan. 
+  //SVI PODACI IZ RASPOREDA PO DANU
+  //Sve podatke za odredjeni dan dobijamo preko funkcije array_filter koja prolazi kroz sve elemente $model i smesta ih u array_day po danima
+  $array_day[$day] = array_filter($model, function ($element) use ($day) {
+       return ($element['days_title'] == $day);
+      })
+   ;
+   //PREDMETI IZ RASPOREDA PO DANU
+   //funkcija array_column izvlaci samo casove po danu iz $array_day niza i smesta ih u niz $subjects
+   $subjects[$day]= array_column($array_day[$day], 'subject_title');
 
-    <p>
-        
-    </p>
+}
 
-    
-    <table class="table">
-    <tr>
-        <?php
-                // echo '<th>Classes</th>';
-                for($i=0;$i<count($modelDay);$i++) {
-                    // echo '<tr>';
-                        echo '<th>'.$modelDay[$i]['title'].'</th>';
-                        echo '</tr>';
-                        // for($j=0;$j<count($modelClasses);$j++) {
-                            
-                        // }
-                        for($m=0;$m<count($modelClasses);$m++) {
-                            echo '<tr>';
-                            echo '<td>'.$modelClasses[$m]['title'].'</td>';
-                                echo '<td>'.$model2[$m]['subject']['title'].'</td>';
-                            // $v[]++;
-                            // if($i%6==0) {
-                            //     echo '<td>'.$model2[$m]['subject']['title'].'</td>';
-                            //     return $model2[$m]['subject']['title'];
-                            // } else {
-                            //     echo '<td>'.$model2[$m]['subject']['title'].'</td>';
-                                $v[] = $model2[$m]['subject']['title'];
-                            //     // echo '<td>'.$v.'</td>';
-                            // }
-                    echo '</tr>';
-                            // echo '<tr>';
-                            //     echo '<td>'.$model2[$m]['subject']['title'].'</td>';
-                            // echo '</tr>';
-                            // if($m==count($modelDay)) {
-                            //     $m=0;
-                            // }
-                }
-                // return $model2[$m]['subject']['title'];
-                        
-                }
+?>
+<div class="schedule-form">
+  <div class="row">
 
-    //     foreach($modelDay as $day) {
-    //             echo '<th>'.$day['title'].'</th>';
-    //             // print_r($model2);
-    //     }
-    //         echo '</tr>';
+  <?php foreach($modelDays as $modelDay){
+            $day= $modelDay['title'];
+            echo '
+            <div class="col-lg-2  ">
+              <h2>'.$day.'</h2>';
+            foreach($subjects[$day] as $subject){
+             echo' <p>'.$subject.'</p>';
+            }
+           echo '</div>';// End of col
+             
+  }?>
 
-    //             for($i=0;$i<count($modelClasses);$i++) {
-    //                 // $j=$i+1;
-    //         echo '<tr>';
-    //     // print_r($model2);
-    //     echo '<td>'.$model2[$i]['classes']['title'].'</td>'; 
-
-    //                 for($j=0;$j<count($modelDay);$j++) {
-    //                     print_r($model2[$j]['days_id']);
-    //                     print_r($modelDay[$j]);
-    //                 // $j=$i+7;
-    //                     $v = $modelDay[$j];
-    //                     $v++;
-    //                     // return $v;
-    //                     // if($model2[$j]['days_id'] == 1 || $model2[$j]['days_id']%7==0) {
-    //                     // echo '<td>'.$model2[$j]['subject']['title'].'</td>'; 
-
-    //                 // } else {
-    //                     echo '<td>'.$model2[$i]['subject']['title'].'</td>';
-    //                     return $model2[$i];
-    //                 // }                     
-    //                 // for($m=0;$m<count($model2);$m++) {
-    //                 //     echo '<td>'.$model2[$m]['subject']['title'].'</td>'; 
-
-    //                 // }
-    //                 }
-    //                     // echo '<td>'.$model2[$i]['classes']['title'].'</td>';
-    //                     // echo '<td>'.$model2[$j]['subject']['title'].'</td>';
-    //                     // for()
-    //                     echo '</tr>';
-
-    // }
-
-
-        // for($i=0;$i<count($modelClasses);$i++) {
-        //     // echo '<tr>';
-        //     //     echo '<th class="col-lg-2 col-md-2">'.$model2->days['title'].'</th>';
-        //     // echo '</tr>';
-        //     foreach($model2 as $model) {
-        //         echo '<td class="col-lg-2 col-md-2">'.$model2[$i]->days['title'].'</td>';
-        //     }
-        //     echo '<tr>';
-        //         echo '<td class="col-lg-2 col-md-2">'.$model2[$i]->classes['title'].'</td>';
-        //         echo '<td class="col-lg-2 col-md-2">'.$model2[$i]->subject['title'].'</td>';
-        //     echo '</tr>';
-        // }
-        // foreach($model2 as $subject2) {
-        //     foreach($modelDay as $subject) {
-        //         echo '<th class="col-lg-2 col-md-2">'.$subject['title'].'</th>';
-                
-        //     }
-        //     echo '<tr>';
-        //         echo '<td class="col-lg-2 col-md-2">'.$subject2['classes']['title'].'</td>';
-        //         echo '<td class="col-lg-2 col-md-2">'.$subject2['subject']['title'].'</td>';
-        //     echo '</tr>';
-        //     }
-    //  for($i=0;$i<count($model2);$i++) {
-    //      echo '<tr>';
-    //     echo '<th class="col-lg-2 col-md-2">'.$modelDay['title'].'</th>';
-    //  echo '</tr>';
-    //  echo '<tr>';
-    //     echo '<td class="col-lg-2 col-md-2">'.$model2[$i]->classes['title'].'</td>';
-    //     echo '<td class="col-lg-2 col-md-2">'.$model2[$i]->subject['title'].'</td>';
-    //  echo '</tr>';
-    //  }
-    //  for($j=0;$j<count($modelClasses);$j++) {
-    //     echo '<tr>';
-    //         echo '<td>'.$model2[$j]->subject['title'].'</td>';
-    //         // $classes_id = $j+1;
-            
-    //     echo '</tr>';
-    //     }
-    
-    // foreach($modelDay as $day) {
-    //     echo '<th>'.$day['title'].'</th>';
-    //     foreach($model2 as $subject) {
-    //         echo '<tr>';
-    //         echo '<td>'.$subject->subject['title'].'</td>';
-    //         echo '</tr>';
-
-    //     }
-    // }
-        
-        ?>
-    </table>
+</div><!-- End of row -->
+</div><!-- End of schedule form -->
+ 
 </div>
