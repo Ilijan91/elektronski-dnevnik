@@ -12,7 +12,9 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'title')->dropDownList([ 1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5', ], ['prompt' => '']) ?>
+    <?= $form->field($model, 'title')->textInput() ?>
+
+    <?= $form->field($model, 'grade')->textInput() ?>
 
     <?= $form->field($model, 'date')->textInput() ?>
 

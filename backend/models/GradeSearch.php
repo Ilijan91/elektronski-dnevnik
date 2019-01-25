@@ -18,8 +18,8 @@ class GradeSearch extends Grade
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['title', 'date'], 'safe'],
+            [['id', 'title', 'grade'], 'integer'],
+            [['date'], 'safe'],
         ];
     }
 
@@ -60,10 +60,10 @@ class GradeSearch extends Grade
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'title' => $this->title,
+            'grade' => $this->grade,
             'date' => $this->date,
         ]);
-
-        $query->andFilterWhere(['like', 'title', $this->title]);
 
         return $dataProvider;
     }
