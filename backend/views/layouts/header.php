@@ -19,7 +19,7 @@ use yii\helpers\Html;
         ['label' => 'Diary', 'url' => ['/diary/index']],
         ['label' => 'Grades', 'url' => ['/grade/index']],
         ['label' => 'Student-subjects', 'url' => ['/student-subject/index']],
-        ['label' => 'News Feed', 'url' => ['/site/index']],
+        ['label' => 'News Feed', 'url' => ['/news/index']],
         ['label' => 'Teachers', 'url' => ['/user/teachers']],
         ['label' => 'Students', 'url' => ['/student/index']],
         ['label' => 'Director', 'url' => ['/site/index']],
