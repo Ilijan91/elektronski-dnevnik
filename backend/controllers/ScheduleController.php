@@ -125,6 +125,8 @@ class ScheduleController extends Controller
                         $model->save();
                     }
                 }
+                Yii::$app->session->setFlash('success', "Schedule created successfully."); 
+                return $this->redirect(['index']);
         }
             return $this->render('create', [
                 'model' => $model,
@@ -172,6 +174,7 @@ class ScheduleController extends Controller
     public function actionDelete($id)
     {
 
+<<<<<<< HEAD
         $delete = \Yii::$app
         ->db
         ->createCommand()
@@ -184,7 +187,21 @@ class ScheduleController extends Controller
             Yii::$app->session->setFlash('error', "Schedule not deleted.");
         }
         return $this->redirect(['index']);
+=======
+    $delete = \Yii::$app
+    ->db
+    ->createCommand()
+    ->delete('schedule', ['department_id' => $id])
+    ->execute();
+
+    if ($delete) {
+        Yii::$app->session->setFlash('success', "Schedule deleted successfully."); 
+    } else {
+        Yii::$app->session->setFlash('error', "Schedule not found.");
+>>>>>>> c25e03d88ad94939ee1b09f58c356205b6106726
     }
+    return $this->redirect(['index']);
+}
 
     /**
      * Finds the Schedule model based on its primary key value.

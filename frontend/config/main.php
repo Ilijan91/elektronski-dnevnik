@@ -19,8 +19,6 @@ return [
             'class' => 'frontend\modules\parent\Module',
         ],
     ],
-    
-
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
