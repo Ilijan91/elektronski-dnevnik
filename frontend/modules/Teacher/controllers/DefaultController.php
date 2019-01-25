@@ -1,14 +1,13 @@
 <?php
 
-namespace frontend\modules\Teacher\controllers;
-use backend\models\StudentSubject;
+namespace frontend\modules\teacher\controllers;
+
 use yii\web\Controller;
-use backend\models\StudentSubjectSearch;
 
 /**
- * Default controller for the `Teacher` module
+ * Default controller for the `teacher` module
  */
-class DefaultController extends StudentSubjectController
+class DefaultController extends Controller
 {
     /**
      * Renders the index view for the module
@@ -16,22 +15,6 @@ class DefaultController extends StudentSubjectController
      */
     public function actionIndex()
     {
-        
-        $gradeModel = new StudentSubject();
-        $grades = $gradeModel->getGrades();
-        // $grades = $gradeModel->getSubject();
-
-        // $subject_id = $gradeModel->getSubjects();
-
-
-        // $subjectModel = new StudentSubject();
-        $subjects = $gradeModel->getSubjects();
-
-        return $this->render('index', [
-            'gradeModel' => $gradeModel,
-            'grades' => $grades,
-            'subjects' => $subjects,
-        ]);
-       
+        return $this->render('index');
     }
 }
