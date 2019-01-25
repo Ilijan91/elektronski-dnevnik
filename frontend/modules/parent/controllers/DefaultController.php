@@ -1,11 +1,11 @@
 <?php
 
-namespace frontend\modules\teacher\controllers;
+namespace frontend\modules\parent\controllers;
 
 use yii\web\Controller;
 
 /**
- * Default controller for the `teacher` module
+ * Default controller for the `parent` module
  */
 class DefaultController extends Controller
 {

@@ -2,14 +2,13 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use backend\models\Department;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\ScheduleSearch */
+/* @var $model frontend\modules\Teacher\models\StudentSubjectSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="department-search">
+<div class="student-subject-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -18,11 +17,13 @@ use backend\models\Department;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'year') ?>
-    
-    <?= $form->field($model, 'name') ?>
+    <?= $form->field($model, 'student_id') ?>
 
-    <?= $form->field($model, 'user_id') ?>
+    <?= $form->field($model, 'subject_id') ?>
+
+    <?= $form->field($model, 'grade') ?>
+
+    <?= $form->field($model, 'final_grade') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

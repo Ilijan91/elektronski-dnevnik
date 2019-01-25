@@ -4,13 +4,18 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\Roll */
+/* @var $model frontend\modules\Teacher\models\StudentSubject */
 
-$this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Rolls', 'url' => ['index']];
+$this->title = $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Student Subjects', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<p>
+<div class="student-subject-view">
+
+    <h1><?= Html::encode($this->title) ?></h1>
+
+    <p>
+        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Delete', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -19,15 +24,15 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
-<div class="roll-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
             'id',
-            'title',
+            'student_id',
+            'subject_id',
+            'grade',
+            'final_grade',
         ],
     ]) ?>
 

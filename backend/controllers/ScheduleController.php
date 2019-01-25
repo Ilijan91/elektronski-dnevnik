@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\Schedule;
+use backend\models\ScheduleSearch;
 use backend\models\Department;
 use backend\models\Days;
 use backend\models\Classes;
@@ -13,6 +14,7 @@ use yii\web\Controller;
 use backend\models\Subject;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+
 
 /**
  * ScheduleController implements the CRUD actions for Schedule model.
@@ -28,7 +30,7 @@ class ScheduleController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                   
                 ],
             ],
         ];
@@ -108,7 +110,7 @@ class ScheduleController extends Controller
                     for($i=0;$i<count($modelClasses);$i++){
                         $subject_name_attribute = $day.$i;
                         $model->setIsNewRecord(true);
-                        $model->id =null;
+                        $model->id = null;
                         //Posto brojac petlje krece od nule, day_id mora da ima vrednost brojaca +1
                         $model->days_id = $j+1;
                         //Posto brojac petlje krece od nule, classes_id mora da ima vrednost brojaca +1
@@ -123,6 +125,8 @@ class ScheduleController extends Controller
                         $model->save();
                     }
                 }
+                Yii::$app->session->setFlash('success', "Schedule created successfully."); 
+                return $this->redirect(['index']);
         }
             return $this->render('create', [
                 'model' => $model,
@@ -169,15 +173,35 @@ class ScheduleController extends Controller
      */
     public function actionDelete($id)
     {
-        $schedule= new Schedule();
-        if($schedule->deleteScheduleByDepartmentId($id)){
-            return $this->redirect(['index']);
-        }else {
-            return $this->redirect(['kkk']);
-        }
 
-        // return $this->redirect(['index']);
+<<<<<<< HEAD
+        $delete = \Yii::$app
+        ->db
+        ->createCommand()
+        ->delete('schedule', ['department_id' => $id])
+        ->execute();
+
+        if ($delete) {
+            Yii::$app->session->setFlash('success', "Schedule deleted successfully.");
+        } else {
+            Yii::$app->session->setFlash('error', "Schedule not deleted.");
+        }
+        return $this->redirect(['index']);
+=======
+    $delete = \Yii::$app
+    ->db
+    ->createCommand()
+    ->delete('schedule', ['department_id' => $id])
+    ->execute();
+
+    if ($delete) {
+        Yii::$app->session->setFlash('success', "Schedule deleted successfully."); 
+    } else {
+        Yii::$app->session->setFlash('error', "Schedule not found.");
+>>>>>>> c25e03d88ad94939ee1b09f58c356205b6106726
     }
+    return $this->redirect(['index']);
+}
 
     /**
      * Finds the Schedule model based on its primary key value.
