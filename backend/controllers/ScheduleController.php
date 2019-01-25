@@ -4,7 +4,6 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\Schedule;
-use backend\models\Subject;
 use backend\models\ScheduleSearch;
 use backend\models\Department;
 use backend\models\Days;
@@ -31,7 +30,7 @@ class ScheduleController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                   
                 ],
             ],
         ];
@@ -172,14 +171,19 @@ class ScheduleController extends Controller
      */
     public function actionDelete($id)
     {
-        $schedule= new Schedule();
-        if($schedule->deleteScheduleByDepartmentId($id)){
-            return $this->redirect(['index']);
-        }else {
-            return $this->redirect(['kkk']);
-        }
 
-        // return $this->redirect(['index']);
+        $delete = \Yii::$app
+        ->db
+        ->createCommand()
+        ->delete('schedule', ['department_id' => $id])
+        ->execute();
+
+        if ($delete) {
+            Yii::$app->session->setFlash('success', "Schedule deleted successfully.");
+        } else {
+            Yii::$app->session->setFlash('error', "Schedule not deleted.");
+        }
+        return $this->redirect(['index']);
     }
 
     /**

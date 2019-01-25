@@ -7,6 +7,8 @@ $this->params['breadcrumbs'][] = ['label' => 'Schedules', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 
+
+
 <?php
 //$model(svi podaci dobijeni prilikom kreiranje rasporeda casova), $modelDays(dani u nedelji) i $modelClasses(casovi) salje ScheduleController
 foreach($modelDays as $modelDay){
@@ -19,10 +21,11 @@ foreach($modelDays as $modelDay){
        return ($element['days_title'] == $day);
       })
    ;
+   
    //PREDMETI IZ RASPOREDA PO DANU
    //funkcija array_column izvlaci samo casove po danu iz $array_day niza i smesta ih u niz $subjects
    $subjects[$day]= array_column($array_day[$day], 'subject_title');
-
+   
 }
 
 ?>
