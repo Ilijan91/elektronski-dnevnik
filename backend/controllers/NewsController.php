@@ -82,8 +82,11 @@ class NewsController extends Controller
        $model=new News();
         
         if ($model->load(Yii::$app->request->post())) {
-            $image=UploadedFile::getInstance($model, 'image');
-            $image->saveAs('img/upload/'.$image->baseName. '.'.$image->extension);
+            $images=UploadedFile::getInstances($model, 'image');
+            foreach($images as $image){
+                $image->saveAs('img/upload/'.$image->baseName. '.'.$image->extension);  
+            }
+            
             $model->image=$image->baseName. '.'.$image->extension;
         }
             if($model->save()){
@@ -108,8 +111,17 @@ class NewsController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $images=UploadedFile::getInstances($model, 'image');
+            foreach($images as $image){
+                $image->saveAs('img/upload/'.$image->baseName. '.'.$image->extension);
+            }
+            
+            $model->image=$image->baseName. '.'.$image->extension;
+            if($model->save()){
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+            
         }
 
         return $this->render('update', [

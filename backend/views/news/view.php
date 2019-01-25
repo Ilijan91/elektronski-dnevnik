@@ -2,7 +2,9 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\helpers\Url;
 
+$this->params['breadcrumbs'][] = ['label' => 'News', 'url' => ['index']];
 /* @var $this yii\web\View */
 /* @var $model backend\models\News */
 ?>
@@ -27,14 +29,21 @@ use yii\widgets\DetailView;
         'id',
         'title',
         'body:ntext',
-        
         [
             'attribute'=>'created_at',
             'format'=>['date','d/M/Y'],
             
         ],
+        'image'
     ],
 ]) ?>
 
+ 
+<?php 
+    if(empty($model->image)){
+        
+    }else{ ?>
+        <?=Html::img(Url::to('@web/img/upload/'.$model->image),['class'=>'img-responsive','alt'=>'Image']) ?>
+    <?php } ?>
 </div>
 
