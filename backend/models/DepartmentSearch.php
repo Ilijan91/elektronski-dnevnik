@@ -18,7 +18,8 @@ class DepartmentSearch extends Department
     public function rules()
     {
         return [
-            [['id', 'name', 'user_id'], 'integer'],
+            // [['id', 'name', 'user_id'], 'integer'],
+            [['id', 'name', 'user_id', 'year'], 'string'],
             [['year'], 'safe'],
         ];
     }
@@ -42,7 +43,7 @@ class DepartmentSearch extends Department
     public function search($params)
     {
         $query = Department::find();
-
+        $query->leftJoin('user', 'user.id=department.user_id');
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -59,13 +60,12 @@ class DepartmentSearch extends Department
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
-            'name' => $this->name,
-            'user_id' => $this->user_id,
         ]);
 
-        $query->andFilterWhere(['like', 'year', $this->year]);
-
+        // $query->andFilterWhere(['like', 'year', $this->year]);
+        //Pretrazi kolonu user_id po imenu i prezimenu ucitelja (kao kolonu user first_name i kolonu last_name)
+        $query->andFilterWhere(['like', 'concat(user.first_name, " " , user.last_name) ', $this->user_id]);
+        $query->andFilterWhere(['like', 'concat(year,name) ', $this->name]);
         return $dataProvider;
     }
 }
