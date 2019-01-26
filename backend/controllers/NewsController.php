@@ -82,10 +82,14 @@ class NewsController extends Controller
        $model=new News();
         
         if ($model->load(Yii::$app->request->post())) {
+
             $images=UploadedFile::getInstances($model, 'image');
-            foreach($images as $image){
-                $image->saveAs('img/upload/'.$image->baseName. '.'.$image->extension);  
-            }
+                
+                foreach($images as $image){
+
+                     $image->saveAs('img/upload/'.$image->baseName. '.'.$image->extension);       
+                }
+            
             
             $model->image=$image->baseName. '.'.$image->extension;
         }

@@ -174,6 +174,7 @@ class ScheduleController extends Controller
     public function actionDelete($id)
     {
 
+<<<<<<< HEAD
         $delete = \Yii::$app
         ->db
         ->createCommand()
@@ -186,6 +187,20 @@ class ScheduleController extends Controller
             Yii::$app->session->setFlash('error', "Schedule not deleted.");
         }
         return $this->redirect(['index']);
+=======
+
+    $delete = \Yii::$app
+    ->db
+    ->createCommand()
+    ->delete('schedule', ['department_id' => $id])
+    ->execute();
+
+    if ($delete) {
+        Yii::$app->session->setFlash('success', "Schedule deleted successfully."); 
+    } else {
+        Yii::$app->session->setFlash('error', "Schedule not found.");
+
+>>>>>>> 971e7f40dbbe8f4cf1beee9d813b74a4edbce8bb
     }
     /**
      * Finds the Schedule model based on its primary key value.
