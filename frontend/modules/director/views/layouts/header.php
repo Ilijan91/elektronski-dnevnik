@@ -18,11 +18,10 @@ use yii\helpers\Html;
         $menuItems = [
         ['label' => 'Dashboard', 'url' => ['index']],
         ['label' => 'Students', 'url' => ['students']],
-        // ['label' => 'Subject', 'url' => ['/subject/index']],
-        ['label' => 'Subjects', 'url' => ['/teacher/index']],
-        ['label' => 'Grades', 'url' => ['/teacher/schedule']],
-        ['label' => 'News Feed', 'url' => ['/teacher/news']],
-        ['label' => 'Statistics', 'url' => ['/teacher/messages']],
+        ['label' => 'Subjects', 'url' => ['']],
+        ['label' => 'Grades', 'url' => ['']],
+        ['label' => 'News Feed', 'url' => ['']],
+        ['label' => 'Statistics', 'url' => ['']],
         ];
         $menuItems[] = '<li>'
                 . Html::beginForm(['/site/logout'], 'post')

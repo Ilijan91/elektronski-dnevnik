@@ -24,11 +24,9 @@ class DefaultController extends Controller
         //Globalna promenljiva school name iz config-main.php params
         $school_name =\Yii::$app->params['school_name'];
         
-
         //Svi podaci o ulogovanom korisniku
         $user = \Yii::$app->user->identity;
 
-        
         $roll =$this->getLoggedUserRollTitle($user->roll_id);
         $user_full_name = $this->getLoggedUserFullName($user);
 
