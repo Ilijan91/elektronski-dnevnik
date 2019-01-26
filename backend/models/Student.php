@@ -88,4 +88,16 @@ class Student extends \yii\db\ActiveRecord
     
         return $this->first_name . ' ' . $this->last_name;
     }
+
+    public function getAllStudentsByDepartmentId($department_id){
+        $subjQuery = 
+            'SELECT student.first_name, student.last_name, student.phone, student.address, student.JMBG, student.user_id, student.department_id,  CONCAT(user.first_name," ",user.last_name) AS parent 
+            FROM student 
+            INNER JOIN user 
+            ON student.user_id = user.id 
+            WHERE department_id ='.$department_id;
+            
+         $data = \Yii::$app->db->createCommand($subjQuery)->queryAll();
+         return $data;
+    }
 }

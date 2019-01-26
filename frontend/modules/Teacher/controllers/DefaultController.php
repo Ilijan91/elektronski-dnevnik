@@ -5,9 +5,12 @@ namespace frontend\modules\teacher\controllers;
 use yii\web\Controller;
 use backend\models\News;
 use backend\models\Roll;
-use backend\models\Students;
+use backend\models\Student;
 use backend\models\Department;
 use backend\models\User;
+use backend\models\Days;
+use backend\models\Classes;
+use backend\models\Schedule;
 use backend\controllers\NewsController;
 use backend\controllers\DepartmentController;
 /**
@@ -31,10 +34,13 @@ class DefaultController extends Controller
         //Svi podaci o ulogovanom korisniku
         $user = \Yii::$app->user->identity;
 
-        
+        //Dohvati rolu korisnika koji je trenutno ulogovan
         $roll =$this->getLoggedUserRollTitle($user->roll_id);
+
+        //Dohvati ime i prezime korisnika koji je trenutno ulogovan
         $user_full_name = $this->getLoggedUserFullName($user);
 
+        //Dohvati sve vesti i prikazi prvo najnovije
         $news = News::find()->orderBy(['created_at'=> SORT_DESC])->all();
         
         $this->layout = 'main';
@@ -45,12 +51,74 @@ class DefaultController extends Controller
             'school_name'=>$school_name
         ]);
     }
-    public function actionStudents(){
+    public function actionStudents($department_id){
 
+        $schedule= new Schedule();
+        $model = $schedule->getScheduleByDepartmentId($department_id);
+        $department_name = $schedule->getDepartmentFullName($department_id);
+
+        //Dohvati id ucitelja koji je trenutno ulogovan i pronadji njegove ucenike pomocu funkcije getStudentsByTeacherId
+        $teacher_id = \Yii::$app->user->identity->id;
+
+        $students = $this->getStudentsByTeacherId($teacher_id);
         $this->layout = 'main';
         return $this->render('students', [
+            'students'=>$students,
+            'department_name'=>$department_name,
         ]);
     }
+    public function actionDiary(){
+        $this->layout = 'main';
+        return $this->render('diary', [
+        ]);
+    }
+    public function actionSchedule($department_id){
+        $this->layout = 'main';
+
+        $modelDays= Days::find()->all();
+        $modelClasses= Classes::find()->all();
+        $schedule= new Schedule();
+        $model = $schedule->getScheduleByDepartmentId($department_id);
+        $department_name = $schedule->getDepartmentFullName($department_id);
+        //Ako nije kreiran raspored za izabrano odeljenje izbaci gresku
+        // if(count($model) < 1){
+            // $msg= "<h4>There is no data for department</h4>";
+            // return $this->render('error', [
+            //     'msg' => $msg,
+            // ]);
+        // }else{
+            return $this->render('schedule', [
+                'model' => $model,
+                'modelDays'=>$modelDays,
+                'modelClasses'=>$modelClasses,
+                'department_name'=>$department_name,
+            ]);
+        // }
+    }
+    public function actionNews(){
+        $this->layout = 'main';
+        return $this->render('news', [
+        ]);
+    }
+    public function actionMessages(){
+        $this->layout = 'main';
+        return $this->render('messages', [
+        ]);
+    }
+
+    public function getStudentsByTeacherId($teacher_id){
+        //Dohvati odeljenje kome predaje ulogovani ucitelj
+            $department = Department::find()
+                            ->select('id')
+                            ->where(['user_id'=>$teacher_id])
+                            ->one();
+            $department_id= $department->id;
+        //Dohvati sve ucenike koji su u odeljenju kome predaje ulogovani ucitelj
+        $s = new Student;
+        $students= $s->getAllStudentsByDepartmentId($department_id);
+        return $students;
+    }   
+
     public function getLoggedUserFullName($user){
         $userFullName = $user->first_name.' '.$user->last_name;
         return $userFullName;
@@ -60,13 +128,7 @@ class DefaultController extends Controller
          $roll = $roll_arr['title'];   
          return $roll;
     }
-    // protected function findModel($id)
-    // {
-    //     if (($model = Roll::findOne($id)) !== null) {
-    //         return $model;
-    //     }
-
-    //     throw new NotFoundHttpException('The requested page does not exist.');
-    // }
+   
+   
     
 }
