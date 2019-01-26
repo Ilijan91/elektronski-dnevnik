@@ -97,7 +97,7 @@ class SiteController extends Controller
             return $this->redirect('site/dashboard');
         } else {
             $model->password = '';
-            return $this->render('logdin', [
+            return $this->render('login', [
                 'model' => $model,
             ]);
         }
