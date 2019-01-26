@@ -4,8 +4,7 @@
 namespace frontend\modules\teacher;
 
 /**
- * parent module definition class
-
+ * teacher module definition class
  */
 class Module extends \yii\base\Module
 {
