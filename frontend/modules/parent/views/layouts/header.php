@@ -2,12 +2,15 @@
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\helpers\Html;
+?>
+<div class="wrap">
+<?php
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
 
-            'class' => 'NavBar',
+            'class' => 'navbar-inverse',
         ],
     ]);
     $menuItems = [
@@ -29,9 +32,10 @@ use yii\helpers\Html;
     }
     echo Nav::widget([
 
-        'options' => ['class' => 'sidenav'],
+        'options' => ['class' => 'navbar-nav navbar-right'],
 
         'items' => $menuItems,
     ]);
     NavBar::end();
     ?>
+    </div>
