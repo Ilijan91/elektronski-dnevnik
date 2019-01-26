@@ -7,11 +7,11 @@ body {
     min-height: 100%;
     height: auto;
     margin: 0 auto -60px;
-    padding: 0 0 60px;
+    padding: 0 0 40px;
 }
 
 .wrap > .container {
-    padding: 70px 15px 20px;
+    /* padding: 70px 15px 20px; */
 }
 
 .footer {
@@ -161,6 +161,7 @@ a.desc:after {
 .navbar{
     background-color: #00325e;
     border: 0;
+    border-radius: 0;
 }
 .navbar-inverse .navbar-nav > li > a {
     color: #ddc8c8;
@@ -174,8 +175,43 @@ a.desc:after {
 
 
   #frontend-main-container{
-    padding: 70px 15px 20px;
+    /* padding: 70px 15px 20px; */
   }
+  .main{
+      margin-top: 50px;
+  }
+  .main h2{
+      text-align: center;
+      margin-bottom: 60px;
+      color: #00325e;
+      text-transform: uppercase;
+  }
+
   #frontend-header, #frontend-footer{
       width: 100%;
   }
+  .news{
+      margin: 10px;
+      padding: 10px;
+  }
+  .front-hero{
+      position: relative;
+    background-image: url("../img/front-hero.jpg"); /* The image used */
+    background-color: #cccccc; /* Used if the image is unavailable */
+    height: 500px; /* You must set a specified height */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+  }
+  .cover-hero{
+    width: 50%;
+    margin: 0 auto;
+    position: absolute;
+    top:30%;
+    left: 25%;
+    padding: 50px 30px;
+    background-color: #d9dfe48c;
+}
+.cover-hero h1{
+    color: #00325e;
+}

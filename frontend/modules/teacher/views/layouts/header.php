@@ -16,13 +16,13 @@ use yii\helpers\Html;
             ],
         ]);
         $menuItems = [
-        ['label' => 'Dashboard', 'url' => ['default/index']],
-        ['label' => 'Students', 'url' => ['/default/students']],
+        ['label' => 'Dashboard', 'url' => ['index']],
+        ['label' => 'Students', 'url' => ['students']],
         // ['label' => 'Subject', 'url' => ['/subject/index']],
-        ['label' => 'Dairy', 'url' => ['/dairy/index']],
-        ['label' => 'Schedule', 'url' => ['/default/schedule']],
-        ['label' => 'News Feed', 'url' => ['/default/news']],
-        ['label' => 'Messages', 'url' => ['/default/messages']],
+        ['label' => 'Dairy', 'url' => ['/teacher/index']],
+        ['label' => 'Schedule', 'url' => ['/teacher/schedule']],
+        ['label' => 'News Feed', 'url' => ['/teacher/news']],
+        ['label' => 'Messages', 'url' => ['/teacher/messages']],
         ];
         $menuItems[] = '<li>'
                 . Html::beginForm(['/site/logout'], 'post')

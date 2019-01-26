@@ -1,7 +1,7 @@
 <?php
 
 
-namespace frontend\modules\parent;
+namespace frontend\modules\teacher;
 
 /**
  * parent module definition class
@@ -13,7 +13,7 @@ class Module extends \yii\base\Module
      * @inheritdoc
      */
 
-    public $controllerNamespace = 'frontend\modules\parent\controllers';
+    public $controllerNamespace = 'frontend\modules\teacher\controllers';
 
 
 

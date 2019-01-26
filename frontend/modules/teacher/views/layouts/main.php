@@ -11,7 +11,9 @@ use yii\widgets\Breadcrumbs;
 use common\widgets\Alert;
 
 AppAsset::register($this);
-$school_name = 'Osnovna skola "8.oktobar"';
+$school_name = \Yii::$app->params['school_name'];
+$school_phone = \Yii::$app->params['school_phone'];
+$school_mail =\Yii::$app->params['school_mail'];
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -34,14 +36,14 @@ $school_name = 'Osnovna skola "8.oktobar"';
    <div class="school-info container">
         <span class="school-name"><?= $school_name?></span>
         <div class="phone">
-            <span ><i class="fas fa-phone"></i> 063/555-222</span>
-            <span ><i class="fas fa-envelope-open"></i> school.mail@school.com</span>
+            <span ><i class="fas fa-phone"></i> <?= $school_phone?></span>
+            <span ><i class="fas fa-envelope-open"></i> <?= $school_mail?></span>
         </div>
     </div>
 <?= $this->render('header')?>
 </div>
 
-    <div id="frontend-main-container" class="container">
+    <div id="frontend-main-container">
       
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
