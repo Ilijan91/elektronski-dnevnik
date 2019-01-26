@@ -103,10 +103,6 @@ class Schedule extends \yii\db\ActiveRecord
          $data = Yii::$app->db->createCommand($subjQuery)->queryAll();
          return $data;
     }
-<<<<<<< HEAD
-    //NE RADI
-=======
->>>>>>> c25e03d88ad94939ee1b09f58c356205b6106726
     public function getDayForUpdate($day_id){
         $day= Days::find()->where(['id'=>$day_id])->one();
         return $day['title'];
