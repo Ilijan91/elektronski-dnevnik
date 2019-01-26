@@ -113,6 +113,9 @@ a.desc:after {
     padding: 10px 20px;
     margin: 0 0 15px 0;
 }
+
+/******************* INDEX STRANICA I LAYOUT ZA SVE STRANICE  **********************/
+/* PODACI O SKOLI */
 .school-info{
     padding: 5px 15px;
     color: #00325e;
@@ -129,20 +132,11 @@ a.desc:after {
 .school-info .phone span{
     padding-left: 10px;
 }
+/* NAVIGACIJA */
 
-/* align the logout "link" (button in form) of the navbar */
 .nav li > form > button.logout {
     padding: 15px;
     border: none;
-}
-
-@media(max-width:767px) {
-    .nav li > form > button.logout {
-        display:block;
-        text-align: left;
-        width: 100%;
-        padding: 10px 15px;
-    }
 }
 .navbar-brand{
     color: #bd0000;
@@ -173,10 +167,30 @@ a.desc:after {
     background-color: #bd0000;
 }
 
+  /* HERO */
+  .front-hero{
+    position: relative;
+  background-image: url("../img/front-hero.jpg"); /* The image used */
+  background-color: #cccccc; /* Used if the image is unavailable */
+  height: 500px; /* You must set a specified height */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+}
+.cover-hero{
+  width: 50%;
+  margin: 0 auto;
+  position: absolute;
+  top:30%;
+  left: 25%;
+  padding: 50px 30px;
+  background-color: #d9dfe48c;
+}
+.cover-hero h1{
+  color: #00325e;
+}
 
-  #frontend-main-container{
-    /* padding: 70px 15px 20px; */
-  }
+/* MAIN CONTAINER */
   .main{
       margin-top: 50px;
   }
@@ -194,24 +208,16 @@ a.desc:after {
       margin: 10px;
       padding: 10px;
   }
-  .front-hero{
-      position: relative;
-    background-image: url("../img/front-hero.jpg"); /* The image used */
-    background-color: #cccccc; /* Used if the image is unavailable */
-    height: 500px; /* You must set a specified height */
-    background-position: center; /* Center the image */
-    background-repeat: no-repeat; /* Do not repeat the image */
-    background-size: cover; /* Resize the background image to cover the entire container */
-  }
-  .cover-hero{
-    width: 50%;
-    margin: 0 auto;
-    position: absolute;
-    top:30%;
-    left: 25%;
-    padding: 50px 30px;
-    background-color: #d9dfe48c;
-}
-.cover-hero h1{
-    color: #00325e;
+ 
+
+
+
+/* RESPONSIVE */
+@media(max-width:767px) {
+    .nav li > form > button.logout {
+        display:block;
+        text-align: left;
+        width: 100%;
+        padding: 10px 15px;
+    }
 }

@@ -93,8 +93,18 @@ class SiteController extends Controller
         }
        
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            $roll_id = \Yii::$app->user->identity->roll_id;
+            if($roll_id == 2){
+                return $this->redirect('teacher');
+            }elseif($roll_id == 3){
+                return $this->redirect('director');
+            }elseif($roll_id == 4){
+                return $this->redirect('parent');
+            }else{
+                return $this->redirect('site/dashboard');
+            }
             
-            return $this->redirect('site/dashboard');
+          
         } else {
             $model->password = '';
             return $this->render('login', [

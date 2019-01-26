@@ -18,6 +18,9 @@ return [
         'parent' => [
             'class' => 'frontend\modules\parent\Module',
         ],
+        'director' => [
+            'class' => 'frontend\modules\director\Module',
+        ],
     ],
     'components' => [
         'request' => [
