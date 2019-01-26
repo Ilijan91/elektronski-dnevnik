@@ -61,4 +61,5 @@ class Department extends \yii\db\ActiveRecord
     public function getYearName() {
         return $this->year . $this->name;
     }
+    
 }

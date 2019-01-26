@@ -1,10 +1,9 @@
-
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
 
-<div class="teacher-default-index">
+<div class="director-default-index">
     <div class="front-hero">
         <div class="cover-hero text-center">
             <h1>Welcome, <?= $user_full_name?></h1>
@@ -41,4 +40,5 @@ echo '
 
 ?>   
 </div> 
+
 </div>

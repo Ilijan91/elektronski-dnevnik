@@ -7,12 +7,10 @@ body {
     min-height: 100%;
     height: auto;
     margin: 0 auto -60px;
-    padding: 0 0 60px;
+    padding: 0 0 40px;
 }
 
-.wrap > .container {
-    padding: 70px 15px 20px;
-}
+
 
 .footer {
     height: 60px;
@@ -113,6 +111,9 @@ a.desc:after {
     padding: 10px 20px;
     margin: 0 0 15px 0;
 }
+
+/******************* INDEX STRANICA I LAYOUT ZA SVE STRANICE  **********************/
+/* PODACI O SKOLI */
 .school-info{
     padding: 5px 15px;
     color: #00325e;
@@ -129,20 +130,11 @@ a.desc:after {
 .school-info .phone span{
     padding-left: 10px;
 }
+/* NAVIGACIJA */
 
-/* align the logout "link" (button in form) of the navbar */
 .nav li > form > button.logout {
     padding: 15px;
     border: none;
-}
-
-@media(max-width:767px) {
-    .nav li > form > button.logout {
-        display:block;
-        text-align: left;
-        width: 100%;
-        padding: 10px 15px;
-    }
 }
 .navbar-brand{
     color: #bd0000;
@@ -161,6 +153,7 @@ a.desc:after {
 .navbar{
     background-color: #00325e;
     border: 0;
+    border-radius: 0;
 }
 .navbar-inverse .navbar-nav > li > a {
     color: #ddc8c8;
@@ -172,10 +165,96 @@ a.desc:after {
     background-color: #bd0000;
 }
 
+  /* HERO */
+  .front-hero{
+    position: relative;
+  background-image: url("../img/front-hero.jpg"); /* The image used */
+  background-color: #cccccc; /* Used if the image is unavailable */
+  height: 500px; /* You must set a specified height */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+}
+.cover-hero{
+  width: 50%;
+  margin: 0 auto;
+  position: absolute;
+  top:30%;
+  left: 25%;
+  padding: 50px 30px;
+  background-color: #d9dfe48c;
+}
+.cover-hero h1{
+  color: #00325e;
+}
 
-  #frontend-main-container{
-    padding: 70px 15px 20px;
+/* MAIN CONTAINER */
+  .main{
+      margin-top: 50px;
   }
+  .main h2{
+      text-align: center;
+      margin-bottom: 60px;
+      color: #00325e;
+      text-transform: uppercase;
+  }
+
   #frontend-header, #frontend-footer{
       width: 100%;
   }
+  .news{
+      margin: 10px;
+      padding: 10px;
+  }
+
+  .department_name{
+    color: #bd0000;
+}
+/* TABLE */
+table{
+    text-align: center;
+}
+table thead{
+    background-color: #00325e;
+    color: #eceded;
+}
+table thead th{
+    padding: 20px!important;
+    text-align: center;
+    
+}
+ 
+/* SCHEDULE */
+
+.schedule{
+    color: #00325e;
+   text-transform: uppercase;
+    padding: 20px;
+    text-align: center;
+}
+.schedule>div, .schedule>div>div{
+    padding-left:1px;
+    padding-right: 1px;
+}
+.schedule_days{
+    background-color: #00325e;
+    padding: 10px 20px;
+    text-transform: none;
+    margin-bottom: 20px;
+    color: #eceded;
+}
+.schedule_classes{
+    color: #bd0000;
+    font-weight: 600;
+}
+
+
+/* RESPONSIVE */
+@media(max-width:767px) {
+    .nav li > form > button.logout {
+        display:block;
+        text-align: left;
+        width: 100%;
+        padding: 10px 15px;
+    }
+}

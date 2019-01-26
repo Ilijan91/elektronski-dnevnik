@@ -6,7 +6,7 @@ use yii\helpers\Html;
 <div class="wrap">
 <?php
     NavBar::begin([
-        'brandLabel' => Yii::$app->name,
+        'brandLabel' => 'School management system',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
 

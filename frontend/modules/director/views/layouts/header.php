@@ -2,18 +2,12 @@
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\helpers\Html;
-use backend\models\Department;
-use backend\models\User;
+
 ?>
 <div class="wrap">
-
+    
         <?php
-       //Dohvati odeljenje kome predaje ulogovani ucitelj
-            $department = Department::find()
-                            ->select('id')
-                            ->where(['user_id'=>Yii::$app->user->identity->id])
-                            ->one();
-            $department_id= $department->id;
+       
         NavBar::begin([
             'brandLabel' => 'School management system',
             'brandUrl' => Yii::$app->homeUrl,
@@ -23,12 +17,11 @@ use backend\models\User;
         ]);
         $menuItems = [
         ['label' => 'Dashboard', 'url' => ['index']],
-        ['label' => 'Students', 'url' => ['students','department_id' =>$department_id]],
-        // ['label' => 'Subject', 'url' => ['/subject/index']],
-        ['label' => 'Diary', 'url' => ['diary']],
-        ['label' => 'Schedule', 'url' => ['schedule','department_id' =>$department_id ]],
-        ['label' => 'News Feed', 'url' => ['news']],
-        ['label' => 'Messages', 'url' => ['messages']],
+        ['label' => 'Students', 'url' => ['students']],
+        ['label' => 'Subjects', 'url' => ['']],
+        ['label' => 'Grades', 'url' => ['']],
+        ['label' => 'News Feed', 'url' => ['']],
+        ['label' => 'Statistics', 'url' => ['']],
         ];
         $menuItems[] = '<li>'
                 . Html::beginForm(['/site/logout'], 'post')

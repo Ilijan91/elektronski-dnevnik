@@ -1,6 +1,5 @@
 <?php
 namespace frontend\controllers;
-
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -12,7 +11,6 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
-
 /**
  * Site controller
  */
@@ -51,12 +49,10 @@ class SiteController extends Controller
   
 //  public function actionAction(){
 //     $controllers = [];
-
 //         foreach (glob(APP_PATH . '/src/Controller/*Controller.php') as $controller) {
 //             $className = 'YourNamespace\Controller\\' . basename($controller, '.php');
 //             $controllers[$className] = [];
 //             $methods = (new \ReflectionClass($className))->getMethods(\ReflectionMethod::IS_PUBLIC);
-
 //             foreach ($methods as $method) {
 //                 if (\Phalcon\Text::endsWith($method->name, 'Action')) {
 //                     $controllers[$className][] = $method->name;
@@ -66,8 +62,6 @@ class SiteController extends Controller
 //         return $this->render('action');
 //  }
         
-
-
     /**
      * {@inheritdoc}
      */
@@ -83,7 +77,6 @@ class SiteController extends Controller
             ],
         ];
     }
-
     /**
      * Displays homepage.
      *
@@ -98,14 +91,22 @@ class SiteController extends Controller
                 'model' => $model,
             ]);
         }
-
        
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            $roll_id = \Yii::$app->user->identity->roll_id;
+            if($roll_id == 2){
+                return $this->redirect('teacher');
+            }elseif($roll_id == 3){
+                return $this->redirect('director');
+            }elseif($roll_id == 4){
+                return $this->redirect('parent');
+            }else{
+                return $this->redirect('site/dashboard');
+            }
             
-            return $this->redirect('site/dashboard');
+          
         } else {
             $model->password = '';
-
             return $this->render('login', [
                 'model' => $model,
             ]);
@@ -115,31 +116,27 @@ class SiteController extends Controller
     public function actionDashboard(){
         return $this->render('dashboard');
     }
-
     /**
      * Logs in a user.
      *
      * @return mixed
      */
-    public function actionLogin()
-    {
-        $this->layout = 'login';
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        } else {
-            $model->password = '';
-
-            return $this->render('login', [
-                'model' => $model,
-            ]);
-        }
-    }
-
+    // public function actionLogin()
+    // {
+    //     $this->layout = 'login';
+    //     if (!Yii::$app->user->isGuest) {
+    //         return $this->goHome();
+    //     }
+    //     $model = new LoginForm();
+    //     if ($model->load(Yii::$app->request->post()) && $model->login()) {
+    //         return $this->goBack();
+    //     } else {
+    //         $model->password = '';
+    //         return $this->render('login', [
+    //             'model' => $model,
+    //         ]);
+    //     }
+    // }
     /**
      * Logs out the current user.
      *
@@ -148,10 +145,8 @@ class SiteController extends Controller
     public function actionLogout()
     {
         Yii::$app->user->logout();
-
         return $this->goHome();
     }
-
     /**
      * Displays contact page.
      *
@@ -167,7 +162,6 @@ class SiteController extends Controller
             } else {
                 Yii::$app->session->setFlash('error', 'There was an error sending your message.');
             }
-
             return $this->refresh();
         } else {
             return $this->render('contact', [
@@ -175,7 +169,6 @@ class SiteController extends Controller
             ]);
         }
     }
-
     /**
      * Displays about page.
      *
@@ -186,7 +179,6 @@ class SiteController extends Controller
         
         return $this->render('about');
     }
-
     /**
      * Signs user up.
      *
@@ -210,12 +202,10 @@ class SiteController extends Controller
                 }
             }
         }
-
         return $this->render('signup', [
             'model' => $model,
         ]);
     }
-
     /**
      * Requests password reset.
      *
@@ -227,18 +217,15 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
                 Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
-
                 return $this->goHome();
             } else {
                 Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for the provided email address.');
             }
         }
-
         return $this->render('requestPasswordResetToken', [
             'model' => $model,
         ]);
     }
-
     /**
      * Resets password.
      *
@@ -253,13 +240,10 @@ class SiteController extends Controller
         } catch (InvalidParamException $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
-
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
             Yii::$app->session->setFlash('success', 'New password saved.');
-
             return $this->goHome();
         }
-
         return $this->render('resetPassword', [
             'model' => $model,
         ]);

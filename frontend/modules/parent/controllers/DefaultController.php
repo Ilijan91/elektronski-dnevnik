@@ -5,6 +5,7 @@ use backend\models\News;
 use backend\models\Student;
 use backend\models\StudentSearch;
 use backend\models\User;
+use backend\models\Roll;
 // use backend\controllers\NewsController;
 use yii\web\Controller;
 use Yii;
@@ -20,10 +21,23 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        $this->layout = "main";
+        //Globalna promenljiva school name iz config-main.php params
+        $school_name =\Yii::$app->params['school_name'];
+        
+        //Podaci o ulogovanom korisniku
+        $user = \Yii::$app->user->identity;
+        $roll =$this->getLoggedUserRollTitle($user->roll_id);
+        $user_full_name = $this->getLoggedUserFullName($user);
+
         $news = News::find()->all();
+
+        $this->layout = "main";
+
         return $this->render('index', [
             'news' => $news,
+            'school_name' => $school_name,
+            'roll' => $roll,
+            'user_full_name' => $user_full_name,
         ]);
     }
     public function actionGrade($id) {
@@ -40,5 +54,16 @@ class DefaultController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+
+    public function getLoggedUserFullName($user){
+        $userFullName = $user->first_name.' '.$user->last_name;
+        return $userFullName;
+    }
+    public function getLoggedUserRollTitle($user_roll_id){
+        $roll_arr = Roll::find()->select('title')->where(['id'=>$user_roll_id])->one();
+         $roll = $roll_arr['title'];   
+         return $roll;
     }
 }
