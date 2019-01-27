@@ -3,6 +3,7 @@
 namespace frontend\modules\parent\controllers;
 use backend\models\News;
 use backend\models\Student;
+use backend\models\Subject;
 use backend\models\StudentSearch;
 use backend\models\User;
 use backend\models\Roll;
@@ -43,8 +44,10 @@ class DefaultController extends Controller
     public function actionGrade($id) {
         $student = Student::find()->where("user_id = $id")->all();
         $this->layout = "main";
+        $subjects=Subject::find()->all();
         return $this->render('grade', [
             'student' => $student,
+            'subjects' => $subjects,
         ]);
     }
     protected function findModel()
@@ -66,4 +69,36 @@ class DefaultController extends Controller
          $roll = $roll_arr['title'];   
          return $roll;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+    public function getGradesByStudent($student_id)
+    {
+        
+        $sql = "SELECT student_subject.id, student_id, subject_id, subject.title, student.first_name, student.last_name, GROUP_CONCAT(grade) AS grades 
+        FROM student_subject 
+        INNER JOIN student 
+        ON student_subject.student_id = student.id 
+        INNER JOIN subject 
+        ON student_subject.subject_id = subject.id 
+        WHERE student_subject.student_id IN (SELECT id FROM student WHERE department_id=$department_id)
+        GROUP BY student_id, subject_id";
+        
+        $subject_id = $this->getSubject();
+        $data = Yii::$app->db->createCommand($sql)->queryAll();
+       
+        return $data;
+    }
+
+
+
 }

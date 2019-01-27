@@ -67,6 +67,9 @@ class DefaultController extends Controller
             'department_name'=>$department_name,
         ]);
     }
+
+
+    
     public function actionDiary(){
         $this->layout = 'main';
         return $this->render('diary', [
