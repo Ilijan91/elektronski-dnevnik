@@ -19,8 +19,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'title') ?>
 
-    <?= $form->field($model, 'grade') ?>
-
     <?= $form->field($model, 'date') ?>
 
     <div class="form-group">

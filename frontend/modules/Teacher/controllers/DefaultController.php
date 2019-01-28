@@ -6,6 +6,7 @@ use yii\web\Controller;
 use backend\models\News;
 use backend\models\Roll;
 use backend\models\Student;
+use backend\models\StudentSubject;
 use backend\models\Department;
 use backend\models\User;
 use backend\models\Days;
@@ -18,13 +19,12 @@ use backend\controllers\DepartmentController;
  */
 class DefaultController extends Controller
 {
-    public function actionGetDomain() {
-        $this->layout = 'main';
-    }
     /**
      * Renders the index view for the module
      * @return string
      */
+
+
     public function actionIndex()
     {
         //Globalna promenljiva school name iz config-main.php params
@@ -41,7 +41,7 @@ class DefaultController extends Controller
         $user_full_name = $this->getLoggedUserFullName($user);
 
         //Dohvati sve vesti i prikazi prvo najnovije
-        $news = News::find()->orderBy(['created_at'=> SORT_DESC])->all();
+        $news = News::find()->orderBy(['created_at'=> SORT_DESC])->limit(3)->all();
         
         $this->layout = 'main';
         return $this->render('index', [
@@ -51,8 +51,11 @@ class DefaultController extends Controller
             'school_name'=>$school_name
         ]);
     }
-    public function actionStudents($department_id){
 
+
+
+    public function actionStudents($department_id){
+        
         $schedule= new Schedule();
         $model = $schedule->getScheduleByDepartmentId($department_id);
         $department_name = $schedule->getDepartmentFullName($department_id);
@@ -67,11 +70,17 @@ class DefaultController extends Controller
             'department_name'=>$department_name,
         ]);
     }
+
+
+
     public function actionDiary(){
         $this->layout = 'main';
         return $this->render('diary', [
         ]);
     }
+
+
+
     public function actionSchedule($department_id){
         $this->layout = 'main';
 
@@ -95,11 +104,21 @@ class DefaultController extends Controller
             ]);
         // }
     }
+
+
+
     public function actionNews(){
+         //Dohvati sve vesti i prikazi prvo najnovije
+         $news = News::find()->orderBy(['created_at'=> SORT_DESC])->all();
+        
         $this->layout = 'main';
         return $this->render('news', [
+            'news'=>$news,
         ]);
     }
+
+
+
     public function actionMessages(){
         $this->layout = 'main';
         return $this->render('messages', [

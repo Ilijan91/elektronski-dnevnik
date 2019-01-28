@@ -36,6 +36,7 @@ class StudentSubject extends \yii\db\ActiveRecord
             [['student_id', 'subject_id', 'grade', 'final_grade'], 'integer'],
             [['student_id'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['student_id' => 'id']],
             [['subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => Subject::className(), 'targetAttribute' => ['subject_id' => 'id']],
+             [['grade'], 'exist', 'skipOnError' => true, 'targetClass' => Grade::className(), 'targetAttribute' => ['grade' => 'id']],
         ];
     }
 
@@ -62,9 +63,33 @@ class StudentSubject extends \yii\db\ActiveRecord
     }
     public function getGrades()
     {
-        $sql = 'SELECT student_subject.id, student_id, subject_id, subject.title, student.first_name, student.last_name, GROUP_CONCAT(grade) AS grades FROM student_subject INNER JOIN student ON student_subject.student_id = student.id INNER JOIN subject ON student_subject.subject_id = subject.id GROUP BY student_id, subject_id';
+        $sql = 'SELECT student_subject.id, student_id, subject_id, subject.title, student.first_name, student.last_name, GROUP_CONCAT(grade) AS grades 
+        FROM student_subject 
+        INNER JOIN student 
+        ON student_subject.student_id = student.id 
+        INNER JOIN subject 
+        ON student_subject.subject_id = subject.id 
+        GROUP BY student_id, subject_id';
+
         $subject_id = $this->getSubject();
         $data = Yii::$app->db->createCommand($sql)->queryAll();
+        return $data;
+    }
+    public function getGradesByDepartment($department_id)
+    {
+        
+        $sql = "SELECT student_subject.id, student_id, subject_id, subject.title, student.first_name, student.last_name, GROUP_CONCAT(grade) AS grades 
+        FROM student_subject 
+        INNER JOIN student 
+        ON student_subject.student_id = student.id 
+        INNER JOIN subject 
+        ON student_subject.subject_id = subject.id 
+        WHERE student_subject.student_id IN (SELECT id FROM student WHERE department_id=$department_id)
+        GROUP BY student_id, subject_id";
+        
+        $subject_id = $this->getSubject();
+        $data = Yii::$app->db->createCommand($sql)->queryAll();
+       
         return $data;
     }
 

@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use backend\models\Student;
+use backend\models\Subject;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\modules\Teacher\models\StudentSubject */
@@ -12,9 +15,9 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'student_id')->textInput() ?>
-
-    <?= $form->field($model, 'subject_id')->textInput() ?>
+    <?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->select(['id', 'title'])->all(), 'id', 'title'), ['prompt' => 'Select subject']) ?>
+    
+    <?= $form->field($model, 'student_id')->dropDownList(ArrayHelper::map(Student::find()->select(['id', 'CONCAT(first_name, " ", last_name) AS "first_name"'])->all(), 'id', 'first_name'), ['prompt' => 'Select student']) ?>
 
     <?= $form->field($model, 'grade')->textInput() ?>
 
