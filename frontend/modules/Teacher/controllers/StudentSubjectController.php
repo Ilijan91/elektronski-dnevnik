@@ -6,7 +6,7 @@ use Yii;
 use frontend\modules\teacher\models\StudentSubject;
 use frontend\modules\teacher\models\StudentSubjectSearch;
 use backend\models\Roll;
-
+use backend\models\Subject;
 use backend\models\Student;
 use backend\models\Department;
 use backend\models\User;
@@ -56,27 +56,19 @@ class StudentSubjectController extends Controller
         //Dohvati podatke za prikaz grupisanih ocena u dnevnik (ucenici, predmeti i ocene)
         
         $studentSubject  = new StudentSubject;
-        $diary = $studentSubject->getGradesByDepartment($department_id);
+        // $diary = $studentSubject->getGradesByDepartment($department_id);
         
-        
-       // $m = $this->getStudentGradesPerSubject('4', '2', $diary);
+       
         //Dohvati id ucitelja koji je trenutno ulogovan i pronadji njegove ucenike pomocu funkcije getStudentsByTeacherId
         $teacher_id = \Yii::$app->user->identity->id;
-
         $modelStudents = $this->getStudentsByTeacherId($teacher_id);
 
-        // $searchModel = new StudentSubjectSearch();
-        // $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $this->layout = 'main';
         return $this->render('index', [
-            // 'searchModel' => $searchModel,
-            // 'dataProvider' => $dataProvider,
             'department_name'=>$department_name,
             'department_id' =>$department_id,
             'user_full_name'=>$user_full_name,
-            'diary'=>$diary,
-            'modelStudents'=>$modelStudents,
-           // 'm'=>$m
+            'modelStudents'=>$modelStudents
         ]);
     }
    
@@ -87,19 +79,35 @@ class StudentSubjectController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    // public function actionView($id)
-    // {
-        //dodaj [aram departm id 
-    //     //Dohvati puni naziv odeljenja kome predaje ulogovani ucitelj
-    //     $department = Department::find()->where(['id'=> 7])->one();
-    //     $department_name = $department->getYearName();
+    public function actionView($student_id)
+    {
+        //Dohvati puni naziv odeljenja kome predaje ulogovani ucitelj
+        $department = Department::find()->where(['id'=> 7])->one();
+        $department_name = $department->getYearName();
 
-    //     $this->layout = 'main';
-    //     return $this->render('view', [
-    //         'model' => $this->findModel($id),
-    //         'department_name'=>$department_name,
-    //     ]);
-    // }
+        $student = Student::find()->where(['id'=> $student_id])->one();;
+        $student_name =$student->getfullname($student_id);
+
+        $subjects = new Subject;
+        $modelSubjects = Subject::find()->all();
+
+        //Dohvati sve ocene iz svih predmeta za jednog studenta
+        $studentSubject  = new StudentSubject;
+        $diary = $studentSubject->getGradesByStudent($student_id); 
+
+        //Napravi novi niz $grades pomocu prethodno dobijenog niza za datog ucenika ($diary)  gde je odnos key=>value kao ocena=>predmet
+        $title = array_column($diary, 'title');
+        $grade = array_column($diary, 'grades');
+        $grades = array_combine($title, $grade);
+        
+        $this->layout = 'main';
+        return $this->render('view', [
+            'department_name'=>$department_name,
+            'modelSubjects'=>$modelSubjects,
+            'student_name'=>$student_name,
+            'grades'=>$grades
+        ]);
+    }
 
     /**
      * Creates a new StudentSubject model.
@@ -116,7 +124,7 @@ class StudentSubjectController extends Controller
         $model = new StudentSubject();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'student_id' => $model->student_id]);
         }
 
         return $this->render('create', [
@@ -133,6 +141,10 @@ class StudentSubjectController extends Controller
         $department = Department::find()->where(['id'=> $department_id])->one();
         $department_name = $department->getYearName();
 
+        //Dohvati id ucitelja koji je trenutno ulogovan i pronadji njegove ucenike pomocu funkcije getStudentsByTeacherId
+        $teacher_id = \Yii::$app->user->identity->id;
+        $modelStudents = $this->getStudentsByTeacherId($teacher_id);
+
         $model = new StudentSubject();
 
         // if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -142,6 +154,7 @@ class StudentSubjectController extends Controller
         return $this->render('create_grades_per_subject', [
             'model' => $model,
             'department_name'=>$department_name,
+            'modelStudents'=>$modelStudents
            
         ]);
     }

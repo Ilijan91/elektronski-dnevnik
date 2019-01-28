@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use frontend\modules\teacher\models\StudentSubject;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\modules\Teacher\models\StudentSubjectSearch */
@@ -22,95 +23,22 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Add grades for multiple students per subject', ['create_grades_per_subject', 'department_id' =>$department_id], ['class' => 'btn btn-success']) ?>
     </p>
-    <?php
-//$model(svi podaci dobijeni prilikom kreiranje rasporeda casova), $modelDays(dani u nedelji) i $modelClasses(casovi) salje ScheduleController
-//$subjects= array_column($diary, 'title');
-foreach($modelStudents as $modelSstudent){
-  $students= $modelSstudent['id'];  
-// //prikazi po uceniku ocene za sve predmete
-  $array_students[$students] = array_filter($diary, function ($element) use ($students) {
-       return ($element['student_id'] == $students);
-      })
-   ;
-  
-//    //ocene po predmetu
-//    $grades['matematika']= array_column($array_students[$students], 'title');
-
-// }
-// foreach($array_students as $student){
-//     foreach($subjects as $subj){
-//         $arr[$subj] = array_filter($student, function ($element) use ($subj) {
-//             return ($element['title'] == $subj);
-//            })
-//         ;
-//     }
-   
-  }
-
-  $m = filterSubjectsAndGradesPerStudent(5, 2, $diary);
-  
-  function filterSubjectsAndGradesPerStudent($student_id, $subject_id, $diary){
-    $arr[$student_id] = array_filter($diary, function ($element) use ($student_id) {
-    return ($element['student_id'] == $student_id);
-    });
-   return $arr;
-  
-}
-$stud_id = array_column($modelStudents, 'id');
-?>
-   <?php
-foreach($stud_id as $id){
-   
-   echo "<br>";
-//    for($i=0;$i<count($diary);$i++){
-    print_r($array_students);
-    echo "<hr>"; 
-// }
-   
-    
-//    echo "<hr>"; 
-//     echo $array_students[$id][0];
-   
-}
-   
-    echo "arr arej"; 
-    echo "<hr>"; 
-   print_r($m);
-   echo "<hr>"; 
-   echo "<hr>"; 
-echo count($diary);
-  
-    // //  print_r($stud_id);
-    // //  echo count($array_students);
-    //  foreach($diary as $id){
-    //     echo 'diary:';
-    //     print_r($id);
-    
-    //    // $array_students[$id];
-      
-        
-    //     echo "<hr>"; 
-    //     // echo $array_students[$id][0];
-       
-    // }
-  //  print_r($array_students);
-    echo 'dsffffffffffff00';
-    echo "<hr>"; 
-
-//foreach($stud_id as $id){
-    //echo $id;
-
-   // echo "<br>";
-   // $array_students[$id];
-   // print_r($array_students[$id]);
-    
-  //  echo "<hr>"; 
-    // echo $array_students[$id][0];
-   
-//}
-    
-
-   ?>
-    
+    <table class="table text-left">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-left">Students</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php   foreach($modelStudents as $student){
+                     $student_id= $student['id'];
+                     $student_name = $student['first_name'].' '. $student['last_name'] ;
+                    ?>
+                    <tr>
+                        <td><?= Html::a($student_name, ['view', 'student_id' =>$student_id]) ?></li></td>
+                    </tr>        
+                </tbody><!-- End of table body-->
+                <?php }?>
+            </table><!-- End of table -->
 </div>
     </div>
