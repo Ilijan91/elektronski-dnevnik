@@ -8,6 +8,7 @@ use backend\models\StudentSearch;
 use backend\models\User;
 use backend\models\Roll;
 use backend\models\Department;
+use backend\models\Subject;
 // use backend\controllers\NewsController;
 use yii\web\Controller;
 use Yii;
@@ -47,9 +48,16 @@ class DefaultController extends Controller
         
         $this->layout = "main";
         $subjects=Subject::find()->all();
+
+        $StudentSubject=StudentSubject::find()
+        ->select('grade')
+        ->where(['student_id'=>$id])
+        ->all();
+
         return $this->render('grade', [
             'student' => $student,
-          
+            'subjects' => $subjects,
+            'StudentSubject' => $StudentSubject,
         ]);
     }
     protected function findModel()

@@ -4,6 +4,7 @@ use yii\bootstrap\NavBar;
 use yii\helpers\Html;
 use backend\models\Department;
 use backend\models\Student;
+use backend\models\StudentSubject;
 ?>
 <div class="wrap">
 <?php
@@ -12,6 +13,7 @@ use backend\models\Student;
      ->where(['user_id'=>Yii::$app->user->identity->id])
      ->one();
     $student_id= $student->id;
+
     NavBar::begin([
         'brandLabel' => 'School management system',
         'brandUrl' => Yii::$app->homeUrl,
