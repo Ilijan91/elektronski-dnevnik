@@ -58,6 +58,8 @@ class StudentSubjectController extends Controller
         $studentSubject  = new StudentSubject;
         $diary = $studentSubject->getGradesByDepartment($department_id);
         
+        
+       // $m = $this->getStudentGradesPerSubject('4', '2', $diary);
         //Dohvati id ucitelja koji je trenutno ulogovan i pronadji njegove ucenike pomocu funkcije getStudentsByTeacherId
         $teacher_id = \Yii::$app->user->identity->id;
 
@@ -73,9 +75,11 @@ class StudentSubjectController extends Controller
             'department_id' =>$department_id,
             'user_full_name'=>$user_full_name,
             'diary'=>$diary,
-            'modelStudents'=>$modelStudents
+            'modelStudents'=>$modelStudents,
+           // 'm'=>$m
         ]);
     }
+   
 
     /**
      * Displays a single StudentSubject model.

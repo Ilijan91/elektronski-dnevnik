@@ -24,45 +24,91 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
     <?php
 //$model(svi podaci dobijeni prilikom kreiranje rasporeda casova), $modelDays(dani u nedelji) i $modelClasses(casovi) salje ScheduleController
+//$subjects= array_column($diary, 'title');
 foreach($modelStudents as $modelSstudent){
-  //Kreiramo array $day u koji smestamo dane u nedelji
   $students= $modelSstudent['id'];  
-  //Kreiramo array $array_day gde je key dan u nedelji, a value je array sa casovima po rasporedu za taj dan. 
-  //SVI PODACI IZ RASPOREDA PO DANU
-  //Sve podatke za odredjeni dan dobijamo preko funkcije array_filter koja prolazi kroz sve elemente $model i smesta ih u array_day po danima
+// //prikazi po uceniku ocene za sve predmete
   $array_students[$students] = array_filter($diary, function ($element) use ($students) {
        return ($element['student_id'] == $students);
       })
    ;
-   
-   //PREDMETI IZ RASPOREDA PO DANU
-   //funkcija array_column izvlaci samo casove po danu iz $array_day niza i smesta ih u niz $subjects
-   $grades[$students]= array_column($array_students[$students], 'subject_title');
-   
-}
+  
+//    //ocene po predmetu
+//    $grades['matematika']= array_column($array_students[$students], 'title');
 
+// }
+// foreach($array_students as $student){
+//     foreach($subjects as $subj){
+//         $arr[$subj] = array_filter($student, function ($element) use ($subj) {
+//             return ($element['title'] == $subj);
+//            })
+//         ;
+//     }
+   
+  }
+
+  $m = filterSubjectsAndGradesPerStudent(5, 2, $diary);
+  
+  function filterSubjectsAndGradesPerStudent($student_id, $subject_id, $diary){
+    $arr[$student_id] = array_filter($diary, function ($element) use ($student_id) {
+    return ($element['student_id'] == $student_id);
+    });
+   return $arr;
+  
+}
+$stud_id = array_column($modelStudents, 'id');
 ?>
    <?php
-//  print_r($array_students[6][1]);
-//    echo "<hr>";
-//    echo "<br>";
-//    echo "<br>";
-    $stud_id = array_column($modelStudents, 'id');
-// print_r($stud_id);
 foreach($stud_id as $id){
-    echo $id;
-    echo "<br>";
-    // $array_students[$id]
-    print_r($array_students[$id]);
-    // echo $array_students[$id][0];
+   
+   echo "<br>";
+//    for($i=0;$i<count($diary);$i++){
+    print_r($array_students);
+    echo "<hr>"; 
+// }
+   
+    
+//    echo "<hr>"; 
+//     echo $array_students[$id][0];
+   
 }
-//     for($i=1;$i<10;$i++){
-//         echo '<p class="schedule_classes">'.$i.'. </p>';
-//         print_r($array_students[$i]);
-//     // print_r($d);
-//     //  echo $d['first_name'];
-//    echo "<hr>";
-//    }
+   
+    echo "arr arej"; 
+    echo "<hr>"; 
+   print_r($m);
+   echo "<hr>"; 
+   echo "<hr>"; 
+echo count($diary);
+  
+    // //  print_r($stud_id);
+    // //  echo count($array_students);
+    //  foreach($diary as $id){
+    //     echo 'diary:';
+    //     print_r($id);
+    
+    //    // $array_students[$id];
+      
+        
+    //     echo "<hr>"; 
+    //     // echo $array_students[$id][0];
+       
+    // }
+  //  print_r($array_students);
+    echo 'dsffffffffffff00';
+    echo "<hr>"; 
+
+//foreach($stud_id as $id){
+    //echo $id;
+
+   // echo "<br>";
+   // $array_students[$id];
+   // print_r($array_students[$id]);
+    
+  //  echo "<hr>"; 
+    // echo $array_students[$id][0];
+   
+//}
+    
 
    ?>
     
