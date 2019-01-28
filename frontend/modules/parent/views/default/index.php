@@ -11,7 +11,7 @@ use yii\helpers\Url;
         </div>
     </div>
     <div class="container main">
-        <h2>Latest neews</h2>
+        <h2>Latest news</h2>
 
         <div class="parent-default-index">
             <?php

@@ -21,6 +21,10 @@ return [
         'director' => [
             'class' => 'frontend\modules\director\Module',
         ],
+        'message' => [
+            'class' => 'thyseus\message\Module',
+            'userModelClass' => '\common\models\User', // your User model. Needs to be ActiveRecord.
+        ],
     ],
     'components' => [
         'request' => [
