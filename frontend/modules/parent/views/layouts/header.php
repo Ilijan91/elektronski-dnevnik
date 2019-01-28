@@ -2,9 +2,16 @@
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\helpers\Html;
+use backend\models\Department;
+use backend\models\Student;
 ?>
 <div class="wrap">
 <?php
+     $student = Student::find()
+     ->select('id')
+     ->where(['user_id'=>Yii::$app->user->identity->id])
+     ->one();
+    $student_id= $student->id;
     NavBar::begin([
         'brandLabel' => 'School management system',
         'brandUrl' => Yii::$app->homeUrl,
@@ -14,8 +21,11 @@ use yii\helpers\Html;
         ],
     ]);
     $menuItems = [
-        ['label' => 'Grade', 'url' => ['/parent/default/grade', 'id' => Yii::$app->user->identity->id]],
-        ['label' => 'Home', 'url' => ['/parent/default/index']],
+        ['label' => 'Grade', 'url' => ['grade', 'id' => $student_id]],
+        ['label' => 'Home', 'url' => ['index']],
+        ['label' => 'Schedule', 'url' => ['schedule']],
+        ['label' => 'News Feed', 'url' => ['news']],
+        ['label' => 'Messages', 'url' => ['messages']],
 
     ];
     if (Yii::$app->user->isGuest) {

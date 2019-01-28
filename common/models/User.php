@@ -64,6 +64,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
     }
+
     /**
      * Finds user by username
      *

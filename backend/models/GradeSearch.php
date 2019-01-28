@@ -18,7 +18,7 @@ class GradeSearch extends Grade
     public function rules()
     {
         return [
-            [['id', 'title', 'grade'], 'integer'],
+            [['id', 'title'], 'integer'],
             [['date'], 'safe'],
         ];
     }
@@ -61,7 +61,6 @@ class GradeSearch extends Grade
         $query->andFilterWhere([
             'id' => $this->id,
             'title' => $this->title,
-            'grade' => $this->grade,
             'date' => $this->date,
         ]);
 

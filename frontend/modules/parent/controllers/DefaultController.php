@@ -3,10 +3,11 @@
 namespace frontend\modules\parent\controllers;
 use backend\models\News;
 use backend\models\Student;
-use backend\models\Subject;
+use backend\models\StudentSubject;
 use backend\models\StudentSearch;
 use backend\models\User;
 use backend\models\Roll;
+use backend\models\Department;
 // use backend\controllers\NewsController;
 use yii\web\Controller;
 use Yii;
@@ -43,11 +44,12 @@ class DefaultController extends Controller
     }
     public function actionGrade($id) {
         $student = Student::find()->where("user_id = $id")->all();
+        
         $this->layout = "main";
         $subjects=Subject::find()->all();
         return $this->render('grade', [
             'student' => $student,
-            'subjects' => $subjects,
+          
         ]);
     }
     protected function findModel()
