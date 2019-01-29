@@ -1,7 +1,5 @@
 <?php
-
 namespace backend\controllers;
-
 use Yii;
 use backend\models\Schedule;
 use backend\models\ScheduleSearch;
@@ -14,8 +12,6 @@ use yii\web\Controller;
 use backend\models\Subject;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
-
 /**
  * ScheduleController implements the CRUD actions for Schedule model.
  */
@@ -35,7 +31,6 @@ class ScheduleController extends Controller
             ],
         ];
     }
-
     /**
      * Lists all Schedule models.
      * @return mixed
@@ -58,7 +53,6 @@ class ScheduleController extends Controller
             'modelDepartment'=>$modelDepartment,
             ]);
         }
-
     /**
      * Displays a single Schedule model.
      * @param integer $id
@@ -88,7 +82,6 @@ class ScheduleController extends Controller
         }
         
     }
-
     /**
      * Creates a new Schedule model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -132,10 +125,8 @@ class ScheduleController extends Controller
                 'model' => $model,
                 'modelDay'=>$modelDay,
                 'modelClasses'=>$modelClasses
-
             ]);
         }
-
     /**
      * Updates an existing Schedule model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -150,12 +141,9 @@ class ScheduleController extends Controller
         $schedule= new Schedule();
         $model = $schedule->getScheduleByDepartmentId($id);
         $department_name = $schedule->getDepartmentFullName($id);
-
-
         // if ($model->load(Yii::$app->request->post()) && $model->save()) {
         //     return $this->redirect(['view', 'id' => $model->id]);
         // }
-
         return $this->render('update', [
             'model' => $model,
             'modelDays'=>$modelDays,
@@ -163,7 +151,6 @@ class ScheduleController extends Controller
             'department_name'=>$department_name,
         ]);
     }
-
     /**
      * Deletes an existing Schedule model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -173,13 +160,11 @@ class ScheduleController extends Controller
      */
     public function actionDelete($id)
     {
-
         $delete = \Yii::$app
         ->db
         ->createCommand()
         ->delete('schedule', ['department_id' => $id])
         ->execute();
-
         if ($delete) {
             Yii::$app->session->setFlash('success', "Schedule deleted successfully.");
         } else {
@@ -199,9 +184,6 @@ class ScheduleController extends Controller
         if (($model = Schedule::findOne($id)) !== null) {
             return $model;
         }
-
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 }
-
-

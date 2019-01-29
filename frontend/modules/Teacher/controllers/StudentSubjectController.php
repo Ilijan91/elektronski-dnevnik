@@ -81,6 +81,7 @@ class StudentSubjectController extends Controller
      */
     public function actionView($student_id)
     {
+
         //Dohvati puni naziv odeljenja kome predaje ulogovani ucitelj
         $department = Department::find()->where(['id'=> 7])->one();
         $department_name = $department->getYearName();
@@ -88,7 +89,6 @@ class StudentSubjectController extends Controller
         $student = Student::find()->where(['id'=> $student_id])->one();;
         $student_name =$student->getfullname($student_id);
 
-        $subjects = new Subject;
         $modelSubjects = Subject::find()->all();
 
         //Dohvati sve ocene iz svih predmeta za jednog studenta
@@ -96,16 +96,17 @@ class StudentSubjectController extends Controller
         $diary = $studentSubject->getGradesByStudent($student_id); 
 
         //Napravi novi niz $grades pomocu prethodno dobijenog niza za datog ucenika ($diary)  gde je odnos key=>value kao ocena=>predmet
-        $title = array_column($diary, 'title');
-        $grade = array_column($diary, 'grades');
+        $title = array_column($diary, 'title');unset($title[9]);
+        $grade = array_column($diary, 'grades');unset($grade[9]);
         $grades = array_combine($title, $grade);
+        
         
         $this->layout = 'main';
         return $this->render('view', [
             'department_name'=>$department_name,
             'modelSubjects'=>$modelSubjects,
             'student_name'=>$student_name,
-            'grades'=>$grades
+            'grades'=>$grades,
         ]);
     }
 
@@ -147,9 +148,35 @@ class StudentSubjectController extends Controller
 
         $model = new StudentSubject();
 
-        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
-        //     return $this->redirect(['view', 'id' => $model->id]);
-        // }
+         //Ako je primljen post zahtev obradjujemo primljene podatke
+         if($model->load(Yii::$app->request->post()) ) {
+            //Prvo proveravamo koliko imamo ucenika u odeljenju i za svakog otvaramo petlju, zatim novu kolonu (div col-lg-2) gde prikazujemo u h2 tagu ime ucenika
+            for($j=0;$j<count($modelStudents);$j++){
+                $student_id = $modelStudents[$j]['id'];
+                    $model->setIsNewRecord(true);
+                    $model->final_grade = null;
+                    $model->id = null;
+                    $model->subject_id = $_POST['StudentSubject']['subject_id'];
+                    $model->student_id =$_POST["$student_id"];
+                    
+                    //Ako nije definisana ocena za ucenika cas, ocena za tog ucenika iz defiisanog premeta ima vrednost null.
+                    // for($i=0;$i<6;$i++){
+                        //dodeljujemo jedinstvenu vrednost name atributu za grade kako bismo pratili post zahteve koje saljemo nakon submitovanja forme. Tu vrednost za definisemo kao id studenta i id ocene
+                        $grade_attribute = $student_id.'ocena';     
+                    // }
+                    // if(!isset($_POST["$grade_attribute"])){
+                        $model->grade = null;
+                    // }else{
+                       
+                        $model->grade = $_POST["$grade_attribute"];
+                        
+                    // }
+                    $model->save();
+                   
+            }
+            // Yii::$app->session->setFlash('success', "Schedule created successfully."); 
+            // return $this->redirect(['index','department_id' =>$department_id, ]);
+    }
         $this->layout = 'main';
         return $this->render('create_grades_per_subject', [
             'model' => $model,

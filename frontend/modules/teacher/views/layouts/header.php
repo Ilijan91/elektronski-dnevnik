@@ -38,9 +38,9 @@ use backend\models\User;
                     
                 </ul>
             </li>';
-        $menuItems[] = ['label' => 'Schedule', 'url' => ['schedule','department_id' =>$department_id ]];
-        $menuItems[] = ['label' => 'News Feed', 'url' => ['news']];
-        $menuItems[] = ['label' => 'Messages', 'url' => ['messages']];
+        $menuItems[] = ['label' => 'Schedule', 'url' => ['default/schedule','department_id' =>$department_id ]];
+        $menuItems[] = ['label' => 'News Feed', 'url' => ['default/news']];
+        $menuItems[] = ['label' => 'Messages', 'url' => ['default/messages']];
         $menuItems[] = '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
