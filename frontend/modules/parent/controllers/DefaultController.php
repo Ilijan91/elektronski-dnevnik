@@ -55,6 +55,7 @@ class DefaultController extends Controller
         ]);
     }
     public function actionMessages() {
+        $this->layout = "main";
         $searchModel = new MessagesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $student = Student::find()
