@@ -13,7 +13,7 @@ use backend\models\User;
                             ->select('id')
                             ->where(['user_id'=>Yii::$app->user->identity->id])
                             ->one();
-                            $department_id= $department->id;
+                            $department_id= $department['id'];
         NavBar::begin([
             'brandLabel' => 'School management system',
             'brandUrl' => Yii::$app->homeUrl,

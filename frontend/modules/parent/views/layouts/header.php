@@ -25,7 +25,7 @@ use backend\models\Student;
         ['label' => 'Home', 'url' => ['index']],
         ['label' => 'Schedule', 'url' => ['schedule']],
         ['label' => 'News Feed', 'url' => ['news']],
-        ['label' => 'Messages', 'url' => ['messages']],
+        ['label' => 'Messages', 'url' => ['messages', 'id' => $student_id]],
 
     ];
     if (Yii::$app->user->isGuest) {

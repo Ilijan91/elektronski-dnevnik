@@ -1,7 +1,6 @@
 <?php
 
-namespace backend\models;
-use backend\models\Department;
+namespace frontend\modules\parent\models;
 
 use Yii;
 
