@@ -14,6 +14,15 @@ use backend\models\StudentSubject;
      ->one();
     $student_id= $student->id;
 
+
+    $department=Student::find()
+    ->select('department_id')
+    ->where(['user_id'=>Yii::$app->user->identity->id])
+    ->one();
+    $department_id= $department->department_id;
+
+    
+
     NavBar::begin([
         'brandLabel' => 'School management system',
         'brandUrl' => Yii::$app->homeUrl,
@@ -24,9 +33,9 @@ use backend\models\StudentSubject;
     ]);
     $menuItems = [
         ['label' => 'Grade', 'url' => ['grade', 'id' => $student_id]],
-        ['label' => 'Home', 'url' => ['index']],
-        ['label' => 'Schedule', 'url' => ['schedule']],
-        ['label' => 'News Feed', 'url' => ['news']],
+        ['label' => 'Schedule', 'url' => ['schedule' ,'id'=>$department_id]],
+        ['label' => 'News Feed', 'url' => ['index']],
+        ['label' => 'Teacher Meeting', 'url' => ['teachermeeting']],
         ['label' => 'Messages', 'url' => ['messages']],
 
     ];

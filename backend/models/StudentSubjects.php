@@ -50,6 +50,8 @@ class StudentSubjects extends \yii\db\ActiveRecord
         ];
     }
 
+
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -58,11 +60,16 @@ class StudentSubjects extends \yii\db\ActiveRecord
         return $this->hasOne(Student::className(), ['id' => 'student_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
+    
     public function getSubject()
     {
         return $this->hasOne(Subject::className(), ['id' => 'subject_id']);
     }
+
+    
+   
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+
 }

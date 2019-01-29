@@ -1,3 +1,4 @@
+
 <div class="parent-default-index">
     
     <div class="container main">
@@ -10,30 +11,18 @@
                 <tr>
                     <th scope="col">Subjects</th>
                     <th scope="col">Grades</th>
-                    <th scope="col">Date</th>
+                   
                 </tr>
             </thead>
             <tbody>               
                     <?php
-                          foreach($subjects as $subject){
+                          foreach($grades as $subject=>$grade){
                             echo '<tr>
-                                <td>'. $subject->title . '</td>';
-
-                                foreach($StudentSubject as $grade){
-                                   echo '<td>' . $grade->grade . '</td>';
-                                }
-                                
-                            '</tr>';
-                        }
-                      
-                          
+                                <td>'. $subject . '</td>
+                                <td>' . $grade. '</td>  
+                            </tr>';
+                        }             
                     ?>  
-                 
-                         
-                    
-
-
-
             </tbody><!-- End of table body-->
         </table><!-- End of table -->
     </div><!-- End of container main --> 

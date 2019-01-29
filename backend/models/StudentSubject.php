@@ -12,6 +12,7 @@ use Yii;
  * @property int $subject_id
  * @property int $grade
  * @property int $final_grade
+ * @property string $date
  *
  * @property Student $student
  * @property Subject $subject
@@ -34,6 +35,7 @@ class StudentSubject extends \yii\db\ActiveRecord
         return [
             [['student_id', 'subject_id'], 'required'],
             [['student_id', 'subject_id', 'grade', 'final_grade'], 'integer'],
+            [['date'], 'safe'],
             [['student_id'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['student_id' => 'id']],
             [['subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => Subject::className(), 'targetAttribute' => ['subject_id' => 'id']],
         ];
@@ -50,6 +52,7 @@ class StudentSubject extends \yii\db\ActiveRecord
             'subject_id' => 'Subject ID',
             'grade' => 'Grade',
             'final_grade' => 'Final Grade',
+            'date' => 'Date',
         ];
     }
 
@@ -60,13 +63,6 @@ class StudentSubject extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Student::className(), ['id' => 'student_id']);
     }
-    public function getGrades()
-    {
-        $sql = 'SELECT student_subject.id, student_id, subject_id, subject.title, student.first_name, student.last_name, GROUP_CONCAT(grade) AS grades FROM student_subject INNER JOIN student ON student_subject.student_id = student.id INNER JOIN subject ON student_subject.subject_id = subject.id GROUP BY student_id, subject_id';
-        $subject_id = $this->getSubject();
-        $data = Yii::$app->db->createCommand($sql)->queryAll();
-        return $data;
-    }
 
     /**
      * @return \yii\db\ActiveQuery
@@ -76,4 +72,23 @@ class StudentSubject extends \yii\db\ActiveRecord
         return $this->hasOne(Subject::className(), ['id' => 'subject_id']);
     }
 
+    public function getGradesByStudent($student_id)
+   {
+
+       $sql = "SELECT student_id, subject_id, subject.title, student.first_name, student.last_name, GROUP_CONCAT(grade) AS grades
+       FROM student_subject
+       INNER JOIN student
+       ON student_subject.student_id = student.id
+       INNER JOIN subject
+       ON student_subject.subject_id = subject.id
+       WHERE student_subject.student_id=$student_id
+       GROUP BY subject_id";
+
+       $subject_id = $this->getSubject();
+       $data = Yii::$app->db->createCommand($sql)->queryAll();
+
+       return $data;
+   }
+
+   
 }

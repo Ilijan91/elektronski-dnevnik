@@ -3,12 +3,15 @@
 namespace frontend\modules\parent\controllers;
 use backend\models\News;
 use backend\models\Student;
+
 use backend\models\StudentSubject;
 use backend\models\StudentSearch;
 use backend\models\User;
 use backend\models\Roll;
 use backend\models\Department;
 use backend\models\Subject;
+use backend\models\Days;
+use backend\models\Schedule;
 // use backend\controllers\NewsController;
 use yii\web\Controller;
 use Yii;
@@ -45,7 +48,22 @@ class DefaultController extends Controller
     }
     public function actionGrade($id) {
         $student = Student::find()->where("user_id = $id")->all();
+
+
+        $studenttt= new StudentSubject;
+
+        $diary=$studenttt->getGradesByStudent($id);
+
+      
+
+        $title=array_column($diary, 'title');
+        $grade=array_column($diary, 'grades');
         
+
+        $grades=array_combine($title, $grade);
+
+        
+
         $this->layout = "main";
         $subjects=Subject::find()->all();
 
@@ -54,11 +72,17 @@ class DefaultController extends Controller
         ->where(['student_id'=>$id])
         ->all();
 
+        
+        
+
         return $this->render('grade', [
             'student' => $student,
             'subjects' => $subjects,
             'StudentSubject' => $StudentSubject,
-        ]);
+            'grades'=>$grades,
+            
+        
+        ]);  
     }
     protected function findModel()
     {
@@ -80,34 +104,45 @@ class DefaultController extends Controller
          return $roll;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-    public function getGradesByStudent($student_id)
+    public function actionTeachermeeting()
     {
-        
-        $sql = "SELECT student_subject.id, student_id, subject_id, subject.title, student.first_name, student.last_name, GROUP_CONCAT(grade) AS grades 
-        FROM student_subject 
-        INNER JOIN student 
-        ON student_subject.student_id = student.id 
-        INNER JOIN subject 
-        ON student_subject.subject_id = subject.id 
-        WHERE student_subject.student_id IN (SELECT id FROM student WHERE department_id=$department_id)
-        GROUP BY student_id, subject_id";
-        
-        $subject_id = $this->getSubject();
-        $data = Yii::$app->db->createCommand($sql)->queryAll();
        
-        return $data;
+
+        
+        $this->layout = "main";
+
+        return $this->render('teachermeeting', [
+           
+        ]);
     }
+
+    public function actionSchedule($id)
+    {
+        $schedule = Schedule::find()->where("department_id = $id")->all();
+
+        $r= new Schedule;
+        $rasp=$r->getScheduleByDepartmentId($id);
+        $days=Days::find()->all();
+
+        $this->layout = "main";
+
+        return $this->render('Schedule', [
+           'schedule'=>$schedule,
+           'rasp'=>$rasp,
+           'days'=>$days
+            ]);
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
