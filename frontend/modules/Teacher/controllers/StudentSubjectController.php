@@ -83,7 +83,7 @@ class StudentSubjectController extends Controller
     {
 
         //Dohvati puni naziv odeljenja kome predaje ulogovani ucitelj
-        $department = Department::find()->where(['id'=> 7])->one();
+        $department = Department::find()->where(['id'=> 1])->one();
         $department_name = $department->getYearName();
 
         $student = Student::find()->where(['id'=> $student_id])->one();;
@@ -120,7 +120,7 @@ class StudentSubjectController extends Controller
         //Dohvati puni naziv odeljenja kome predaje ulogovani ucitelj
         $department = Department::find()->where(['id'=> $department_id])->one();
         $department_name = $department->getYearName();
-
+        // $department_id = $department->id;
         $this->layout = 'main';
         $model = new StudentSubject();
 
@@ -196,7 +196,7 @@ class StudentSubjectController extends Controller
     public function actionUpdate($id)
     {   
         //Dohvati puni naziv odeljenja kome predaje ulogovani ucitelj
-        $department = Department::find()->where(['id'=> 7])->one();
+        $department = Department::find()->where(['id'=> 2])->one();
         $department_name = $department->getYearName();
 
         $this->layout = 'main';

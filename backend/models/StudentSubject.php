@@ -48,7 +48,7 @@ class StudentSubject extends \yii\db\ActiveRecord
             'id' => 'ID',
             'student_id' => 'Student ID',
             'subject_id' => 'Subject ID',
-            'grade' => 'Grade',
+            'grade_id' => 'Grade',
             'final_grade' => 'Final Grade',
             'date' => 'Date',
         ];
@@ -57,13 +57,13 @@ class StudentSubject extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getGrade0()
+    public function getGrade()
     {
-        return $this->hasOne(Grade::className(), ['id' => 'grade']);
+        return $this->hasOne(Grade::className(), ['id' => 'grade_id']);
     }
     public function getGrades()
     {
-        $sql = 'SELECT student_subject.id, student_id, subject_id, subject.title, student.first_name, student.last_name, GROUP_CONCAT(grade) AS grades 
+        $sql = 'SELECT student_subject.id, student_id, subject_id, subject.title, student.first_name, student.last_name, GROUP_CONCAT(grade_id) AS grades 
         FROM student_subject 
         INNER JOIN student 
         ON student_subject.student_id = student.id 
@@ -78,7 +78,7 @@ class StudentSubject extends \yii\db\ActiveRecord
     public function getGradesByDepartment($department_id)
     {
         
-        $sql = "SELECT student_id, subject_id, subject.title, student.first_name, student.last_name, GROUP_CONCAT(grade) AS grades 
+        $sql = "SELECT student_id, subject_id, subject.title, student.first_name, student.last_name, GROUP_CONCAT(grade_id) AS grades 
         FROM student_subject 
         INNER JOIN student 
         ON student_subject.student_id = student.id 
@@ -96,7 +96,7 @@ class StudentSubject extends \yii\db\ActiveRecord
     public function getGradesByStudent($student_id)
     {
         
-        $sql = "SELECT student_id, subject_id, date, subject.title, student.first_name, student.last_name, GROUP_CONCAT(grade) AS grades 
+        $sql = "SELECT student_id, subject_id, subject.title, student.first_name, student.last_name, GROUP_CONCAT(grade_id) AS grades 
         FROM student_subject 
         INNER JOIN student 
         ON student_subject.student_id = student.id 

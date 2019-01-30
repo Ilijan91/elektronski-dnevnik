@@ -43,7 +43,7 @@ class StudentSubject extends \backend\models\StudentSubject
             'id' => 'ID',
             'student_id' => 'Student ID',
             'subject_id' => 'Subject ID',
-            'grade' => 'Grade',
+            'grade_id' => 'Grade',
             'final_grade' => 'Final Grade',
         ];
     }
