@@ -10,7 +10,7 @@ use Yii;
  * @property int $id
  * @property int $student_id
  * @property int $subject_id
- * @property int $grade
+ * @property int $grade_id
  * @property int $final_grade
  * @property string $date
  *
@@ -33,9 +33,11 @@ class StudentSubject extends \yii\db\ActiveRecord
     {
         return [
             [['student_id', 'subject_id'], 'required'],
-            [['student_id', 'subject_id', 'grade', 'final_grade'], 'integer'],
+            [['student_id', 'subject_id', 'grade_id', 'final_grade'], 'integer'],
             [['date'], 'safe'],
-            [['grade'], 'exist', 'skipOnError' => true, 'targetClass' => Grade::className(), 'targetAttribute' => ['grade' => 'id']],
+            [['grade_id'], 'exist', 'skipOnError' => true, 'targetClass' => Grade::className(), 'targetAttribute' => ['grade_id' => 'id']],
+            [['student_id'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['student_id' => 'id']],
+            [['subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => Subject::className(), 'targetAttribute' => ['subject_id' => 'id']],
         ];
     }
 
@@ -48,7 +50,7 @@ class StudentSubject extends \yii\db\ActiveRecord
             'id' => 'ID',
             'student_id' => 'Student ID',
             'subject_id' => 'Subject ID',
-            'grade' => 'Grade',
+            'grade_id' => 'Grade',
             'final_grade' => 'Final Grade',
             'date' => 'Date',
         ];
@@ -57,13 +59,21 @@ class StudentSubject extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getGrade0()
+    public function getGrade()
     {
-        return $this->hasOne(Grade::className(), ['id' => 'grade']);
+        return $this->hasOne(Grade::className(), ['id' => 'grade_id']);
+    }
+    public function getStudent()
+    {
+        return $this->hasOne(Student::className(), ['id' => 'student_id']);
+    }
+    public function getSubject()
+    {
+        return $this->hasOne(Subject::className(), ['id' => 'subject_id']);
     }
     public function getGrades()
     {
-        $sql = 'SELECT student_subject.id, student_id, subject_id, subject.title, student.first_name, student.last_name, GROUP_CONCAT(grade) AS grades 
+        $sql = 'SELECT student_subject.id, student_id, subject_id, subject.title, student.first_name, student.last_name, GROUP_CONCAT(grade_id) AS grades 
         FROM student_subject 
         INNER JOIN student 
         ON student_subject.student_id = student.id 
@@ -78,7 +88,7 @@ class StudentSubject extends \yii\db\ActiveRecord
     public function getGradesByDepartment($department_id)
     {
         
-        $sql = "SELECT student_id, subject_id, subject.title, student.first_name, student.last_name, GROUP_CONCAT(grade) AS grades 
+        $sql = "SELECT student_id, subject_id, subject.title, student.first_name, student.last_name, GROUP_CONCAT(grade_id) AS grades 
         FROM student_subject 
         INNER JOIN student 
         ON student_subject.student_id = student.id 
@@ -96,7 +106,7 @@ class StudentSubject extends \yii\db\ActiveRecord
     public function getGradesByStudent($student_id)
     {
         
-        $sql = "SELECT student_id, subject_id, date, subject.title, student.first_name, student.last_name, GROUP_CONCAT(grade) AS grades 
+        $sql = "SELECT student_id, subject_id, date, subject.title, student.first_name, student.last_name, GROUP_CONCAT(grade_id) AS grades 
         FROM student_subject 
         INNER JOIN student 
         ON student_subject.student_id = student.id 
@@ -109,9 +119,5 @@ class StudentSubject extends \yii\db\ActiveRecord
         $data = Yii::$app->db->createCommand($sql)->queryAll();
        
         return $data;
-    }
-    public function getSubject()
-    {
-        return $this->hasOne(Subject::className(), ['id' => 'subject_id']);
     }
 }
