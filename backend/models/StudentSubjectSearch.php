@@ -61,7 +61,7 @@ class StudentSubjectSearch extends StudentSubject
             'id' => $this->id,
             'student_id' => $this->student_id,
             'subject_id' => $this->subject_id,
-            'grade' => $this->grade,
+            'grade_id' => $this->grade,
             'final_grade' => $this->final_grade,
         ]);
 

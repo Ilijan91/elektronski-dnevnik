@@ -52,7 +52,7 @@ class StudentSubjectController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'gradeModel' => $gradeModel,
-            'grades' => $grades,
+            'grades_id' => $grades,
             'subjects' => $subjects,
         ]);
     }

@@ -4,5 +4,5 @@ foreach($model as $teacher){
     
 }
 
-echo "hello";
+
 ?>

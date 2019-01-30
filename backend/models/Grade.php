@@ -20,7 +20,7 @@ class Grade extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'grade';
+        return 'grade_id';
     }
 
     /**
@@ -30,7 +30,7 @@ class Grade extends \yii\db\ActiveRecord
     {
         return [
             [['title'], 'required'],
-            [['title', 'grade'], 'integer'],
+            [['title', 'grade_id'], 'integer'],
         ];
     }
 
@@ -42,7 +42,7 @@ class Grade extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'title' => 'Title',
-            'grade' => 'Grade',
+            'grade_id' => 'Grade',
         ];
     }
 

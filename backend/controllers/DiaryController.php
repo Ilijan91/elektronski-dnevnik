@@ -137,7 +137,7 @@ class DiaryController extends Controller
       
         $model = Diary::find()
         ->select(['grade_id', 'student_id', 'subject_id'])
-        ->with(['grade'])
+        ->with(['grade_id'])
         ->with(['student'])
         ->with(['subject'])
         ->where(['student_id'=>$id])
@@ -145,7 +145,7 @@ class DiaryController extends Controller
         $subjects = Subject::find()->all();
         // $grades = $model->grade->title;
        
-        return $this->render('grades', [
+        return $this->render('grades_id', [
             'model' => $model,
             'subjects'=>$subjects,
           
