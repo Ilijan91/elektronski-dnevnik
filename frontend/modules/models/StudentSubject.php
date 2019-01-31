@@ -10,7 +10,7 @@ use Yii;
  * @property int $id
  * @property int $student_id
  * @property int $subject_id
- * @property int $grade
+ * @property int $grade_id
  * @property int $final_grade
  */
 class StudentSubject extends \backend\models\StudentSubject
@@ -30,7 +30,7 @@ class StudentSubject extends \backend\models\StudentSubject
     {
         return [
             [['student_id', 'subject_id'], 'required'],
-            [['student_id', 'subject_id', 'grade', 'final_grade'], 'integer'],
+            [['student_id', 'subject_id', 'grade_id', 'final_grade'], 'integer'],
         ];
     }
 

@@ -9,6 +9,7 @@ use yii\helpers\Html;
 $this->title = 'Create diary';
 $this->params['breadcrumbs'][] = ['label' => 'Student Subjects', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="student-subject-create">
 <div class="container main">
@@ -16,6 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'modelStudents' => $modelStudents,
     ]) ?>
 
 </div>

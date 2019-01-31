@@ -91,7 +91,7 @@ class Student extends \yii\db\ActiveRecord
 
     public function getAllStudentsByDepartmentId($department_id){
         $subjQuery = 
-            'SELECT student.id, student.first_name, student.last_name, student.phone, student.address, student.JMBG, student.user_id, student.department_id,  CONCAT(user.first_name," ",user.last_name) AS parent 
+            'SELECT student.id, student.first_name, student.last_name, student.phone, student.address, student.JMBG, student.user_id, student.department_id, CONCAT(student.first_name," ", student.last_name) AS full_name, CONCAT(user.first_name," ",user.last_name) AS parent 
             FROM student 
             INNER JOIN user 
             ON student.user_id = user.id 
