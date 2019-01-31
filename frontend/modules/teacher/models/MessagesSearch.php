@@ -1,29 +1,29 @@
 <?php
 
-namespace backend\models;
+namespace frontend\modules\teacher\models;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\StudentSubject;
+use frontend\modules\parent\models\Messages;
 
 /**
- * StudentSubjectSearch represents the model behind the search form of `backend\models\StudentSubject`.
+ * MessagesSearch represents the model behind the search form of `frontend\modules\parent\models\Messages`.
  */
-class StudentSubjectSearch extends StudentSubject
+class MessagesSearch extends Messages
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id', 'student_id', 'subject_id', 'grade_id', 'final_grade'], 'integer'],
+            [['id', 'sender', 'receiver'], 'integer'],
+            [['title', 'text'], 'safe'],
         ];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function scenarios()
     {
@@ -40,7 +40,7 @@ class StudentSubjectSearch extends StudentSubject
      */
     public function search($params)
     {
-        $query = StudentSubject::find();
+        $query = Messages::find();
 
         // add conditions that should always apply here
 
@@ -59,11 +59,12 @@ class StudentSubjectSearch extends StudentSubject
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'student_id' => $this->student_id,
-            'subject_id' => $this->subject_id,
-            'grade_id' => $this->grade,
-            'final_grade' => $this->final_grade,
+            'parent_id' => $this->sender,
+            'teacher_id' => $this->receiver,
         ]);
+
+        $query->andFilterWhere(['like', 'title', $this->title])
+            ->andFilterWhere(['like', 'text', $this->text]);
 
         return $dataProvider;
     }

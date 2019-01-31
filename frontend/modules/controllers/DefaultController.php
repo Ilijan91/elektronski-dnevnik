@@ -2,6 +2,7 @@
 
 namespace frontend\modules\controllers;
 
+use Yii;
 use yii\web\Controller;
 use backend\models\News;
 use backend\models\Roll;
@@ -14,6 +15,9 @@ use backend\models\Classes;
 use backend\models\Schedule;
 use backend\controllers\NewsController;
 use backend\controllers\DepartmentController;
+use frontend\modules\teacher\models\Messages;
+use frontend\modules\parent\models\MessagesSearch;
+use frontend\modules\parent\controllers\MessagesController;
 /**
  * Default controller for the `modules` module
  */
@@ -52,8 +56,6 @@ class DefaultController extends Controller
         ]);
     }
 
-
-
     public function actionStudents($department_id){
         
         $schedule= new Schedule();
@@ -71,15 +73,16 @@ class DefaultController extends Controller
         ]);
     }
 
+<<<<<<< HEAD
+=======
 
-
+    
+>>>>>>> 29f3ab252623d54fcbc89b689d21d9d97fa7dbe5
     public function actionDiary(){
         $this->layout = 'main';
         return $this->render('diary', [
         ]);
     }
-
-
 
     public function actionSchedule($department_id){
         $this->layout = 'main';
@@ -105,8 +108,6 @@ class DefaultController extends Controller
         // }
     }
 
-
-
     public function actionNews(){
          //Dohvati sve vesti i prikazi prvo najnovije
          $news = News::find()->orderBy(['created_at'=> SORT_DESC])->all();
@@ -116,13 +117,16 @@ class DefaultController extends Controller
             'news'=>$news,
         ]);
     }
-
-
-
-    public function actionMessages(){
-        $this->layout = 'main';
-        return $this->render('messages', [
-        ]);
+    
+    public function getUserByStudent($teacher_id) {
+        $students = $this->getStudentsByTeacherId($teacher_id);
+        $stud_arr = array_column($students,'id');
+        $impl = implode(",", $stud_arr);
+            $st = Student::find()->where("id IN ($impl)")->all();
+            // $uimpl = implode(",", $st['user_id']);
+            // $user_id = $st->id;
+            // $data = User::find()->where("id IN ($uimpl)")->all();
+            return $st;
     }
 
     public function getStudentsByTeacherId($teacher_id){
@@ -147,7 +151,14 @@ class DefaultController extends Controller
          $roll = $roll_arr['title'];   
          return $roll;
     }
-   
+    protected function findModel($id)
+    {
+        if (($model = Messages::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
    
     
 }
