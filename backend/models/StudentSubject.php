@@ -34,8 +34,9 @@ class StudentSubject extends \yii\db\ActiveRecord
         return [
             [['student_id', 'subject_id'], 'required'],
             [['student_id', 'subject_id', 'grade', 'final_grade'], 'integer'],
-            [['date'], 'safe'],
-            [['grade'], 'exist', 'skipOnError' => true, 'targetClass' => Grade::className(), 'targetAttribute' => ['grade' => 'id']],
+            [['grade_id'], 'exist', 'skipOnError' => true, 'targetClass' => Grade::className(), 'targetAttribute' => ['grade_id' => 'id']],
+            [['student_id'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['student_id' => 'id']],
+            [['subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => Subject::className(), 'targetAttribute' => ['subject_id' => 'id']],
         ];
     }
 
@@ -50,7 +51,6 @@ class StudentSubject extends \yii\db\ActiveRecord
             'subject_id' => 'Subject ID',
             'grade_id' => 'Grade',
             'final_grade' => 'Final Grade',
-            'date' => 'Date',
         ];
     }
 
@@ -60,6 +60,14 @@ class StudentSubject extends \yii\db\ActiveRecord
     public function getGrade()
     {
         return $this->hasOne(Grade::className(), ['id' => 'grade_id']);
+    }
+    public function getStudent()
+    {
+        return $this->hasOne(Student::className(), ['id' => 'student_id']);
+    }
+    public function getSubject()
+    {
+        return $this->hasOne(Subject::className(), ['id' => 'subject_id']);
     }
     public function getGrades()
     {
@@ -109,9 +117,5 @@ class StudentSubject extends \yii\db\ActiveRecord
         $data = Yii::$app->db->createCommand($sql)->queryAll();
        
         return $data;
-    }
-    public function getSubject()
-    {
-        return $this->hasOne(Subject::className(), ['id' => 'subject_id']);
     }
 }

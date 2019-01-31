@@ -1,8 +1,8 @@
 <?php
 
-namespace frontend\modules\parent\models;
+namespace frontend\modules\teacher\models;
 use backend\models\Student;
-use frontend\modules\parent\models\User;
+use frontend\modules\teacher\models\User;
 use backend\models\Department;
 
 use Yii;
@@ -74,25 +74,29 @@ class Messages extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'receiver']);
     }
 
-    public function getTeacherById($student_id){
-        $student = Student::find()
-        ->select('id, department_id')
-        ->where(['id'=>$student_id])
-        ->one();
-    //    $student_id = $student->id;
-       $department_id = $student->department_id;
-       $department = Department::find()
-        ->select('id, user_id')
-        ->where(['id'=>$department_id])
-        ->one();
-        $user_id = $department->user_id;
-        $user = User::find()
-        ->select(['id', 'first_name', 'last_name'])
-        ->where(['id'=>$user_id])
-        ->one();
+    public function getStudentsByTeacherId($teacher_id){
+        //Dohvati odeljenje kome predaje ulogovani ucitelj
+            $department = Department::find()
+                            ->select('id')
+                            ->where(['user_id'=>$teacher_id])
+                            ->one();
+            $department_id= $department->id;
+        //Dohvati sve ucenike koji su u odeljenju kome predaje ulogovani ucitelj
+        $s = new Student;
+        $students= $s->getAllStudentsByDepartmentId($department_id);
+        return $students;
+    }   
 
-        return $user;
-       }
+    public function getUserByStudent($teacher_id) {
+        $students = $this->getStudentsByTeacherId($teacher_id);
+        $stud_arr = array_column($students,'id');
+        $impl = implode(",", $stud_arr);
+            $st = Student::find()->where("id IN ($impl)")->all();
+            // $uimpl = implode(",", $st['user_id']);
+            // $user_id = $st->id;
+            // $data = User::find()->where("id IN ($uimpl)")->all();
+            return $st;
+    }
 
        public function getStudentById() {
         $student = Student::find()

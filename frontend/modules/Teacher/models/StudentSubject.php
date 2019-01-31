@@ -30,7 +30,7 @@ class StudentSubject extends \backend\models\StudentSubject
     {
         return [
             [['student_id', 'subject_id'], 'required'],
-            [['student_id', 'subject_id', 'grade', 'final_grade'], 'integer'],
+            [['student_id', 'subject_id', 'grade_id', 'final_grade'], 'integer'],
         ];
     }
 

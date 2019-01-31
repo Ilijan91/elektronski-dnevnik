@@ -1,13 +1,13 @@
 <?php
 
-namespace frontend\modules\parent\controllers;
+namespace frontend\modules\teacher\controllers;
 
 use Yii;
-use frontend\modules\parent\models\Messages;
+use frontend\modules\teacher\models\Messages;
 use backend\models\User;
 use backend\models\Student;
 use backend\models\Department;
-use frontend\modules\parent\models\MessagesSearch;
+use frontend\modules\teacher\models\MessagesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -73,16 +73,19 @@ class MessagesController extends Controller
     {
         $this->layout = "main";
         $model = new Messages();
-        $student_id = $model->getStudentById();
-        $teacher = $model->getTeacherById($student_id);
-        $model->sender = Yii::$app->user->identity->id;
-        $model->receiver = $teacher->id;
+        $teacher_id = \Yii::$app->user->identity->id;
+        $students = $model->getStudentsByTeacherId($teacher_id);
+        $stud_arr = array_column($students,'id');
+        $impl = implode(",", $stud_arr);
+
+        $model->sender = \Yii::$app->user->identity->id;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
             'model' => $model,
+            'impl' => $impl,
         ]);
     }
 
@@ -95,14 +98,19 @@ class MessagesController extends Controller
      */
     public function actionUpdate($id)
     {
+        $messages = new Messages();
         $model = $this->findModel($id);
-
+        $teacher_id = \Yii::$app->user->identity->id;
+        $students = $messages->getStudentsByTeacherId($teacher_id);
+        $stud_arr = array_column($students,'id');
+        $impl = implode(",", $stud_arr);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'impl' => $impl,
         ]);
     }
 

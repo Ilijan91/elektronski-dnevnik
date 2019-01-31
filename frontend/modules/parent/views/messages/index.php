@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use frontend\modules\parent\models\User;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\modules\parent\models\MessagesSearch */
@@ -25,7 +26,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
             'title',
             'text:ntext',
             'sender',

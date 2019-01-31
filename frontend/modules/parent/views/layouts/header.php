@@ -21,11 +21,11 @@ use backend\models\Student;
         ],
     ]);
     $menuItems = [
-        ['label' => 'Grade', 'url' => ['grade', 'id' => $student_id]],
-        ['label' => 'Home', 'url' => ['index']],
-        ['label' => 'Schedule', 'url' => ['schedule']],
-        ['label' => 'News Feed', 'url' => ['news']],
-        ['label' => 'Messages', 'url' => ['messages', 'id' => $student_id]],
+        ['label' => 'Home', 'url' => ['default/index', 'id' => Yii::$app->user->identity->id]],
+        ['label' => 'Grade', 'url' => ['default/grade', 'id' => $student_id]],
+        ['label' => 'Schedule', 'url' => ['default/schedule']],
+        ['label' => 'News Feed', 'url' => ['default/news']],
+        ['label' => 'Messages', 'url' => ['messages/index', 'id' => $student_id]],
 
     ];
     if (Yii::$app->user->isGuest) {
