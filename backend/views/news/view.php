@@ -43,7 +43,8 @@ $this->params['breadcrumbs'][] = ['label' => 'News', 'url' => ['index']];
     if(empty($model->image)){
         
     }else{ ?>
-        <?=Html::img(Url::to('@web/img/upload/'.$model->image),['class'=>'img-responsive','alt'=>'Image']) ?>
-    <?php } ?>
+        <?=Html::img(Url::to('@web/img/upload/'.$model->image),['class'=>'img-responsive','alt'=>'Image'])?>
+        
+    <?php print_r($model->image); } ?>
 </div>
 

@@ -9,7 +9,6 @@ use Yii;
  *
  * @property int $id
  * @property int $title
- * @property int $grade
  *
  * @property Diary[] $diaries
  */
@@ -30,7 +29,7 @@ class Grade extends \yii\db\ActiveRecord
     {
         return [
             [['title'], 'required'],
-            [['title', 'grade_id'], 'integer'],
+            [['title'], 'integer'],
         ];
     }
 
@@ -42,7 +41,6 @@ class Grade extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'title' => 'Title',
-            'grade_id' => 'Grade',
         ];
     }
 

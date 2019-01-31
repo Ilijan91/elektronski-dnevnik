@@ -29,7 +29,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
             [
                 'attribute' => 'student_id',
                 'value' => 'student.fullName'
@@ -38,11 +37,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'subject_id',
                 'value' => 'subject.title',
             ],
-            [
-                'attribute' => 'grade',
-                'value' => 'grade'
-            ],
-            'final_grade',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

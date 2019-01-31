@@ -7,12 +7,10 @@ body {
     min-height: 100%;
     height: auto;
     margin: 0 auto -60px;
-    padding: 0 0 60px;
+    padding: 0 0 40px;
 }
 
-.wrap > .container {
-    padding: 70px 15px 20px;
-}
+
 
 .footer {
     height: 60px;
@@ -114,12 +112,156 @@ a.desc:after {
     margin: 0 0 15px 0;
 }
 
-/* align the logout "link" (button in form) of the navbar */
+/******************* INDEX STRANICA I LAYOUT ZA SVE STRANICE  **********************/
+/* PODACI O SKOLI */
+.school-info{
+    padding: 5px 15px;
+    color: #00325e;
+    font-weight: 400px;
+    font-weight: 600;
+   
+}
+.school-info .school-name{
+    text-transform: uppercase;
+}
+.school-info .phone{
+    float: right;
+}
+.school-info .phone span{
+    padding-left: 10px;
+}
+/* NAVIGACIJA */
+
 .nav li > form > button.logout {
     padding: 15px;
     border: none;
 }
+.navbar-brand{
+    color: #bd0000;
+}
+.nav > li{
+    float: left;
+}
+.nav > li > form > button.logout:focus,
+.nav > li > form > button.logout:hover {
+    text-decoration: none;
+}
 
+.navbar-inverse .navbar-nav  > li > form > button.logout:focus {
+    outline: none;
+}
+.navbar{
+    background-color: #00325e;
+    border: 0;
+    border-radius: 0;
+}
+.navbar-inverse .navbar-nav > li > a {
+    color: #ddc8c8;
+    text-transform: uppercase;
+    padding: 15px 10px;
+}
+
+.navbar-inverse .navbar-nav  > li > a:hover, .nav > li > a:focus, .navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > .active > a:focus {
+    background-color: #bd0000;
+}
+/* dropdown menu button */
+.navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
+    color: #fff;
+    background-color: #bd0000;
+}
+.dropdown-menu > li > a {
+    color: #00325e;
+}
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    color: #f6f6f6;
+    background-color: #00325e;
+}
+  /* HERO */
+  .front-hero{
+    position: relative;
+  background-image: url("../img/front-hero.jpg"); /* The image used */
+  background-color: #cccccc; /* Used if the image is unavailable */
+  height: 500px; /* You must set a specified height */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+}
+.cover-hero{
+  width: 50%;
+  margin: 0 auto;
+  position: absolute;
+  top:30%;
+  left: 25%;
+  padding: 50px 30px;
+  background-color: #d9dfe48c;
+}
+.cover-hero h1{
+  color: #00325e;
+}
+
+/* MAIN CONTAINER */
+  .main{
+      margin-top: 50px;
+  }
+  .main h2{
+      text-align: center;
+      margin-bottom: 60px;
+      color: #00325e;
+      text-transform: uppercase;
+  }
+
+  #frontend-header, #frontend-footer{
+      width: 100%;
+  }
+  .news{
+      margin: 10px;
+      padding: 10px;
+  }
+
+  .department_name{
+    color: #bd0000;
+}
+/* TABLE */
+table{
+    text-align: center;
+}
+table thead{
+    background-color: #00325e;
+    color: #eceded;
+}
+table thead th{
+    padding: 20px!important;
+    text-align: center;
+    
+}
+ 
+/* SCHEDULE */
+
+.schedule{
+    color: #00325e;
+   text-transform: uppercase;
+    padding: 20px;
+    text-align: center;
+}
+.schedule>div, .schedule>div>div{
+    padding-left:1px;
+    padding-right: 1px;
+}
+.schedule_days{
+    background-color: #00325e;
+    padding: 10px 20px;
+    text-transform: none;
+    margin-bottom: 20px;
+    color: #eceded;
+}
+.schedule_classes{
+    color: #bd0000;
+    font-weight: 600;
+}
+
+
+/* RESPONSIVE */
 @media(max-width:767px) {
     .nav li > form > button.logout {
         display:block;
@@ -128,80 +270,3 @@ a.desc:after {
         padding: 10px 15px;
     }
 }
-
-.nav > li > form > button.logout:focus,
-.nav > li > form > button.logout:hover {
-    text-decoration: none;
-}
-
-.nav > li > form > button.logout:focus {
-    outline: none;
-}
-/* The side navigation menu */
-.sidenav {
-    height: 100%; /* 100% Full-height */
-    width: 20%; /* 0 width - change this with JavaScript */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Stay on top */
-    top: 0px; /* Stay at the top */
-    left: 0;
-    background-color: #111; /* Black*/
-    overflow-x: hidden; /* Disable horizontal scroll */
-    padding-top: 60px; /* Place content 60px from the top */
-    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
-   
-
-  }
-  
-  /* The navigation menu links */
-
-  .sidenav a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-    transition: 0.3s;
-
-  }
-  
-  /* When you mouse over the navigation links, change their color */
- 
-  .nav > li > a:hover, .nav > li > a:focus {
-    text-decoration: none;
-    background-color: #eee;
-    color: #616161;
-}
-  
-  /* Position and style the close button (top right corner) */
-  .sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
-  }
-  
-  /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
-  #main {
-    transition: margin-left .5s;
-    padding: 20px;
-  }
-  
-  /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
-  @media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
-  }
-  #main-container{
-    float: right;
-    width: 80%;
-    padding: 20px 40px;
-  }
-  .NavBar{
-      width: 100%;
-  }
-  #header, #footer{
-      width: 80%;
-      float:right;
-  }

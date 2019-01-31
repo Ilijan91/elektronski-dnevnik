@@ -3,6 +3,8 @@
 namespace backend\models;
 
 use Yii;
+use backend\models\Days;
+use backend\controllers\DaysController;
 
 /**
  * This is the model class for table "schedule".
@@ -33,6 +35,7 @@ class Schedule extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+
             [['days_id', 'subject_id', 'department_id', 'classes_id'], 'integer'],
             [['department_id'
          ], 'required'],
@@ -49,10 +52,10 @@ class Schedule extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'days_id' => 'Days ID',
-            'subject_id' => 'Subject ID',
-            'department_id' => 'Department ID',
-            'classes_id' => 'Classes ID',
+            'days_id' => 'Days',
+            'subject_id' => 'Subject',
+            'department_id' => 'Department',
+            'classes_id' => 'Classes',
         ];
     }
 

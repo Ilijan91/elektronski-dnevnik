@@ -12,6 +12,8 @@ class Director extends \yii\base\Module
      */
     public $controllerNamespace = 'frontend\modules\director\controllers';
 
+
+
     /**
      * @inheritdoc
      */

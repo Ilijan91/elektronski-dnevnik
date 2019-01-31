@@ -15,6 +15,12 @@ return [
         'director' => [
             'class' => 'frontend\modules\director\Director',
         ],
+        'parent' => [
+            'class' => 'frontend\modules\parent\Module',
+        ],
+        'director' => [
+            'class' => 'frontend\modules\director\Module',
+        ],
     ],
     'components' => [
         'request' => [
@@ -50,6 +56,22 @@ return [
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
         ),
         ],
+        'urlManagerBackend' => [
+
+        	'class' => 'yii\web\urlManager',
+
+        	'baseUrl' => '@backend\web\img',
+
+        	'enablePrettyUrl' => true,
+
+        	'showScriptName' => false,
+
+    	],
     ],
-    'params' => $params,
+    'params' =>[
+        'params'=>$params,
+        'school_name'=>'osnovna skola "8.oktobar"',
+        'school_phone'=>'063/100-222',
+        'school_mail'=>'schoolname@school.com'
+    ],
 ];

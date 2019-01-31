@@ -1,24 +1,16 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
-use yii\helpers\ArrayHelper;
-use backend\controllers\SubjectController;
-use backend\models\Subject;
-use backend\models\Department;
-use backend\models\Days;
-use backend\models\Classes;
 
-/* @var $this yii\web\View */
-/* @var $model backend\models\Schedule */
-
-$this->title = 'Update Schedule: {nameAttribute}';
+// $this->title = $department_name;
+$this->title = 'View Schedule: ' . $department_name;
 $this->params['breadcrumbs'][] = ['label' => 'Schedules', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 
-<?php
+<h1><?=$department_name?></h1>
 
+<?php
 //$model(svi podaci dobijeni prilikom kreiranje rasporeda casova), $modelDays(dani u nedelji) i $modelClasses(casovi) salje ScheduleController
 foreach($modelDays as $modelDay){
   //Kreiramo array $day u koji smestamo dane u nedelji
@@ -30,10 +22,11 @@ foreach($modelDays as $modelDay){
        return ($element['days_title'] == $day);
       })
    ;
+   
    //PREDMETI IZ RASPOREDA PO DANU
    //funkcija array_column izvlaci samo casove po danu iz $array_day niza i smesta ih u niz $subjects
    $subjects[$day]= array_column($array_day[$day], 'subject_title');
-
+   
 }
 
 ?>
