@@ -73,6 +73,11 @@ class DefaultController extends Controller
         ]);
     }
 
+<<<<<<< HEAD
+=======
+
+    
+>>>>>>> 29f3ab252623d54fcbc89b689d21d9d97fa7dbe5
     public function actionDiary(){
         $this->layout = 'main';
         return $this->render('diary', [

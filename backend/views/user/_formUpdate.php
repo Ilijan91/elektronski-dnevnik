@@ -28,8 +28,7 @@ use backend\models\Roll;
 
     <?= $form->field($model, 'JMBG')->textInput(['maxlength' => true,'readonly'=>true]) ?>
 
-    <?= $form->field($model, 'JMBG')->textInput(['maxlength' => true, 'readonly' => true]) ?>
-
+    
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>

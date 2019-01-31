@@ -11,7 +11,9 @@ use backend\models\Department;
 use frontend\modules\parent\models\Messages;
 use frontend\modules\parent\models\MessagesSearch;
 use frontend\modules\parent\controllers\MessagesController;
-// use backend\controllers\NewsController;
+use backend\models\Subject;
+use backend\models\Days;
+use backend\models\Schedule;
 use yii\web\Controller;
 use Yii;
 
@@ -47,13 +49,41 @@ class DefaultController extends Controller
     }
     public function actionGrade($id) {
         $student = Student::find()->where("user_id = $id")->all();
-        // $subject = StudentSubject::find()->where("student_id = ".$student['student']['id'])->all();
-        $this->layout = "main";
+
+
+        $studenttt= new StudentSubject;
+
+        $diary=$studenttt->getGradesByStudent($id);
+
+      
+
+        $title=array_column($diary, 'title');
+        $grade=array_column($diary, 'grades');
         
+
+        $grades=array_combine($title, $grade);
+
+        
+
+        $this->layout = "main";
+        $subjects=Subject::find()->all();
+
+        $StudentSubject=StudentSubject::find()
+        ->select('grade')
+        ->where(['student_id'=>$id])
+        ->all();
+
+        
+        
+
         return $this->render('grade', [
             'student' => $student,
-            // 'subject' => $subject,
-        ]);
+            'subjects' => $subjects,
+            'StudentSubject' => $StudentSubject,
+            'grades'=>$grades,
+            
+        
+        ]);  
     }
     
     protected function findModel($id)
@@ -75,4 +105,47 @@ class DefaultController extends Controller
          $roll = $roll_arr['title'];   
          return $roll;
     }
+
+    public function actionTeachermeeting()
+    {
+       
+
+        
+        $this->layout = "main";
+
+        return $this->render('teachermeeting', [
+           
+        ]);
+    }
+
+    public function actionSchedule($id)
+    {
+        $schedule = Schedule::find()->where("department_id = $id")->all();
+
+        $r= new Schedule;
+        $rasp=$r->getScheduleByDepartmentId($id);
+        $days=Days::find()->all();
+
+        $this->layout = "main";
+
+        return $this->render('Schedule', [
+           'schedule'=>$schedule,
+           'rasp'=>$rasp,
+           'days'=>$days
+            ]);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

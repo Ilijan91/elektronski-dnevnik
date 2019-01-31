@@ -51,6 +51,7 @@ class StudentSubject extends \yii\db\ActiveRecord
             'subject_id' => 'Subject ID',
             'grade_id' => 'Grade',
             'final_grade' => 'Final Grade',
+            'date' => 'Date',
         ];
     }
 
