@@ -2,10 +2,12 @@
 
 namespace frontend\modules\director\controllers;
 
+use Yii;
 use yii\web\Controller;
 use backend\models\News;
 use backend\models\Roll;
-use backend\models\Students;
+use backend\models\Student;
+use backend\models\StudentSubject;
 use backend\models\Department;
 use backend\models\User;
 use backend\controllers\NewsController;
@@ -42,10 +44,19 @@ class DefaultController extends Controller
     }
 
     public function actionStatistika() {
-        return $this->render('statistika', []);
-    }
+        $this->layout = 'main';
 
-    // public function get
+        $stsub = new StudentSubject();
+        $avg = $stsub->getAvgGrade();
+        foreach($avg as $average) {
+
+            $item[] = $average;
+        }
+        $ite = json_encode($item);
+        file_put_contents("prosek.json", $ite);
+        return $this->render('statistika', [
+        ]);
+    }
 
 
 

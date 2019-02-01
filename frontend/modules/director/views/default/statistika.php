@@ -1,21 +1,8 @@
-<style>
-#chartdiv {
-  width: 100%;
-  height: 500px;
-}
+<!-- HTML -->
+<div id="chartdiv" style ="width:100%; height:500px;">
 
-</style>
-
-<!-- Resources -->
-<script src="https://www.amcharts.com/lib/4/core.js"></script>
-<script src="https://www.amcharts.com/lib/4/charts.js"></script>
-<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
 
 <!-- Chart code -->
-
-
-<!-- HTML -->
-<div id="chartdiv">
 <script>
 // Themes begin
 am4core.useTheme(am4themes_animated);
@@ -24,14 +11,16 @@ am4core.useTheme(am4themes_animated);
 // Create chart instance
 var chart = am4core.create("chartdiv", am4charts.XYChart3D);
 
+
 // Add data
-chart.dataSource.url = "../../web/prosek.json";
+chart.dataSource.url = "../../prosek.json";
 chart.dataSource.parser = new am4core.JSONParser();
 chart.dataSource.parser.options.emptyAs = 0;
 
+
 // Create axes
 let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-categoryAxis.dataFields.category = "country";
+categoryAxis.dataFields.category = "title";
 categoryAxis.renderer.labels.template.rotation = 270;
 categoryAxis.renderer.labels.template.hideOversized = false;
 categoryAxis.renderer.minGridDistance = 20;
@@ -42,14 +31,14 @@ categoryAxis.tooltip.label.horizontalCenter = "right";
 categoryAxis.tooltip.label.verticalCenter = "middle";
 
 let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-valueAxis.title.text = "Countries";
+valueAxis.title.text = "Grades";
 valueAxis.title.fontWeight = "bold";
 
 // Create series
 var series = chart.series.push(new am4charts.ColumnSeries3D());
-series.dataFields.valueY = "visits";
-series.dataFields.categoryX = "country";
-series.name = "Visits";
+series.dataFields.valueY = "avg_grade";
+series.dataFields.categoryX = "title";
+series.name = "Subjects";
 series.tooltipText = "{categoryX}: [bold]{valueY}[/]";
 series.columns.template.fillOpacity = .8;
 

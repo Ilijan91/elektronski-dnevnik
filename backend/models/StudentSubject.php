@@ -119,4 +119,11 @@ class StudentSubject extends \yii\db\ActiveRecord
        
         return $data;
     }
+
+    public function getAvgGrade() {
+        $sql = 'SELECT subject.title, AVG(grade.title) AS avg_grade FROM student_subject inner join subject on student_subject.subject_id = subject.id inner join grade on student_subject.grade_id = grade.id GROUP BY (subject_id)';
+        $data = Yii::$app->db->createCommand($sql)->queryAll();
+
+        return $data;
+    }    
 }
