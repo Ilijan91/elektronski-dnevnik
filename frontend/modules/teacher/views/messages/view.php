@@ -6,14 +6,14 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model frontend\modules\parent\models\Messages */
 
-$this->title = $model->title;
+// $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Messages', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+// $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="messages-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    
 
     <p>
         <?= Html::a('Delete', ['delete', 'id' => $model->id], [
@@ -29,7 +29,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'title',
             'text:ntext',
             'sender',
             'receiver',

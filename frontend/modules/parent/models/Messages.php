@@ -11,7 +11,6 @@ use Yii;
  * This is the model class for table "messages".
  *
  * @property int $id
- * @property string $title
  * @property string $text
  * @property int $sender
  * @property int $receiver
@@ -35,10 +34,10 @@ class Messages extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'text', 'sender', 'receiver'], 'required'],
+            [['text', 'sender', 'receiver'], 'required'],
             [['text'], 'string'],
+            [['date'], 'safe'],
             [['sender', 'receiver'], 'integer'],
-            [['title'], 'string', 'max' => 255],
             [['sender'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['sender' => 'id']],
             [['receiver'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['receiver' => 'id']],
         ];
@@ -51,10 +50,10 @@ class Messages extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
             'text' => 'Text',
             'sender' => 'Sender',
             'receiver' => 'Receiver',
+            'date' => 'Date'
         ];
     }
 

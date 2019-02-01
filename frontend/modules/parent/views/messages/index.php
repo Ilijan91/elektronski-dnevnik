@@ -9,7 +9,7 @@ use frontend\modules\parent\models\User;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Messages';
-$this->params['breadcrumbs'][] = $this->title;
+// $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="messages-index">
 
@@ -26,7 +26,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'title',
             'text:ntext',
             'sender',
             'receiver',

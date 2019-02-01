@@ -2,7 +2,7 @@
 
 namespace frontend\modules\teacher\models;
 use backend\models\Student;
-use frontend\modules\teacher\models\User;
+use backend\models\User;
 use backend\models\Department;
 
 use Yii;
@@ -35,10 +35,10 @@ class Messages extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'text', 'sender', 'receiver'], 'required'],
+            [['text', 'sender', 'receiver'], 'required'],
             [['text'], 'string'],
+            [['date'], 'safe'],
             [['sender', 'receiver'], 'integer'],
-            [['title'], 'string', 'max' => 255],
             [['sender'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['sender' => 'id']],
             [['receiver'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['receiver' => 'id']],
         ];
@@ -51,10 +51,10 @@ class Messages extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
             'text' => 'Text',
             'sender' => 'Sender',
             'receiver' => 'Receiver',
+            'date' => 'Date',
         ];
     }
 
@@ -98,12 +98,35 @@ class Messages extends \yii\db\ActiveRecord
             return $st;
     }
 
-       public function getStudentById() {
+    public function getStudentById() {
         $student = Student::find()
         ->select('id')
         ->where(['user_id'=>Yii::$app->user->identity->id])
         ->one();
 
         return $student;
-       }
+    }
+
+    public function getMessagesByTeacher() {
+        $sql = 'SELECT messages.id, messages.text, messages.sender FROM messages WHERE messages.receiver = '.Yii::$app->user->identity->id;
+
+        $mess = \Yii::$app->db->createCommand($sql)->queryAll();
+
+        return $mess;
+    }
+
+    public function getSenderFullName() {
+        $mess = $this->getMessagesByTeacher();
+        $column = array_column($mess, 'sender');
+        $iml = implode(",", $column);
+        // $message = $mess->sender;
+        // foreach($mess as $mes) {
+            $sql = 'SELECT user.id, user.first_name, user.last_name FROM user WHERE user.id IN ('.$iml.')';
+            $sender = \Yii::$app->db->createCommand($sql)->queryAll();
+        // }
+        
+
+        return $sender;
+    }
+    
 }

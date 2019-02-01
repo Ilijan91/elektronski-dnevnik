@@ -95,6 +95,7 @@ class MessagesController extends Controller
      */
     public function actionUpdate($id)
     {
+        $this->layout = 'main';
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

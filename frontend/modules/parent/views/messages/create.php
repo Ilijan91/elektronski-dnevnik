@@ -7,7 +7,7 @@ use yii\helpers\Html;
 
 $this->title = 'Send Message';
 $this->params['breadcrumbs'][] = ['label' => 'Messages', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+// $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="messages-create">
 

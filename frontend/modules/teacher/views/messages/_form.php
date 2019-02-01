@@ -14,11 +14,8 @@ use backend\models\Student;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'sender')->textInput(['readonly' => true]) ?>
-
     <?= $form->field($model, 'receiver')->dropDownList(ArrayHelper::map(Student::find()->where("id IN ($impl)")->all(), 'user_id', 'user_id'), ['prompt' => 'Select parent']) ?>
 
-    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'text')->textarea(['rows' => 6]) ?>
 

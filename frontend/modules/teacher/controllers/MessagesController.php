@@ -42,10 +42,19 @@ class MessagesController extends Controller
         $searchModel = new MessagesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $messages = new Messages();
-
+        $sender = $messages->getSenderFullName();
+        $message = $messages->getMessagesByTeacher();
+        $teacher_id = \Yii::$app->user->identity->id;
+        $students = $messages->getStudentsByTeacherId($teacher_id);
+        $stud_arr = array_column($students,'id');
+        $impl = implode(",", $stud_arr);
+        
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'teacher_id' => $teacher_id,
+            'sender' => $sender,
+            'message' => $message,
         ]);
     }
 

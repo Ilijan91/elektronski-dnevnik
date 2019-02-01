@@ -18,7 +18,7 @@ class MessagesSearch extends Messages
     {
         return [
             [['id', 'sender', 'receiver'], 'integer'],
-            [['title', 'text'], 'safe'],
+            [['text'], 'safe'],
         ];
     }
 
@@ -63,8 +63,7 @@ class MessagesSearch extends Messages
             'teacher_id' => $this->receiver,
         ]);
 
-        $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'text', $this->text]);
+        $query->andFilterWhere(['like', 'text', $this->text]);
 
         return $dataProvider;
     }

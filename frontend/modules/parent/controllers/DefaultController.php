@@ -13,6 +13,7 @@ use frontend\modules\parent\models\MessagesSearch;
 use frontend\modules\parent\controllers\MessagesController;
 use backend\models\Subject;
 use backend\models\Days;
+use backend\models\Classes;
 use backend\models\Schedule;
 use yii\web\Controller;
 use Yii;
@@ -69,7 +70,7 @@ class DefaultController extends Controller
         $subjects=Subject::find()->all();
 
         $StudentSubject=StudentSubject::find()
-        ->select('grade')
+        ->select('grade_id')
         ->where(['student_id'=>$id])
         ->all();
 
@@ -85,7 +86,42 @@ class DefaultController extends Controller
         
         ]);  
     }
-    
+
+    public function actionTeachermeeting()
+    {
+       
+
+        
+        $this->layout = "main";
+
+        return $this->render('teachermeeting', [
+           
+        ]);
+    }
+
+    public function actionSchedule($id)
+    {
+        $modelDays= Days::find()->all();
+        $modelClasses= Classes::find()->all();
+        $schedule= new Schedule();
+        $model = $schedule->getScheduleByDepartmentId($id);
+        $department_name = $schedule->getDepartmentFullName($id);
+        //Ako nije kreiran raspored za izabrano odeljenje izbaci gresku
+        if(count($model) < 1){
+            $msg= "<h4>There is no data for department</h4>";
+            return $this->render('error', [
+                'msg' => $msg,
+            ]);
+        }else{
+            return $this->render('schedule', [
+                'model' => $model,
+                'modelDays'=>$modelDays,
+                'modelClasses'=>$modelClasses,
+                'department_name'=>$department_name,
+            ]);
+        }
+    }
+
     protected function findModel($id)
     {
         if (($model = Messages::findOne($id)) !== null) {
@@ -104,35 +140,6 @@ class DefaultController extends Controller
         $roll_arr = Roll::find()->select('title')->where(['id'=>$user_roll_id])->one();
          $roll = $roll_arr['title'];   
          return $roll;
-    }
-
-    public function actionTeachermeeting()
-    {
-       
-
-        
-        $this->layout = "main";
-
-        return $this->render('teachermeeting', [
-           
-        ]);
-    }
-
-    public function actionSchedule($id)
-    {
-        $schedule = Schedule::find()->where("department_id = $id")->all();
-
-        $r= new Schedule;
-        $rasp=$r->getScheduleByDepartmentId($id);
-        $days=Days::find()->all();
-
-        $this->layout = "main";
-
-        return $this->render('Schedule', [
-           'schedule'=>$schedule,
-           'rasp'=>$rasp,
-           'days'=>$days
-            ]);
     }
 
 
