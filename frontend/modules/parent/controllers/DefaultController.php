@@ -101,6 +101,7 @@ class DefaultController extends Controller
 
     public function actionSchedule($id)
     {
+        $this->layout = 'main';
         $modelDays= Days::find()->all();
         $modelClasses= Classes::find()->all();
         $schedule= new Schedule();

@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use backend\models\Student;
 use backend\models\Subject;
+use backend\models\Grade;
 use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
@@ -19,7 +20,7 @@ use yii\helpers\ArrayHelper;
 
     <?= $form->field($model, 'subject_id')->dropDownList(ArrayHelper::map(Subject::find()->select(['id', 'title'])->all(), 'id', 'title'), ['prompt' => 'Select subject']) ?>
 
-    <?= $form->field($model, 'grade')->textInput() ?>
+    <?= $form->field($model, 'grade_id')->dropDownList(ArrayHelper::map(Grade::find()->select(['id', 'title'])->all(), 'id', 'title'), ['prompt' => 'Select grade']) ?>
 
     <?= $form->field($model, 'final_grade')->textInput() ?>
 

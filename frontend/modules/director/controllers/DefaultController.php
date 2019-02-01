@@ -41,6 +41,12 @@ class DefaultController extends Controller
         ]);
     }
 
+    public function actionStatistika() {
+        return $this->render('statistika', []);
+    }
+
+    // public function get
+
 
 
     public function getLoggedUserFullName($user){
