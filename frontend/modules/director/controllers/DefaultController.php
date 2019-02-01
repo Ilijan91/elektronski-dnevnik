@@ -58,6 +58,21 @@ class DefaultController extends Controller
         ]);
     }
 
+    public function actionStatistika_po_odeljenju() {
+        $this->layout = 'main';
+
+        $stsub = new StudentSubject();
+        $avg = $stsub->getAvgGradeByDepartment();
+        foreach($avg as $average) {
+
+            $item[] = $average;
+        }
+        $ite = json_encode($item);
+        file_put_contents("prosek_po_odeljenju.json", $ite);
+        return $this->render('statistika_po_odeljenju', [
+        ]);
+    }
+
 
 
     public function getLoggedUserFullName($user){

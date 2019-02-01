@@ -125,5 +125,12 @@ class StudentSubject extends \yii\db\ActiveRecord
         $data = Yii::$app->db->createCommand($sql)->queryAll();
 
         return $data;
-    }    
+    }
+
+    public function getAvgGradeByDepartment() {
+        $sql = 'SELECT CONCAT(department.year, department.name) AS department, AVG(grade.title) AS avg_grade FROM student_subject inner join grade on student_subject.grade_id = grade.id inner join student on student_subject.student_id = student.id inner join department on student.department_id = department.id GROUP BY (department_id)';
+        $data = Yii::$app->db->createCommand($sql)->queryAll();
+
+        return $data;
+    }
 }
