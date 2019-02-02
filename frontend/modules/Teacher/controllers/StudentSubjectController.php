@@ -134,8 +134,21 @@ class StudentSubjectController extends Controller
         $this->layout = 'main';
         $model = new StudentSubject();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'student_id' => $model->student_id]);
+        if($model->load(Yii::$app->request->post())) {
+            $post = Yii::$app->request->post('StudentSubject');
+            $student_id = $post['student_id'];
+            $subject_id = $post['subject_id'];
+            $grade_id = $post['grade_id'];
+            $ids = StudentSubject::find()->select('id')->where("student_id = $student_id")->andWhere("subject_id = $subject_id")->andWhere("grade_id is null")->all();
+            $count = count($ids);
+            if($count > 0) {
+                $model2 = $this->findModel($ids);
+                $sql = "UPDATE student_subject SET grade_id = '$grade_id' WHERE student_subject.id = ".$model2->id;
+                $model2 = Yii::$app->db->createCommand($sql)->execute();
+            } else {
+                $model->save();
+            }
+            Yii::$app->session->setFlash('success', "Grade created successfully."); 
         }
 
         return $this->render('create', [

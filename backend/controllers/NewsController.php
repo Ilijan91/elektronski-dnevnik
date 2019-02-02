@@ -87,8 +87,7 @@ class NewsController extends Controller
                 
                 foreach($images as $image){
 
-                   //  $image->saveAs('img/upload/'.$image->baseName. '.'.$image->extension);
-                     $image->saveAs( \Yii::getAlias('@webfront').'/frontend/web/img/'.$image->baseName. '.'.$image->extension);       
+                     $image->saveAs('../../frontend/web/img/upload/'.$image->baseName. '.'.$image->extension);       
                 }
             
             

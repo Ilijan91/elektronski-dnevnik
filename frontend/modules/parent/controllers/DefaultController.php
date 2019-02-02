@@ -3,10 +3,18 @@
 namespace frontend\modules\parent\controllers;
 use backend\models\News;
 use backend\models\Student;
+use backend\models\StudentSubject;
 use backend\models\StudentSearch;
 use backend\models\User;
 use backend\models\Roll;
-// use backend\controllers\NewsController;
+use backend\models\Department;
+use frontend\modules\parent\models\Messages;
+use frontend\modules\parent\models\MessagesSearch;
+use frontend\modules\parent\controllers\MessagesController;
+use backend\models\Subject;
+use backend\models\Days;
+use backend\models\Classes;
+use backend\models\Schedule;
 use yii\web\Controller;
 use Yii;
 
@@ -42,28 +50,110 @@ class DefaultController extends Controller
     }
     public function actionGrade($id) {
         $student = Student::find()->where("user_id = $id")->all();
+
+
+        $studenttt= new StudentSubject;
+
+        $diary=$studenttt->getGradesByStudent($id);
+
+      
+
+        $title=array_column($diary, 'title');
+        $grade=array_column($diary, 'grades');
+        
+
+        $grades=array_combine($title, $grade);
+
+        
+
         $this->layout = "main";
+        $subjects=Subject::find()->all();
+
+        $StudentSubject=StudentSubject::find()
+        ->select('grade_id')
+        ->where(['student_id'=>$id])
+        ->all();
+
+        
+        
+
         return $this->render('grade', [
             'student' => $student,
+            'subjects' => $subjects,
+            'StudentSubject' => $StudentSubject,
+            'grades'=>$grades,
+            
+        
+        ]);  
+    }
+
+    public function actionTeachermeeting()
+    {
+       
+
+        
+        $this->layout = "main";
+
+        return $this->render('teachermeeting', [
+           
         ]);
     }
-    protected function findModel()
+
+    public function actionSchedule($id)
     {
-        if (($model = Yii::$app->user->identity->id) !== null) {
+        $this->layout = 'main';
+        $modelDays= Days::find()->all();
+        $modelClasses= Classes::find()->all();
+        $schedule= new Schedule();
+        $model = $schedule->getScheduleByDepartmentId($id);
+        $department_name = $schedule->getDepartmentFullName($id);
+        //Ako nije kreiran raspored za izabrano odeljenje izbaci gresku
+        if(count($model) < 1){
+            $msg= "<h4>There is no data for department</h4>";
+            return $this->render('error', [
+                'msg' => $msg,
+            ]);
+        }else{
+            return $this->render('schedule', [
+                'model' => $model,
+                'modelDays'=>$modelDays,
+                'modelClasses'=>$modelClasses,
+                'department_name'=>$department_name,
+            ]);
+        }
+    }
+
+    protected function findModel($id)
+    {
+        if (($model = Messages::findOne($id)) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-
     public function getLoggedUserFullName($user){
         $userFullName = $user->first_name.' '.$user->last_name;
         return $userFullName;
     }
+
     public function getLoggedUserRollTitle($user_roll_id){
         $roll_arr = Roll::find()->select('title')->where(['id'=>$user_roll_id])->one();
          $roll = $roll_arr['title'];   
          return $roll;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

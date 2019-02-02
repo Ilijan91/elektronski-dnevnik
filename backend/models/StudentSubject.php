@@ -12,7 +12,6 @@ use Yii;
  * @property int $subject_id
  * @property int $grade_id
  * @property int $final_grade
- * @property string $date
  *
  * @property Grade $grade0
  */
@@ -34,7 +33,6 @@ class StudentSubject extends \yii\db\ActiveRecord
         return [
             [['student_id', 'subject_id'], 'required'],
             [['student_id', 'subject_id', 'grade_id', 'final_grade'], 'integer'],
-            [['date'], 'safe'],
             [['grade_id'], 'exist', 'skipOnError' => true, 'targetClass' => Grade::className(), 'targetAttribute' => ['grade_id' => 'id']],
             [['student_id'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['student_id' => 'id']],
             [['subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => Subject::className(), 'targetAttribute' => ['subject_id' => 'id']],
@@ -52,7 +50,7 @@ class StudentSubject extends \yii\db\ActiveRecord
             'subject_id' => 'Subject ID',
             'grade_id' => 'Grade',
             'final_grade' => 'Final Grade',
-            'date' => 'Date',
+            
         ];
     }
 
@@ -106,7 +104,7 @@ class StudentSubject extends \yii\db\ActiveRecord
     public function getGradesByStudent($student_id)
     {
         
-        $sql = "SELECT student_id, subject_id, date, subject.title, student.first_name, student.last_name, GROUP_CONCAT(grade_id) AS grades 
+        $sql = "SELECT student_id, subject_id, subject.title, student.first_name, student.last_name, GROUP_CONCAT(grade_id) AS grades 
         FROM student_subject 
         INNER JOIN student 
         ON student_subject.student_id = student.id 
@@ -118,6 +116,20 @@ class StudentSubject extends \yii\db\ActiveRecord
         $subject_id = $this->getSubject();
         $data = Yii::$app->db->createCommand($sql)->queryAll();
        
+        return $data;
+    }
+
+    public function getAvgGrade() {
+        $sql = 'SELECT subject.title, AVG(grade.title) AS avg_grade FROM student_subject inner join subject on student_subject.subject_id = subject.id inner join grade on student_subject.grade_id = grade.id GROUP BY (subject_id)';
+        $data = Yii::$app->db->createCommand($sql)->queryAll();
+
+        return $data;
+    }
+
+    public function getAvgGradeByDepartment() {
+        $sql = 'SELECT CONCAT(department.year, department.name) AS department, AVG(grade.title) AS avg_grade FROM student_subject inner join grade on student_subject.grade_id = grade.id inner join student on student_subject.student_id = student.id inner join department on student.department_id = department.id GROUP BY (department_id)';
+        $data = Yii::$app->db->createCommand($sql)->queryAll();
+
         return $data;
     }
 }

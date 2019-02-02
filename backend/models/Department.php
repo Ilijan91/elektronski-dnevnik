@@ -1,6 +1,7 @@
 <?php
 
 namespace backend\models;
+use backend\models\Student;
 
 use Yii;
 
@@ -60,6 +61,19 @@ class Department extends \yii\db\ActiveRecord
 
     public function getYearName() {
         return $this->year . $this->name;
+    }
+
+    public static function getDepartmentById($department_id) {
+        $student = new Student();
+        $student_id = $student->id;
+        $department_id = $student->getStudentById($student_id)->department_id;
+        $subjQuery = 
+            'SELECT department.id, department.user_id, CONCAT(user.first_name, , user.last_name) AS full_name
+            FROM department INNER JOIN user ON department.user_id = user.id
+            WHERE id ='.$department_id;
+            
+         $data = \Yii::$app->db->createCommand($subjQuery)->queryAll();
+         return $data;
     }
     
 }

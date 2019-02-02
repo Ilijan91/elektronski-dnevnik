@@ -14,7 +14,7 @@ use backend\models\User;
                             ->select('id')
                             ->where(['user_id'=>Yii::$app->user->identity->id])
                             ->one();
-            $department_id= $department->id;
+                            $department_id= $department->id;
         NavBar::begin([
             'brandLabel' => 'School management system',
             'brandUrl' => Yii::$app->homeUrl,
@@ -40,7 +40,7 @@ use backend\models\User;
             </li>';
         $menuItems[] = ['label' => 'Schedule', 'url' => ['default/schedule','department_id' =>$department_id ]];
         $menuItems[] = ['label' => 'News Feed', 'url' => ['default/news']];
-        $menuItems[] = ['label' => 'Messages', 'url' => ['default/messages']];
+        $menuItems[] = ['label' => 'Messages', 'url' => ['messages/index', 'id' => Yii::$app->user->identity->id]];
         $menuItems[] = '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
