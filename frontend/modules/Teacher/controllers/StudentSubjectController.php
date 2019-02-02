@@ -81,14 +81,15 @@ class StudentSubjectController extends Controller
      */
     public function actionView($student_id)
     {
-        //Dohvati odeljenje ucenika koga drzi ulogovani ucitelj
-        $department = Department::find()
-                       ->select('id')
-                       ->where(['user_id'=>Yii::$app->user->identity->id])
-                       ->one();
+         //Dohvati odeljenje ucenika koga drzi ulogovani ucitelj
+         $department = Department::find()
+                        ->select('id')
+                        ->where(['user_id'=>Yii::$app->user->identity->id])
+                        ->one();
         $department_id= $department->id;
+        
         //Dohvati puni naziv odeljenja kome predaje ulogovani ucitelj
-        $department = Department::find()->where(['id'=> 1])->one();
+        $department = Department::find()->where(['id'=> $department_id])->one();
         $department_name = $department->getYearName();
 
         $student = Student::find()->where(['id'=> $student_id])->one();;
@@ -145,12 +146,13 @@ class StudentSubjectController extends Controller
             } else {
                 $model->save();
             }
-            Yii::$app->session->setFlash('success', "Grade created successfully."); 
+            Yii::$app->session->setFlash('success', "Grade inserted successfully."); 
         }
 
         return $this->render('create', [
             'model' => $model,
             'department_name'=>$department_name,
+            'modelStudents'=>$modelStudents,
             
         ]);
     }
@@ -184,17 +186,17 @@ class StudentSubjectController extends Controller
                         //dodeljujemo jedinstvenu vrednost name atributu za grade kako bismo pratili post zahteve koje saljemo nakon submitovanja forme. Tu vrednost za definisemo kao id studenta i id ocene
                         $grade_attribute = $student_id.'ocena';     
                     // }
-                    // if(!isset($_POST["$grade_attribute"])){
-                        $model->grade = null;
-                    // }else{
+                    if(!isset($_POST["$grade_attribute"])){
+                       $model->grade_id = null;
+                    }else{
                        
-                        $model->grade = $_POST["$grade_attribute"];
+                        $model->grade_id = $_POST["$grade_attribute"];
                         
-                    // }
+                    }
                     $model->save();
                    
             }
-            // Yii::$app->session->setFlash('success', "Schedule created successfully."); 
+            Yii::$app->session->setFlash('success', "Grades inserted successfully."); 
             // return $this->redirect(['index','department_id' =>$department_id, ]);
     }
         $this->layout = 'main';

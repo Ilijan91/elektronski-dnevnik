@@ -10,7 +10,7 @@ use Yii;
  * @property int $id
  * @property int $student_id
  * @property int $subject_id
- * @property int $grade
+ * @property int $grade_id
  * @property int $final_grade
  * @property string $date
  *
