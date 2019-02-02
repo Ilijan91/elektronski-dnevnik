@@ -81,7 +81,12 @@ class StudentSubjectController extends Controller
      */
     public function actionView($student_id)
     {
-
+        //Dohvati odeljenje ucenika koga drzi ulogovani ucitelj
+        $department = Department::find()
+                       ->select('id')
+                       ->where(['user_id'=>Yii::$app->user->identity->id])
+                       ->one();
+        $department_id= $department->id;
         //Dohvati puni naziv odeljenja kome predaje ulogovani ucitelj
         $department = Department::find()->where(['id'=> 1])->one();
         $department_name = $department->getYearName();
@@ -117,6 +122,9 @@ class StudentSubjectController extends Controller
      */
     public function actionCreate($department_id)
     {    
+        //Dohvati id ucitelja koji je trenutno ulogovan i pronadji njegove ucenike pomocu funkcije getStudentsByTeacherId
+        $teacher_id = \Yii::$app->user->identity->id;
+        $modelStudents = $this->getStudentsByTeacherId($teacher_id);
         //Dohvati puni naziv odeljenja kome predaje ulogovani ucitelj
         $department = Department::find()->where(['id'=> $department_id])->one();
         $department_name = $department->getYearName();
@@ -208,7 +216,7 @@ class StudentSubjectController extends Controller
     public function actionUpdate($id)
     {   
         //Dohvati puni naziv odeljenja kome predaje ulogovani ucitelj
-        $department = Department::find()->where(['id'=> 2])->one();
+        $department = Department::find()->where(['id'=> $id])->one();
         $department_name = $department->getYearName();
 
         $this->layout = 'main';

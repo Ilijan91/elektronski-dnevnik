@@ -33,7 +33,7 @@ class StudentSubject extends \yii\db\ActiveRecord
     {
         return [
             [['student_id', 'subject_id'], 'required'],
-            [['student_id', 'subject_id', 'grade', 'final_grade'], 'integer'],
+            [['student_id', 'subject_id', 'grade_id', 'final_grade'], 'integer'],
             [['grade_id'], 'exist', 'skipOnError' => true, 'targetClass' => Grade::className(), 'targetAttribute' => ['grade_id' => 'id']],
             [['student_id'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['student_id' => 'id']],
             [['subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => Subject::className(), 'targetAttribute' => ['subject_id' => 'id']],
