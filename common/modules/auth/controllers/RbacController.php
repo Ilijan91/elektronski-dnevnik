@@ -1,25 +1,21 @@
 <?php
 
-namespace backend\controllers;
+namespace common\modules\auth\controllers;
 
 use Yii;
-use backend\models\Diary;
-use backend\models\DiarySearch;
+use common\modules\auth\models\AuthItem;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use backend\models\Student;
-use backend\models\Subject;
-use backend\models\StudentSearch;
-
 
 /**
- * DiaryController implements the CRUD actions for Diary model.
+ * RbacController implements the CRUD actions for AuthItem model.
  */
-class DiaryController extends Controller
+class RbacController extends Controller
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function behaviors()
     {
@@ -32,23 +28,25 @@ class DiaryController extends Controller
             ],
         ];
     }
+
     /**
-     * Lists all Diary models.
+     * Lists all AuthItem models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new DiarySearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = new ActiveDataProvider([
+            'query' => AuthItem::find(),
+        ]);
+
         return $this->render('index', [
-            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
 
     /**
-     * Displays a single Diary model.
-     * @param integer $id
+     * Displays a single AuthItem model.
+     * @param string $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -60,16 +58,16 @@ class DiaryController extends Controller
     }
 
     /**
-     * Creates a new Diary model.
+     * Creates a new AuthItem model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Diary();
+        $model = new AuthItem();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->name]);
         }
 
         return $this->render('create', [
@@ -78,9 +76,9 @@ class DiaryController extends Controller
     }
 
     /**
-     * Updates an existing Diary model.
+     * Updates an existing AuthItem model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * @param string $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -89,7 +87,7 @@ class DiaryController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->name]);
         }
 
         return $this->render('update', [
@@ -98,9 +96,9 @@ class DiaryController extends Controller
     }
 
     /**
-     * Deletes an existing Diary model.
+     * Deletes an existing AuthItem model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * @param string $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -112,43 +110,18 @@ class DiaryController extends Controller
     }
 
     /**
-     * Finds the Diary model based on its primary key value.
+     * Finds the AuthItem model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Diary the loaded model
+     * @param string $id
+     * @return AuthItem the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Diary::findOne($id)) !== null) {
+        if (($model = AuthItem::findOne($id)) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
-    }
-    // public function getGrade()
-    // {
-    //     $student= Student::find()
-    //         ->select('first_name, last_name')
-    //         ->where
-    // }
-   // select diary.id, student_id, subject_id, GROUP_CONCAT(grade.title) as grades from diary inner join grade on diary.grade_id = grade.id where student_id = 1
-    public function actionGrades($id){
-      
-        $model = Diary::find()
-        ->select(['grade_id', 'student_id', 'subject_id'])
-        ->with(['grade'])
-        ->with(['student'])
-        ->with(['subject'])
-        ->where(['student_id'=>$id])
-        ->all();
-        $subjects = Subject::find()->all();
-        // $grades = $model->grade->title;
-       
-        return $this->render('grades', [
-            'model' => $model,
-            'subjects'=>$subjects,
-          
-        ]);
     }
 }

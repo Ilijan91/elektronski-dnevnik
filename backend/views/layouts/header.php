@@ -11,18 +11,14 @@ use yii\helpers\Html;
         ],
     ]);
     $menuItems = [
-        ['label' => 'Dashboard', 'url' => ['/site/index']],
         ['label' => 'Users', 'url' => ['/user/index']],
         ['label' => 'Departments', 'url' => ['/department/index']],
         ['label' => 'Subject', 'url' => ['/subject/index']],
         ['label' => 'Schedule', 'url' => ['/schedule/index']],
-        ['label' => 'Diary', 'url' => ['/diary/index']],
-        ['label' => 'Grades', 'url' => ['/grade/index']],
         ['label' => 'Student-subjects', 'url' => ['/student-subject/index']],
         ['label' => 'News Feed', 'url' => ['/news/index']],
-        ['label' => 'Teachers', 'url' => ['/user/teachers']],
         ['label' => 'Students', 'url' => ['/student/index']],
-        ['label' => 'Director', 'url' => ['/site/index']],
+        ['label' => 'Roll', 'url' => ['/roll/index']],
 
     ];
     if (Yii::$app->user->isGuest) {

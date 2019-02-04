@@ -179,18 +179,18 @@ class StudentSubjectController extends Controller
                     $model->final_grade = null;
                     $model->id = null;
                     $model->subject_id = $_POST['StudentSubject']['subject_id'];
-                    $model->student_id =$_POST["$student_id"];
+                    $model->student_id =$_POST[$student_id];
                     
                     //Ako nije definisana ocena za ucenika cas, ocena za tog ucenika iz defiisanog premeta ima vrednost null.
                     // for($i=0;$i<6;$i++){
                         //dodeljujemo jedinstvenu vrednost name atributu za grade kako bismo pratili post zahteve koje saljemo nakon submitovanja forme. Tu vrednost za definisemo kao id studenta i id ocene
                         $grade_attribute = $student_id.'ocena';     
                     // }
-                    if(!isset($_POST["$grade_attribute"])){
+                    if(!isset($_POST[$grade_attribute])){
                        $model->grade_id = null;
                     }else{
                        
-                        $model->grade_id = $_POST["$grade_attribute"];
+                        $model->grade_id = $_POST[$grade_attribute];
                         
                     }
                     $model->save();

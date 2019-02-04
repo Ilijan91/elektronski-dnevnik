@@ -29,10 +29,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'student_id',
-            'subject_id',
-            'grade_id',
-            'final_grade',
+            [
+                'attribute' => 'student_id',
+                'label' => 'Student',
+                'value' => $model->student->fullname
+            ],
+            [
+                'attribute' => 'subject_id',
+                'label' => 'Subject',
+                'value' => $model->subject->title
+            ],
         ],
     ]) ?>
 
