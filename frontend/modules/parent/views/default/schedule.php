@@ -7,6 +7,7 @@ $this->title = 'View Schedule: ' . $department_name;
 $this->params['breadcrumbs'][] = ['label' => 'Schedules', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
+<div class="container">
 
 <h1><?=$department_name?></h1>
 
@@ -47,7 +48,7 @@ foreach($modelDays as $modelDay){
 
 </div><!-- End of row -->
 </div><!-- End of schedule form -->
- 
+ </div>
 </div>
 
 

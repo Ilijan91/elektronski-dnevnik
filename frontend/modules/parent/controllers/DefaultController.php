@@ -80,8 +80,7 @@ class DefaultController extends Controller
         ]);
     }
     public function actionGrade($id) {
-        $student = Student::find()->where("user_id = $id")->all();
-
+        $student = Student::find()->where("id = $id")->all();
 
         $studenttt= new StudentSubject;
 
@@ -118,11 +117,17 @@ class DefaultController extends Controller
         ]);  
     }
 
+    public function actionNews() {
+        $this->layout = "main";
+        $news = News::find()->all();
+
+        return $this->render('news', [
+            'news' => $news,
+        ]);
+    }
+
     public function actionTeachermeeting()
     {
-       
-
-        
         $this->layout = "main";
 
         return $this->render('teachermeeting', [

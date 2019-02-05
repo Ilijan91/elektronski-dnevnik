@@ -11,7 +11,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Messages', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="messages-view">
+<div class="messages-view container">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

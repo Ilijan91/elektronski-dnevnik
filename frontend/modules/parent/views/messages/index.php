@@ -11,7 +11,7 @@ use frontend\modules\parent\models\User;
 $this->title = 'Messages';
 // $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="messages-index">
+<div class="messages-index container">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>

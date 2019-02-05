@@ -5,7 +5,7 @@ use yii\db\Migration;
 /**
  * Class m190204_092835_init_rbac
  */
-class m190205_113013_init_rbac extends Migration
+class m190205_224235_init_rbac extends Migration
 {
     /**
      * {@inheritdoc}
@@ -392,6 +392,11 @@ class m190205_113013_init_rbac extends Migration
         $parentDefaultSchedule->description = 'Schedule parent default';
         $auth->add($parentDefaultSchedule);
 
+        // add "parentDefaultNews" permission
+        $parentDefaultNews = $auth->createPermission('parent/default/news');
+        $parentDefaultNews->description = 'News parent default';
+        $auth->add($parentDefaultNews);
+
         // MESSAGES
 
         // add "parentMessagesIndex" permission
@@ -430,6 +435,7 @@ class m190205_113013_init_rbac extends Migration
         $auth->addChild($parent, $parentDefaultGrade);
         $auth->addChild($parent, $parentDefaultTeachermeeting);
         $auth->addChild($parent, $parentDefaultSchedule);
+        $auth->addChild($parent, $parentDefaultNews);
 
         // parent messages
         $auth->addChild($parent, $parentMessagesIndex);

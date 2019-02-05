@@ -9,7 +9,7 @@ $this->title = 'Send Message to Teacher';
 $this->params['breadcrumbs'][] = ['label' => 'Messages', 'url' => ['index']];
 // $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="messages-create">
+<div class="messages-create container">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

@@ -2,9 +2,11 @@
 <div class="parent-default-index">
     
     <div class="container main">
-        <h2>Subjects</h2>
+        
         <?php 
-       
+            foreach($student as $fullname) {
+                echo '<h2>'.$fullname->first_name.' '.$fullname->last_name.'</h2>';
+            }
         ?>
         <table class="table">
             <thead>
