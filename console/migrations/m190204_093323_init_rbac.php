@@ -170,6 +170,11 @@ class m190204_093323_init_rbac extends Migration
 
         $auth->assign($admin, 1);
 
+        // add "admin" role and give this role the "createUser" permission
+        $parent = $auth->createRole('parent');
+        $auth->add($parent);
+
+
         // add "admin" role and give this role the "updatePost" permission
         // as well as the permissions of the "author" role
         // $admin = $auth->createRole('admin');

@@ -12,6 +12,8 @@ use backend\models\Department;
 use backend\models\User;
 use backend\controllers\NewsController;
 use backend\controllers\DepartmentController;
+use common\models\LoginForm;
+use yii\helpers\Url;
 /**
  * Default controller for the `director` module
  */
@@ -23,6 +25,8 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
+        $model = new LoginForm();
+        if($model->load(Yii::$app->request->post()) && $model->login()) {
         //Globalna promenljiva school name iz config-main.php params
         $school_name =\Yii::$app->params['school_name'];
         
@@ -41,6 +45,9 @@ class DefaultController extends Controller
             'roll'=>$roll,
             'school_name'=>$school_name
         ]);
+        } else {
+            $this->redirect(Url::to(['/site/index']));
+        }
     }
 
     public function actionStatistika() {

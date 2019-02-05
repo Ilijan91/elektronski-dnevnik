@@ -101,6 +101,11 @@ class SiteController extends Controller
                 return $this->redirect('director');
             }elseif($roll_id == 4){
                 return $this->redirect('parent');
+            }elseif($roll_id == 1){
+                // $post = Yii::$app->request->post();
+                // $arrayParams = ['username'=> $model->username, 'password'=> $model->password];
+                // $params = array_merge(['site/index'], $arrayParams);
+                return $this->redirect(Yii::$app->urlManagerBackend->createUrl(['site/index']));
             }else{
                 return $this->redirect('site/dashboard');
             }
