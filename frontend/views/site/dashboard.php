@@ -3,6 +3,8 @@
 /* @var $this yii\web\View */
 
 $this->title = 'My Yii Application';
+$session = Yii::$app->session;
+        print_r($session);
 ?>
 <div class="site-index">
 

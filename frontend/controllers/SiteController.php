@@ -12,6 +12,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+// use yii2mod\rbac\filters\AccessControl;
 /**
  * Site controller
  */
@@ -25,6 +26,10 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
+                // 'allowActions' => [
+                //     'index',
+                //     // The actions listed here will be allowed to everyone including guests.
+                // ],
                 'only' => ['logout', 'signup'],
                 'rules' => [
                     [
@@ -47,21 +52,6 @@ class SiteController extends Controller
             ],
         ];
     }
-  
-//  public function actionAction(){
-//     $controllers = [];
-//         foreach (glob(APP_PATH . '/src/Controller/*Controller.php') as $controller) {
-//             $className = 'YourNamespace\Controller\\' . basename($controller, '.php');
-//             $controllers[$className] = [];
-//             $methods = (new \ReflectionClass($className))->getMethods(\ReflectionMethod::IS_PUBLIC);
-//             foreach ($methods as $method) {
-//                 if (\Phalcon\Text::endsWith($method->name, 'Action')) {
-//                     $controllers[$className][] = $method->name;
-//                 }
-//             }
-//         }
-//         return $this->render('action');
-//  }
         
     /**
      * {@inheritdoc}
@@ -85,6 +75,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        
         $model = new LoginForm();
         $this->layout = 'login';
         if (!Yii::$app->user->isGuest) {
@@ -95,6 +86,7 @@ class SiteController extends Controller
        
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             $roll_id = \Yii::$app->user->identity->roll_id;
+            
             if($roll_id == 2){
                 return $this->redirect('teacher');
             }elseif($roll_id == 3){
@@ -102,10 +94,7 @@ class SiteController extends Controller
             }elseif($roll_id == 4){
                 return $this->redirect('parent');
             }elseif($roll_id == 1){
-                // $post = Yii::$app->request->post();
-                // $arrayParams = ['username'=> $model->username, 'password'=> $model->password];
-                // $params = array_merge(['site/index'], $arrayParams);
-                return $this->redirect(Yii::$app->urlManagerBackend->createUrl(['site/index']));
+                return $this->redirect(Yii::$app->urlManagerBackend->createUrl(['/']));
             }else{
                 return $this->redirect('site/dashboard');
             }
@@ -151,67 +140,16 @@ class SiteController extends Controller
     public function actionLogout()
     {
         Yii::$app->user->logout();
-        return $this->goHome();
+        return $this->redirect(['index']);
     }
-    /**
-     * Displays contact page.
-     *
-     * @return mixed
-     */
-    public function actionContact()
-    {
-       
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-                Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
-            } else {
-                Yii::$app->session->setFlash('error', 'There was an error sending your message.');
-            }
-            return $this->refresh();
-        } else {
-            return $this->render('contact', [
-                'model' => $model,
-            ]);
-        }
-    }
+  
     /**
      * Displays about page.
      *
      * @return mixed
      */
-    public function actionAbout()
-    {
-        
-        return $this->render('about');
-    }
-    /**
-     * Signs user up.
-     *
-     * @return mixed
-     */
-    public function actionSignup()
-    {
-         //Ukoliko korisnik nije ulogovan nema pristum ovoj stranici
-         if (!Yii::$app->user->isGuest) {
-            $this->layout = 'login';
-            $modelLogin = new LoginForm();
-            return $this->render('login', [
-                'model' => $modelLogin,
-            ]);
-        }
-        $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post())) {
-            if ($user = $model->signup()) {
-                if (Yii::$app->getUser()->login($user)) {
-                    return $this->goHome();
-                }
-            }
-        }
-        return $this->render('signup', [
-            'model' => $model,
-        ]);
-    }
+   
+   
     /**
      * Requests password reset.
      *

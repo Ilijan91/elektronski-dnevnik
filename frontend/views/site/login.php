@@ -17,7 +17,7 @@ $this->title = 'Login';
 
     <div class="row">
        
-            <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+            <?php $form = ActiveForm::begin(['id' => 'login-form', 'options' => ['method' => 'post']]); ?>
 
                 <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
 

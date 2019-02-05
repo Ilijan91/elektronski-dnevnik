@@ -13,6 +13,7 @@ use backend\models\User;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * StudentSubjectController implements the CRUD actions for StudentSubject model.
@@ -24,14 +25,33 @@ class StudentSubjectController extends Controller
      */
     public function behaviors()
     {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
+        $behaviors['verbs'] = [
+                    'class' => VerbFilter::className(),
+                    'actions' => [
+                        'delete' => ['POST'],
+                    ],
+                ];
+        $behaviors['access'] = [
+                    'class' => AccessControl::className(),
+                    'rules'=>[
+                        [
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function($rules, $action){
+                            //module = \yii::$app->controller->module->id;
+                            $action = Yii::$app->controller->action->id;
+                            $controller = Yii::$app->controller->id;
+                            $route = "$controller/$action";
+                            $post = Yii::$app->request->post();
+                            if(\Yii::$app->user->can($route)){
+                                return true;
+                            }
+                        }
+                    ],
+                    ],
+                    
+                ];
+                return $behaviors;
     }
 
     /**
@@ -81,13 +101,12 @@ class StudentSubjectController extends Controller
      */
     public function actionView($student_id)
     {
-         //Dohvati odeljenje ucenika koga drzi ulogovani ucitelj
-         $department = Department::find()
-                        ->select('id')
-                        ->where(['user_id'=>Yii::$app->user->identity->id])
-                        ->one();
+        //Dohvati odeljenje ucenika koga drzi ulogovani ucitelj
+        $department = Department::find()
+                       ->select('id')
+                       ->where(['user_id'=>Yii::$app->user->identity->id])
+                       ->one();
         $department_id= $department->id;
-        
         //Dohvati puni naziv odeljenja kome predaje ulogovani ucitelj
         $department = Department::find()->where(['id'=> $department_id])->one();
         $department_name = $department->getYearName();
@@ -129,6 +148,7 @@ class StudentSubjectController extends Controller
         //Dohvati puni naziv odeljenja kome predaje ulogovani ucitelj
         $department = Department::find()->where(['id'=> $department_id])->one();
         $department_name = $department->getYearName();
+
         $this->layout = 'main';
         $model = new StudentSubject();
 

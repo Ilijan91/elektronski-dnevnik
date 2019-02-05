@@ -23,14 +23,17 @@ $this->title = 'Messages';
         <?= Html::a('Send Message', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?php
+    // print_r($message);
+    // print_r($sender);
+    
         echo '<div style="border: 1.5px solid grey;">';
         foreach($sender as $send) {
             foreach($message as $text) {
-                echo '<h4>'.$send['first_name'] . ' ' . $send['last_name'].'</h4>';
+                echo '<h4>'.$sender['first_name'] . ' ' . $sender['last_name'].'</h4>';
                 echo '<p>'.$text['text'].'</p>';
             }
         }
-        echo '</div>';
+        echo '</div>';  
     ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -47,7 +50,7 @@ $this->title = 'Messages';
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
-    ]); ?>
+    ]);?>
 
     
 </div>

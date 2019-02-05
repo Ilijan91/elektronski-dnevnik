@@ -12,7 +12,6 @@ use Yii;
  * @property int $subject_id
  * @property int $grade_id
  * @property int $final_grade
- * @property string $date
  *
  * @property Grade $grade0
  */
@@ -51,7 +50,7 @@ class StudentSubject extends \yii\db\ActiveRecord
             'subject_id' => 'Subject ID',
             'grade_id' => 'Grade',
             'final_grade' => 'Final Grade',
-            'date' => 'Date',
+            
         ];
     }
 
