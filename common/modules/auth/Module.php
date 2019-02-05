@@ -1,23 +1,19 @@
 <?php
 
-
-namespace frontend\modules\teacher;
+namespace common\modules\auth;
 
 /**
- * teacher module definition class
+ * auth module definition class
  */
 class Module extends \yii\base\Module
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-
-    public $controllerNamespace = 'frontend\modules\teacher\controllers';
-
-
+    public $controllerNamespace = 'common\modules\auth\controllers';
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function init()
     {

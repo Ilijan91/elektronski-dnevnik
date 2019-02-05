@@ -2,6 +2,7 @@
 
 namespace frontend\modules\parent;
 
+// use yii2mod\rbac\filters\AccessControl;
 /**
  * parent module definition class
  */
@@ -21,5 +22,11 @@ class Module extends \yii\base\Module
 
         // custom initialization code goes here
     }
+    // public function behaviors()
+    // {
+    //     return [
+    //         AccessControl::class
+    //     ];
+    // }
     
 }

@@ -111,22 +111,28 @@ class Messages extends \yii\db\ActiveRecord
         $sql = 'SELECT messages.id, messages.text, messages.sender FROM messages WHERE messages.receiver = '.Yii::$app->user->identity->id;
 
         $mess = \Yii::$app->db->createCommand($sql)->queryAll();
-
-        return $mess;
+        if(count($mess) < 1){
+            return null;
+        }else{
+            return $mess;
+        }
+       
     }
 
     public function getSenderFullName() {
         $mess = $this->getMessagesByTeacher();
-        $column = array_column($mess, 'sender');
-        $iml = implode(",", $column);
-        // $message = $mess->sender;
-        // foreach($mess as $mes) {
-            $sql = 'SELECT user.id, user.first_name, user.last_name FROM user WHERE user.id IN ('.$iml.')';
-            $sender = \Yii::$app->db->createCommand($sql)->queryAll();
-        // }
-        
-
-        return $sender;
+        if($mess == null){
+            return null;
+        }else{
+            $column = array_column($mess, 'sender');
+            $iml = implode(",", $column);
+            // $message = $mess->sender;
+            // foreach($mess as $mes) {
+                $sql = 'SELECT user.id, user.first_name, user.last_name FROM user WHERE user.id IN ('.$iml.')';
+                $sender = \Yii::$app->db->createCommand($sql)->queryAll();
+            // }
+            return $sender;
+        }
     }
     
 }

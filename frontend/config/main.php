@@ -12,8 +12,8 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'modules' => [
-        'teacher' => [
-            'class' => 'frontend\modules\teacher\Module',
+        'teachers' => [
+            'class' => 'frontend\modules\teachers\Module',
         ],
         'parent' => [
             'class' => 'frontend\modules\parent\Module',
@@ -21,6 +21,9 @@ return [
         'director' => [
             'class' => 'frontend\modules\director\Module',
         ],
+        // 'rbac' => [
+        //     'class' => 'yii2mod\rbac\ConsoleModule'
+        // ]
     ],
     'components' => [
         'request' => [
@@ -33,7 +36,7 @@ return [
         ],
         'session' => [
             // this is the name of the session cookie used for login on the frontend
-            'name' => 'advanced-frontend',
+            'name' => 'advanced',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -60,7 +63,7 @@ return [
 
         	'class' => 'yii\web\urlManager',
 
-        	'baseUrl' => '@backend\web\img',
+        	'baseUrl' => 'http://localhost/dnevnik/backend/web',
 
         	'enablePrettyUrl' => true,
 

@@ -12,10 +12,20 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+    'modules' => [
+        'modules' => [
+            'rbac' => [
+                'class' => 'yii2mod\rbac\Module',
+            ],
+        ],
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
+        ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+            'defaultRoles' => ['guest', 'user'],
         ],
         
 
@@ -26,7 +36,7 @@ return [
         ],
         'session' => [
             // this is the name of the session cookie used for login on the backend
-            'name' => 'advanced-backend',
+            'name' => 'advanced',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -49,6 +59,17 @@ return [
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
         ),
         ],
+        'urlManagerFrontend' => [
+
+        	'class' => 'yii\web\urlManager',
+
+        	'baseUrl' => 'http://localhost/dnevnik/frontend/web',
+
+        	'enablePrettyUrl' => true,
+
+        	'showScriptName' => false,
+
+    	],
     ],
     'params' => $params,
 ];
