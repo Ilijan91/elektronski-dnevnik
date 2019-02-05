@@ -21,11 +21,15 @@ return [
         'director' => [
             'class' => 'frontend\modules\director\Module',
         ],
-            'rbac' => [
-                'class' => 'yii2mod\rbac\Module',
-            ],
+        'rbac' => [
+            'class' => 'yii2mod\rbac\Module',
+        ],
     ],
     'components' => [
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+            'defaultRoles' => ['guest', 'user'],
+        ],
         'request' => [
             'csrfParam' => '_csrf-frontend',
         ],
@@ -57,7 +61,7 @@ return [
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
-        ),
+            ),
         ],
         'urlManagerBackend' => [
 

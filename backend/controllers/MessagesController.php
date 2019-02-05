@@ -8,6 +8,7 @@ use backend\models\SearchMessages;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * MessagesController implements the CRUD actions for Messages model.
@@ -19,14 +20,32 @@ class MessagesController extends Controller
      */
     public function behaviors()
     {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
+        $behaviors['verbs'] = [
+            'class' => VerbFilter::className(),
+            'actions' => [
+                'delete' => ['POST'],
+            ],
+        ];
+        $behaviors['access'] = [
+            'class' => AccessControl::className(),
+            'rules'=>[
+                [
+                    'allow' => true,
+                    'roles' => ['@'],
+                    'matchCallback' => function($rules, $action){
+                        //module = \yii::$app->controller->module->id;
+                        $action = Yii::$app->controller->action->id;
+                        $controller = Yii::$app->controller->id;
+                        $route = "$controller/$action";
+                        $post = Yii::$app->request->post();
+                        if(\Yii::$app->user->can($route)){
+                            return true;
+                        }
+                    }
                 ],
             ],
         ];
+        return $behaviors;
     }
 
     /**
@@ -35,7 +54,7 @@ class MessagesController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new SearchMessages();
+        $searchModel = new MessagesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

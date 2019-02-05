@@ -10,7 +10,7 @@ use backend\models\News;
 /**
  * SearchNews represents the model behind the search form of `backend\models\News`.
  */
-class SearchNews extends News
+class NewsSearch extends News
 {
     /**
      * @inheritdoc

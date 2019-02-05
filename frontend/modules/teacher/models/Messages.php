@@ -126,11 +126,8 @@ class Messages extends \yii\db\ActiveRecord
         }else{
             $column = array_column($mess, 'sender');
             $iml = implode(",", $column);
-            // $message = $mess->sender;
-            // foreach($mess as $mes) {
                 $sql = 'SELECT user.id, user.first_name, user.last_name FROM user WHERE user.id IN ('.$iml.')';
                 $sender = \Yii::$app->db->createCommand($sql)->queryAll();
-            // }
             return $sender;
         }
     }

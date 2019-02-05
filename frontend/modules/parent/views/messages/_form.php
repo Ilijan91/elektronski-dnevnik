@@ -12,10 +12,6 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'sender')->textInput(['readonly' => true]) ?>
-
-    <?= $form->field($model, 'receiver')->textInput(['readonly' => true]) ?>
-
     <?= $form->field($model, 'text')->textarea(['rows' => 6]) ?>
 
     <div class="form-group">

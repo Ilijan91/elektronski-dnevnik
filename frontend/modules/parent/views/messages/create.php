@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model frontend\modules\parent\models\Messages */
 
-$this->title = 'Send Message';
+$this->title = 'Send Message to Teacher';
 $this->params['breadcrumbs'][] = ['label' => 'Messages', 'url' => ['index']];
 // $this->params['breadcrumbs'][] = $this->title;
 ?>

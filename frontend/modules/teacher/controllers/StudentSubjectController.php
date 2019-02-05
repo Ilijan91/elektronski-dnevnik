@@ -36,12 +36,12 @@ class StudentSubjectController extends Controller
                     'rules'=>[
                         [
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['teacher'],
                         'matchCallback' => function($rules, $action){
                             //module = \yii::$app->controller->module->id;
                             $action = Yii::$app->controller->action->id;
                             $controller = Yii::$app->controller->id;
-                            $route = "$controller/$action";
+                            $route = "teacher/$controller/$action";
                             $post = Yii::$app->request->post();
                             if(\Yii::$app->user->can($route)){
                                 return true;
@@ -149,10 +149,6 @@ class StudentSubjectController extends Controller
         $department = Department::find()->where(['id'=> $department_id])->one();
         $department_name = $department->getYearName();
 
-        //Dohvati id ucitelja koji je trenutno ulogovan i pronadji njegove ucenike pomocu funkcije getStudentsByTeacherId
-        $teacher_id = \Yii::$app->user->identity->id;
-        $modelStudents = $this->getStudentsByTeacherId($teacher_id);
-
         $this->layout = 'main';
         $model = new StudentSubject();
 
@@ -170,7 +166,7 @@ class StudentSubjectController extends Controller
             } else {
                 $model->save();
             }
-            Yii::$app->session->setFlash('success', "Grade created successfully."); 
+            Yii::$app->session->setFlash('success', "Grade inserted successfully."); 
         }
 
         return $this->render('create', [
@@ -203,24 +199,24 @@ class StudentSubjectController extends Controller
                     $model->final_grade = null;
                     $model->id = null;
                     $model->subject_id = $_POST['StudentSubject']['subject_id'];
-                    $model->student_id =$_POST["$student_id"];
+                    $model->student_id =$_POST[$student_id];
                     
                     //Ako nije definisana ocena za ucenika cas, ocena za tog ucenika iz defiisanog premeta ima vrednost null.
                     // for($i=0;$i<6;$i++){
                         //dodeljujemo jedinstvenu vrednost name atributu za grade kako bismo pratili post zahteve koje saljemo nakon submitovanja forme. Tu vrednost za definisemo kao id studenta i id ocene
                         $grade_attribute = $student_id.'ocena';     
                     // }
-                    if(!isset($_POST["$grade_attribute"])){
+                    if(!isset($_POST[$grade_attribute])){
                        $model->grade_id = null;
                     }else{
                        
-                        $model->grade_id = $_POST["$grade_attribute"];
+                        $model->grade_id = $_POST[$grade_attribute];
                         
                     }
                     $model->save();
                    
             }
-            // Yii::$app->session->setFlash('success', "Schedule created successfully."); 
+            Yii::$app->session->setFlash('success', "Grades inserted successfully."); 
             // return $this->redirect(['index','department_id' =>$department_id, ]);
     }
         $this->layout = 'main';

@@ -34,8 +34,16 @@ $this->params['breadcrumbs'][] = $this->title;
             'JMBG',
             'address',
             'phone',
-            'user_id',
-            'department_id',
+            [
+                'attribute' => 'user_id',
+                'label' => 'Parent',
+                'value' => $model->user->fullname
+            ],
+            [
+                'attribute' => 'department_id',
+                'label' => 'Department',
+                'value' => $model->department->yearname
+            ],
         ],
     ]) ?>
 

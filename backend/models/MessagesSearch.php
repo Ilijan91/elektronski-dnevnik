@@ -10,7 +10,7 @@ use backend\models\Messages;
 /**
  * SearchMessages represents the model behind the search form of `backend\models\Messages`.
  */
-class SearchMessages extends Messages
+class MessagesSearch extends Messages
 {
     /**
      * @inheritdoc
