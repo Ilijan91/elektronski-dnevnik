@@ -36,12 +36,12 @@ class DefaultController extends Controller
                     'rules'=>[
                         [
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['director'],
                         'matchCallback' => function($rules, $action){
                             //module = \yii::$app->controller->module->id;
                             $action = Yii::$app->controller->action->id;
                             $controller = Yii::$app->controller->id;
-                            $route = "$controller/$action";
+                            $route = "director/$controller/$action";
                             $post = Yii::$app->request->post();
                             if(\Yii::$app->user->can($route)){
                                 return true;
@@ -55,8 +55,6 @@ class DefaultController extends Controller
     }
     public function actionIndex()
     {
-        $model = new LoginForm();
-        if($model->load(Yii::$app->request->post()) && $model->login()) {
         //Globalna promenljiva school name iz config-main.php params
         $school_name =\Yii::$app->params['school_name'];
         
@@ -75,9 +73,6 @@ class DefaultController extends Controller
             'roll'=>$roll,
             'school_name'=>$school_name
         ]);
-        } else {
-            $this->redirect(Url::to(['/site/index']));
-        }
     }
 
     public function actionStatistics() {
@@ -91,11 +86,11 @@ class DefaultController extends Controller
         }
         $ite = json_encode($item);
         file_put_contents("prosek.json", $ite);
-        return $this->render('statistika', [
+        return $this->render('statistics', [
         ]);
     }
 
-    public function actionStatisticsPerDepartment() {
+    public function actionStatistics_per_department() {
         $this->layout = 'main';
 
         $stsub = new StudentSubject();
@@ -106,7 +101,7 @@ class DefaultController extends Controller
         }
         $ite = json_encode($item);
         file_put_contents("prosek_po_odeljenju.json", $ite);
-        return $this->render('statisticsPerDepartment', [
+        return $this->render('statistics_per_department', [
         ]);
     }
 

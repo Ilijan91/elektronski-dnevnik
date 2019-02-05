@@ -17,8 +17,8 @@ use yii\helpers\Html;
         ]);
         $menuItems = [
         ['label' => 'Dashboard', 'url' => ['index']],
-        ['label' => 'Statistics', 'url' => ['statistika']],
-        ['label' => 'Statistics by departments', 'url' => ['statistika_po_odeljenju']],
+        ['label' => 'Statistics', 'url' => ['statistics']],
+        ['label' => 'Statistics by departments', 'url' => ['statistics_per_department']],
         ];
         if (Yii::$app->user->isGuest) {
             $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];

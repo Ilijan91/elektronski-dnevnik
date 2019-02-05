@@ -6,13 +6,11 @@ use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-// use yii2mod\rbac\filters\AccessControl;
 use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
-// use yii2mod\rbac\filters\AccessControl;
 /**
  * Site controller
  */
@@ -88,11 +86,11 @@ class SiteController extends Controller
             $roll_id = \Yii::$app->user->identity->roll_id;
             
             if($roll_id == 2){
-                return $this->redirect('teacher');
+                return $this->redirect('@web/teacher');
             }elseif($roll_id == 3){
-                return $this->redirect('director');
+                return $this->redirect('@web/director');
             }elseif($roll_id == 4){
-                return $this->redirect('parent');
+                return $this->redirect('@web/parent');
             }elseif($roll_id == 1){
                 return $this->redirect(Yii::$app->urlManagerBackend->createUrl(['/']));
             }else{
