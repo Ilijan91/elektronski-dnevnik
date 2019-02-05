@@ -14,7 +14,9 @@ $this->title = 'Messages';
 ?>
 
 <div class="messages-index">
-<h1><?= Html::encode($this->title) ?></h1>
+<h1><?=
+
+Html::encode($this->title) ?></h1>
 
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -23,9 +25,13 @@ $this->title = 'Messages';
         <?= Html::a('Send Message', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?php
-    // print_r($message);
-    // print_r($sender);
-    
+    print_r($message);
+    print_r($sender);
+    if(count($message) < 1){
+        echo "There's no messages to show.";
+    }else{
+        // return $mess;
+   
         echo '<div style="border: 1.5px solid grey;">';
         foreach($sender as $send) {
             foreach($message as $text) {
@@ -34,6 +40,7 @@ $this->title = 'Messages';
             }
         }
         echo '</div>';  
+    }
     ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -46,7 +53,10 @@ $this->title = 'Messages';
                 'attribute' => 'sender',
                 'value' => 'sender'
             ],
-            'receiver',
+            [
+                'attribute' => 'receiver',
+                'value' => 'sender'
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

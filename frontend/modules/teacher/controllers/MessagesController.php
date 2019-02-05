@@ -48,7 +48,7 @@ class MessagesController extends Controller
         $students = $messages->getStudentsByTeacherId($teacher_id);
         $stud_arr = array_column($students,'id');
         $impl = implode(",", $stud_arr);
-        
+       
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

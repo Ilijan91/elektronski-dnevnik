@@ -18,42 +18,49 @@ use backend\controllers\DepartmentController;
 use frontend\modules\teacher\models\Messages;
 use frontend\modules\parent\models\MessagesSearch;
 use frontend\modules\parent\controllers\MessagesController;
+use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 /**
  * Default controller for the `teacher` module
  */
 class DefaultController extends Controller
 {
+   
     /**
      * Renders the index view for the module
      * @return string
      */
-
+    
 
     public function actionIndex()
     {
-        //Globalna promenljiva school name iz config-main.php params
-        $school_name =\Yii::$app->params['school_name'];
+       // if(Yii::$app->user->can('teacher')){
+
         
+            //Globalna promenljiva school name iz config-main.php params
+            $school_name =\Yii::$app->params['school_name'];
+            
 
-        //Svi podaci o ulogovanom korisniku
-        $user = \Yii::$app->user->identity;
+            //Svi podaci o ulogovanom korisniku
+            $user = \Yii::$app->user->identity;
 
-        //Dohvati rolu korisnika koji je trenutno ulogovan
-        $roll =$this->getLoggedUserRollTitle($user->roll_id);
+            //Dohvati rolu korisnika koji je trenutno ulogovan
+            $roll =$this->getLoggedUserRollTitle($user->roll_id);
 
-        //Dohvati ime i prezime korisnika koji je trenutno ulogovan
-        $user_full_name = $this->getLoggedUserFullName($user);
+            //Dohvati ime i prezime korisnika koji je trenutno ulogovan
+            $user_full_name = $this->getLoggedUserFullName($user);
 
-        //Dohvati sve vesti i prikazi prvo najnovije
-        $news = News::find()->orderBy(['created_at'=> SORT_DESC])->limit(3)->all();
-        
-        $this->layout = 'main';
-        return $this->render('index', [
-            'news'=> $news,
-            'user_full_name'=> $user_full_name,
-            'roll'=>$roll,
-            'school_name'=>$school_name
-        ]);
+            //Dohvati sve vesti i prikazi prvo najnovije
+            $news = News::find()->orderBy(['created_at'=> SORT_DESC])->limit(3)->all();
+            
+            $this->layout = 'main';
+            return $this->render('index', [
+                'news'=> $news,
+                'user_full_name'=> $user_full_name,
+                'roll'=>$roll,
+                'school_name'=>$school_name
+            ]);
+      //  }else echo 'dwd';
     }
 
     public function actionStudents($department_id){

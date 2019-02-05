@@ -87,7 +87,7 @@ class SiteController extends Controller
             $roll_id = \Yii::$app->user->identity->roll_id;
             
             if($roll_id == 2){
-                return $this->redirect('teacher');
+                return $this->redirect('@web/teacher');
             }elseif($roll_id == 3){
                 return $this->redirect('director');
             }elseif($roll_id == 4){

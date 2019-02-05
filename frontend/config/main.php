@@ -21,9 +21,9 @@ return [
         'director' => [
             'class' => 'frontend\modules\director\Module',
         ],
-        // 'rbac' => [
-        //     'class' => 'yii2mod\rbac\ConsoleModule'
-        // ]
+            'rbac' => [
+                'class' => 'yii2mod\rbac\Module',
+            ],
     ],
     'components' => [
         'request' => [
@@ -32,11 +32,11 @@ return [
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
+            'identityCookie' => ['name' => '_identity-common', 'httpOnly' => true],
         ],
         'session' => [
             // this is the name of the session cookie used for login on the frontend
-            'name' => 'advanced',
+            'name' => 'advanced-common',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
