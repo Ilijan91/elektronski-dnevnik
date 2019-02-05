@@ -12,8 +12,8 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'modules' => [
-        'teacher' => [
-            'class' => 'frontend\modules\teacher\Module',
+        'teachers' => [
+            'class' => 'frontend\modules\teachers\Module',
         ],
         'parent' => [
             'class' => 'frontend\modules\parent\Module',
