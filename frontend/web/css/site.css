@@ -273,6 +273,7 @@ table thead th{
     background-color: #8888881c;
     padding: 20px;
     overflow: hidden;
+    border-radius: 7px;
 }
 .message .user-info a{
     font-size:22px;
@@ -299,6 +300,7 @@ table thead th{
     width: 70%;
     float: right;
     clear: both;
+    border-radius: 7px;
 }
 
 .sent-msg{
@@ -306,6 +308,7 @@ table thead th{
     float: left;
     clear: both;
     width: 70%;
+    border-radius: 7px;
 }
 
 

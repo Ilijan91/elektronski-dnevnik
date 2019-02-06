@@ -2,35 +2,38 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use frontend\modules\parent\models\User;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\modules\parent\models\MessagesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Messages';
-// $this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Conversation history';
+$this->params['breadcrumbs'][] = ['label' => 'Messages', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
+$teacher_full_name = $teacher[0]['first_name'].' '.$teacher[0]['last_name'];
+$parent_full_name =\Yii::$app->user->identity->first_name.' '.\Yii::$app->user->identity->last_name;
 ?>
-<div class="messages-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a('Send Message', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'text:ntext',
-            'sender',
-            'receiver',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+<div class="messages-index container main">
+    <h2><?=Html::encode($this->title) ?> <span class="department_name"><?= $parent_full_name?> <span></h2>
+    <div class="message-inbox">
+        <?php
+             foreach($message as $msg) {
+                if($msg['receiver'] == $parent_id){
+                    echo '<div class="message received-msg">';
+                        echo '<h4 class="message-sender">'.$teacher_full_name.'</h4>';
+                        echo '<p class="message-body">'.$msg['text'].'</p>';
+                        echo '<span class="message-date" >'.$msg['date'].'</span>';
+                    echo '</div>'; 
+                }else {
+                    echo '<div class="message sent-msg">';
+                    echo '<h4 class="message-sender">'.$parent_full_name.'</h4>';
+                        echo '<p class="message-body">'.$msg['text'].'</p>';
+                        echo '<span class="message-date" >'.$msg['date'].'</span>';
+                    echo '</div>'; 
+                }
+            } 
+        ?>
+        <?= Html::a('Send new message', ['create', 'teacher_id'=>$teacher_id], ['class' => 'btn btn-primary pull-right send_msg_btn'])?>
+    </div>
 </div>
+

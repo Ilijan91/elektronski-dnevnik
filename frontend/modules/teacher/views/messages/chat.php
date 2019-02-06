@@ -32,7 +32,7 @@ $teacher_full_name =\Yii::$app->user->identity->first_name.' '.\Yii::$app->user-
             }
         ?>
         
-            <?= Html::a('Send new message', ['create'], ['class' => 'btn btn-success send_msg_btn']) ?>
+            <?= Html::a('Send new message', ['create', 'teacher_id'=>$teacher_id], ['class' => 'btn btn-success send_msg_btn']) ?>
       
     </div>
 </div>

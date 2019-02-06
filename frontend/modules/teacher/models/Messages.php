@@ -104,30 +104,10 @@ class Messages extends \yii\db\ActiveRecord
 
     //Dohvati konverzaciju ucitelj-roditelj preko id roditelja
     public function getTeacherChatByParent($parent_id) {
-        $teacher_id =Yii::$app->user->identity->id;
         $sql = "SELECT *
         FROM messages
         WHERE messages.parent_id=$parent_id
-        ORDER BY date ASC";
-
-        $mess = \Yii::$app->db->createCommand($sql)->queryAll();
-        if(count($mess) < 1){
-            return null;
-        }else{
-            return $mess;
-        }
-       
-    }
-    public function getAllSentMessages() {
-        $id =Yii::$app->user->identity->id;
-        $sql = "SELECT messages.id, messages.date, messages.text, messages.sender, messages.receiver,  CONCAT(student.first_name, student.last_name) AS student, CONCAT(user.first_name, user.last_name) AS teacher
-        FROM messages
-        INNER JOIN user
-            ON messages.sender = user.id 
-        INNER JOIN student
-            ON messages.receiver = student.user_id 
-        WHERE messages.sender=$id 
-        ORDER BY date ASC";
+        ORDER BY messages.date ASC";
 
         $mess = \Yii::$app->db->createCommand($sql)->queryAll();
         if(count($mess) < 1){

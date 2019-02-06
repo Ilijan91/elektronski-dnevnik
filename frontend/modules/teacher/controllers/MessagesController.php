@@ -61,9 +61,10 @@ class MessagesController extends Controller
         // $searchModel = new MessagesSearch();
         // $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $messages = new Messages();
-        $sender = $messages->getSenderFullName();
+        // $sender = $messages->getSenderFullName();
         $message = $messages->getMessagesByTeacher();
         $teacher_id = \Yii::$app->user->identity->id;
+
         $students = $messages->getStudentsByTeacherId($teacher_id);
         $stud_arr = array_column($students,'id');
         $impl = implode(",", $stud_arr);
@@ -72,13 +73,8 @@ class MessagesController extends Controller
         $students = $this->getUserByStudent($teacher_id);
         $parents =  $this->getParents($teacher_id);
         
-
-        $send = $messages->getAllSentMessages();
         return $this->render('index', [
-            // 'searchModel' => $searchModel,
-            // 'dataProvider' => $dataProvider,
             'teacher_id' => $teacher_id,
-            'sender' => $sender,
             'message' => $message,
             'parents' => $parents,
             'students'=>$students
@@ -142,9 +138,12 @@ class MessagesController extends Controller
             $model->parent_id = $_POST['Messages']['receiver'];
             $model->teacher_id =\Yii::$app->user->identity->id;
             if($model->save()){
-                return $this->redirect(['view', 'id' => $model->id]);
-            }else echo 'failed';
-            
+                Yii::$app->session->setFlash('success', "Message has been successfully sent!"); 
+                
+            }else {
+                Yii::$app->session->setFlash('error', "Message send failed! Try again."); 
+            }
+            return $this->redirect(['index', 'id' => $model->id]);
         }
 
         return $this->render('create', [
