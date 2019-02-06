@@ -67,9 +67,9 @@ class SignupForm extends Model
         $user->setPassword($this->JMBG);
         $user->generateAuthKey();
         
-        $auth = \Yii::$app->authManager;
-        $userRole = $auth->getRole($user->roll_id);
-        $auth->assign($authorRole, $user->getId());
+        // $auth = \Yii::$app->authManager;
+        // $userRole = $auth->getRole($user->roll_id);
+        // $auth->assign($userRole, $user->getId());
 
         return $user->save() ? $user : null;
     }

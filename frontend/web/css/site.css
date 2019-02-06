@@ -113,7 +113,7 @@ a.desc:after {
 }
 
 /******************* INDEX STRANICA I LAYOUT ZA SVE STRANICE  **********************/
-/* PODACI O SKOLI */
+/************ PODACI O SKOLI  ************/
 .school-info{
     padding: 5px 15px;
     color: #00325e;
@@ -130,7 +130,7 @@ a.desc:after {
 .school-info .phone span{
     padding-left: 10px;
 }
-/* NAVIGACIJA */
+/* *********** MENU  ************/
 
 .nav li > form > button.logout {
     padding: 15px;
@@ -177,7 +177,7 @@ a.desc:after {
     color: #f6f6f6;
     background-color: #00325e;
 }
-  /* HERO */
+  /* *********** HERO  ************/
   .front-hero{
     position: relative;
   background-image: url("../img/front-hero.jpg"); /* The image used */
@@ -200,7 +200,7 @@ a.desc:after {
   color: #00325e;
 }
 
-/* MAIN CONTAINER */
+/* *********** MAIN CONTAINER *********** */
   .main{
       margin-top: 50px;
   }
@@ -236,7 +236,7 @@ table thead th{
     
 }
  
-/* SCHEDULE */
+/* *********** SCHEDULE  ************/
 
 .schedule{
     color: #00325e;
@@ -258,6 +258,54 @@ table thead th{
 .schedule_classes{
     color: #bd0000;
     font-weight: 600;
+}
+
+/*********** MESSAGES ***********/
+.message-inbox{
+    width: 50%;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+    padding: 40px 0;
+}
+.message{
+    margin: 10px 0;
+    background-color: #8888881c;
+    padding: 20px;
+    overflow: hidden;
+}
+.message .user-info a{
+    font-size:22px;
+}
+.send_msg_btn{
+    clear: both;
+    position: absolute;
+    bottom: 0;
+}
+.message-date{
+    float: right;
+    color: #939494;
+}
+.message-body{
+    color: #191919;
+    font-size: 18px;
+}
+.message-sender{
+    color: #bd0000;
+}
+.received-msg{
+    background-color: #9efd9e;
+    text-align: right;
+    width: 70%;
+    float: right;
+    clear: both;
+}
+
+.sent-msg{
+    text-align: left;
+    float: left;
+    clear: both;
+    width: 70%;
 }
 
 

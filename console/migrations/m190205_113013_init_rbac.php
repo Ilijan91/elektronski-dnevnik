@@ -423,7 +423,7 @@ class m190205_113013_init_rbac extends Migration
         $parent = $auth->createRole('parent');
         $auth->add($parent);
 
-        $auth->assign($parent, 8);
+        $auth->assign($parent, 18);
         
         // parent default
         $auth->addChild($parent, $parentDefaultIndex);
@@ -545,7 +545,7 @@ class m190205_113013_init_rbac extends Migration
         // add "teacher" role and give this role the permission for teacher module 
         $teacher = $auth->createRole('teacher');
         $auth->add($teacher);
-        $auth->assign($teacher, 14);
+        $auth->assign($teacher, 20);
 
         //teacher messages
         $auth->addChild($teacher, $teacherMessagesView);
@@ -571,7 +571,7 @@ class m190205_113013_init_rbac extends Migration
         // add "director" role and give this role the permission for director module 
         $director = $auth->createRole('director');
         $auth->add($director);
-        $auth->assign($director, 15);
+        $auth->assign($director, 22);
 
         // director default
         $auth->addChild($director, $directorDefaultIndex);

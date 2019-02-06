@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
 use backend\models\User;
 use frontend\modules\teacher\models\Messages;
@@ -11,56 +12,38 @@ use frontend\modules\teacher\models\Messages;
 
 $this->title = 'Messages';
 // $this->params['breadcrumbs'][] = $this->title;
+$teacher_full_name =\Yii::$app->user->identity->first_name.' '.\Yii::$app->user->identity->last_name;
 ?>
 
-<div class="messages-index">
-<h1><?=
-
-Html::encode($this->title) ?></h1>
-
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a('Send Message', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-    <?php
-    print_r($message);
-    print_r($sender);
-    if(count($message) < 1){
-        echo "There's no messages to show.";
-    }else{
-        // return $mess;
-   
-        echo '<div style="border: 1.5px solid grey;">';
-        foreach($sender as $send) {
-            foreach($message as $text) {
-                echo '<h4>'.$sender['first_name'] . ' ' . $sender['last_name'].'</h4>';
-                echo '<p>'.$text['text'].'</p>';
-            }
-        }
-        echo '</div>';  
-    }
-    ?>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            // ['class' => 'yii\grid\SerialColumn'],
-
-            'text:ntext',
-            [
-                'attribute' => 'sender',
-                'value' => 'sender'
-            ],
-            [
-                'attribute' => 'receiver',
-                'value' => 'sender'
-            ],
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]);?>
-
+<div class="messages-index container main">
+    <h2><?=Html::encode($this->title) ?> <span class="department_name"><?= $teacher_full_name?> <span></h2>
     
-</div>
+    <div class="message-inbox">
+        <h3>List of all parents</h3>
+        <?php
+    
+             foreach($parents as $parent) {
+                foreach($students as $student){
+               
+                if($student->user_id == $parent->id){
+                    echo '<div class="message">';
+                        echo '<div class="pull-left user-info">';
+                            echo Html::a("$parent->first_name $parent->last_name", ['chat', 'parent_id'=>$parent->id], ['class' => '', ]) ;
+                            echo '<p class="">'.$student->first_name.' '.$student->last_name.'</p>';
+                        echo '</div>';
+                        echo '<div class="pull-right">'.Html::a('See conversation', ['chat', 'parent_id'=>$parent->id], ['class' => 'btn btn-primary pull-right']).'</div>';
+                    echo '</div>';
+                }
+            } 
+            }
+        
+        ?>
+        <p>
+            <?= Html::a('Send new message', ['create'], ['class' => 'btn btn-success']) ?>
+        </p>
+    </div><!-- End of message inbox -->
+</div><!-- End of message index main container -->
+
+<!-- if(count($message) < 1){
+                echo "There's no messages to show.";
+            }else{ }; -->

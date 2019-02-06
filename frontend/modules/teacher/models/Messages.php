@@ -1,23 +1,22 @@
 <?php
 
 namespace frontend\modules\teacher\models;
+
+use Yii;
 use backend\models\Student;
 use backend\models\User;
 use backend\models\Department;
-
-use Yii;
 
 /**
  * This is the model class for table "messages".
  *
  * @property int $id
- * @property string $title
  * @property string $text
+ * @property string $date
+ * @property int $teacher_id
+ * @property int $parent_id
  * @property int $sender
  * @property int $receiver
- *
- * @property User $parent
- * @property User $teacher
  */
 class Messages extends \yii\db\ActiveRecord
 {
@@ -35,12 +34,10 @@ class Messages extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['text', 'sender', 'receiver'], 'required'],
+            [['text', 'teacher_id', 'parent_id', 'sender', 'receiver'], 'required'],
             [['text'], 'string'],
             [['date'], 'safe'],
-            [['sender', 'receiver'], 'integer'],
-            [['sender'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['sender' => 'id']],
-            [['receiver'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['receiver' => 'id']],
+            [['teacher_id', 'parent_id', 'sender', 'receiver'], 'integer'],
         ];
     }
 
@@ -52,28 +49,14 @@ class Messages extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'text' => 'Text',
+            'date' => 'Date',
+            'teacher_id' => 'Teacher ID',
+            'parent_id' => 'Parent ID',
             'sender' => 'Sender',
             'receiver' => 'Receiver',
-            'date' => 'Date',
         ];
     }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getSender()
-    {
-        return $this->hasOne(User::className(), ['id' => 'sender']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getReceiver()
-    {
-        return $this->hasOne(User::className(), ['id' => 'receiver']);
-    }
-
+    
     public function getStudentsByTeacherId($teacher_id){
         //Dohvati odeljenje kome predaje ulogovani ucitelj
             $department = Department::find()
@@ -108,7 +91,7 @@ class Messages extends \yii\db\ActiveRecord
     }
 
     public function getMessagesByTeacher() {
-        $sql = 'SELECT messages.id, messages.text, messages.sender FROM messages WHERE messages.receiver = '.Yii::$app->user->identity->id;
+        $sql = 'SELECT messages.id, messages.text, messages.sender FROM messages WHERE messages.receiver= '.Yii::$app->user->identity->id;
 
         $mess = \Yii::$app->db->createCommand($sql)->queryAll();
         if(count($mess) < 1){
@@ -119,6 +102,41 @@ class Messages extends \yii\db\ActiveRecord
        
     }
 
+    //Dohvati konverzaciju ucitelj-roditelj preko id roditelja
+    public function getTeacherChatByParent($parent_id) {
+        $teacher_id =Yii::$app->user->identity->id;
+        $sql = "SELECT *
+        FROM messages
+        WHERE messages.parent_id=$parent_id
+        ORDER BY date ASC";
+
+        $mess = \Yii::$app->db->createCommand($sql)->queryAll();
+        if(count($mess) < 1){
+            return null;
+        }else{
+            return $mess;
+        }
+       
+    }
+    public function getAllSentMessages() {
+        $id =Yii::$app->user->identity->id;
+        $sql = "SELECT messages.id, messages.date, messages.text, messages.sender, messages.receiver,  CONCAT(student.first_name, student.last_name) AS student, CONCAT(user.first_name, user.last_name) AS teacher
+        FROM messages
+        INNER JOIN user
+            ON messages.sender = user.id 
+        INNER JOIN student
+            ON messages.receiver = student.user_id 
+        WHERE messages.sender=$id 
+        ORDER BY date ASC";
+
+        $mess = \Yii::$app->db->createCommand($sql)->queryAll();
+        if(count($mess) < 1){
+            return null;
+        }else{
+            return $mess;
+        }
+       
+    }
     public function getSenderFullName() {
         $mess = $this->getMessagesByTeacher();
         if($mess == null){
@@ -131,5 +149,4 @@ class Messages extends \yii\db\ActiveRecord
             return $sender;
         }
     }
-    
 }

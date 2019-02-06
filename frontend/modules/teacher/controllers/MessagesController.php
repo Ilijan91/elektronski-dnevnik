@@ -21,35 +21,35 @@ class MessagesController extends Controller
     /**
      * {@inheritdoc}
      */
-    public function behaviors()
-    {
-        $behaviors['verbs'] = [
-            'class' => VerbFilter::className(),
-            'actions' => [
-                'delete' => ['POST'],
-            ],
-        ];
-        $behaviors['access'] = [
-            'class' => AccessControl::className(),
-            'rules'=>[
-                [
-                    'allow' => true,
-                    'roles' => ['teacher'],
-                    'matchCallback' => function($rules, $action){
-                        //module = \yii::$app->controller->module->id;
-                        $action = Yii::$app->controller->action->id;
-                        $controller = Yii::$app->controller->id;
-                        $route = "teacher/$controller/$action";
-                        $post = Yii::$app->request->post();
-                        if(\Yii::$app->user->can($route)){
-                            return true;
-                        }
-                    }
-                ],
-            ],
-        ];
-        return $behaviors;
-    }
+    // public function behaviors()
+    // {
+    //     $behaviors['verbs'] = [
+    //         'class' => VerbFilter::className(),
+    //         'actions' => [
+    //             'delete' => ['POST'],
+    //         ],
+    //     ];
+    //     $behaviors['access'] = [
+    //         'class' => AccessControl::className(),
+    //         'rules'=>[
+    //             [
+    //                 'allow' => true,
+    //                 'roles' => ['teacher'],
+    //                 'matchCallback' => function($rules, $action){
+    //                     //module = \yii::$app->controller->module->id;
+    //                     $action = Yii::$app->controller->action->id;
+    //                     $controller = Yii::$app->controller->id;
+    //                     $route = "teacher/$controller/$action";
+    //                     $post = Yii::$app->request->post();
+    //                     if(\Yii::$app->user->can($route)){
+    //                         return true;
+    //                     }
+    //                 }
+    //             ],
+    //         ],
+    //     ];
+    //     return $behaviors;
+    // }
 
     /**
      * Lists all Messages models.
@@ -58,8 +58,8 @@ class MessagesController extends Controller
     public function actionIndex()
     {
         $this->layout = "main";
-        $searchModel = new MessagesSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        // $searchModel = new MessagesSearch();
+        // $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $messages = new Messages();
         $sender = $messages->getSenderFullName();
         $message = $messages->getMessagesByTeacher();
@@ -67,13 +67,42 @@ class MessagesController extends Controller
         $students = $messages->getStudentsByTeacherId($teacher_id);
         $stud_arr = array_column($students,'id');
         $impl = implode(",", $stud_arr);
-       
+
+        $users = new User;
+        $students = $this->getUserByStudent($teacher_id);
+        $parents =  $this->getParents($teacher_id);
+        
+
+        $send = $messages->getAllSentMessages();
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            // 'searchModel' => $searchModel,
+            // 'dataProvider' => $dataProvider,
             'teacher_id' => $teacher_id,
             'sender' => $sender,
             'message' => $message,
+            'parents' => $parents,
+            'students'=>$students
+        ]);
+    }
+    public function actionChat($parent_id)
+    {
+        $this->layout = "main";
+        //Dohvati id ucitelja
+        $teacher_id = \Yii::$app->user->identity->id;
+
+        //Dohvati ime i prezime roditelja
+        $user = new User;
+        $parent = $user->getParentFullName($parent_id);
+
+        //Dohvati sve poruke
+        $messages = new Messages();
+        $message = $messages->getTeacherChatByParent($parent_id);
+
+        return $this->render('chat', [
+            'teacher_id' => $teacher_id,
+            'message' => $message,
+            'parent' => $parent,
+
         ]);
     }
 
@@ -106,14 +135,23 @@ class MessagesController extends Controller
         $stud_arr = array_column($students,'id');
         $impl = implode(",", $stud_arr);
 
-        $model->sender = \Yii::$app->user->identity->id;
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+       
+        if ($model->load(Yii::$app->request->post())) {
+            $model->sender = \Yii::$app->user->identity->id;
+            
+            $model->parent_id = $_POST['Messages']['receiver'];
+            $model->teacher_id =\Yii::$app->user->identity->id;
+            if($model->save()){
+                return $this->redirect(['view', 'id' => $model->id]);
+            }else echo 'failed';
+            
         }
 
         return $this->render('create', [
             'model' => $model,
             'impl' => $impl,
+            'teacher_id'=>$teacher_id,
+
         ]);
     }
 
@@ -171,4 +209,44 @@ class MessagesController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+
+
+    public function getUserByStudent($teacher_id) {
+        $students = $this->getStudentsByTeacherId($teacher_id);
+        $stud_arr = array_column($students,'id');
+        $impl = implode(",", $stud_arr);
+            $st = Student::find()->where("id IN ($impl)")->all();
+            // $uimpl = implode(",", $st['user_id']);
+            // $user_id = $st->id;
+            // $data = User::find()->where("id IN ($uimpl)")->all();
+            return $st;
+    }
+    //Dohvati sve roditelje 
+    public function getParents($teacher_id){
+        //Dohvati sve ucenike jednog odeljenja kome predaje ulogovani ucitelj
+        $students = $this->getStudentsByTeacherId($teacher_id);
+        //Izvuci kolonu user_id koja predstavlja id roitelja
+        $parent_arr = array_column($students,'user_id');
+        $impl = implode(",", $parent_arr);
+        //Dohvati sve roditelje iz tabele user preko parent_arr niza
+        $parents = User::find()->select(['id','first_name', 'last_name'])->where("id IN ($impl)")->all();
+
+        return $parents;
+    }
+
+
+    //Dohvati sve ucenike jednog odeljenja kome predaje ulogovani ucitelj
+    public function getStudentsByTeacherId($teacher_id){
+        //Dohvati odeljenje kome predaje ulogovani ucitelj
+            $department = Department::find()
+                            ->select('id')
+                            ->where(['user_id'=>$teacher_id])
+                            ->one();
+            $department_id= $department->id;
+        //Dohvati sve ucenike koji su u odeljenju kome predaje ulogovani ucitelj
+        $s = new Student;
+        $students= $s->getAllStudentsByDepartmentId($department_id);
+        return $students;
+    } 
 }
