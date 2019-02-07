@@ -14,6 +14,11 @@ use backend\models\StudentSubject;
      ->one();
     $student_id= $student->id;
 
+    $st = Student::find()
+     ->select('first_name, last_name')
+     ->where(['user_id'=>Yii::$app->user->identity->id])
+     ->one();
+    $fullname = $st->first_name . ' ' . $st->last_name;
 
     $department=Student::find()
     ->select('department_id')
@@ -24,8 +29,8 @@ use backend\models\StudentSubject;
     
 
     NavBar::begin([
-        'brandLabel' => 'School management system',
-        'brandUrl' => Yii::$app->homeUrl,
+        'brandLabel' => $fullname,
+        'brandUrl' => Yii::$app->homeUrl.'parent',
         'options' => [
 
             'class' => 'navbar-inverse',
