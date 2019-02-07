@@ -21,9 +21,7 @@ $teacher_full_name =\Yii::$app->user->identity->first_name.' '.\Yii::$app->user-
     <div class="message-inbox">
         <h3>List of all parents</h3>
         <?php
-            if(count($message) < 1){
-                echo "There's no messages to show.";
-            }else{ 
+            
              foreach($parents as $parent) {
                 foreach($students as $student){
                
@@ -38,7 +36,7 @@ $teacher_full_name =\Yii::$app->user->identity->first_name.' '.\Yii::$app->user-
                 }// End of if statement
             } // End of students foreach
             }// End of parents foreach
-        };// End of else
+        // End of else
         ?>
         <p>
             <?= Html::a('Send new message', ['create'], ['class' => 'btn btn-success']) ?>
