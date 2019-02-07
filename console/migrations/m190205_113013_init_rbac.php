@@ -545,7 +545,7 @@ class m190205_113013_init_rbac extends Migration
         // add "teacher" role and give this role the permission for teacher module 
         $teacher = $auth->createRole('teacher');
         $auth->add($teacher);
-        $auth->assign($teacher, 20);
+        $auth->assign($teacher, 'teacher');
 
         //teacher messages
         $auth->addChild($teacher, $teacherMessagesView);

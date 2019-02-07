@@ -30,35 +30,35 @@ class DefaultController extends Controller
      * Renders the index view for the module
      * @return string
      */
-    // public function behaviors()
-    // {
-    //     $behaviors['verbs'] = [
-    //         'class' => VerbFilter::className(),
-    //         'actions' => [
-    //             'delete' => ['POST'],
-    //         ],
-    //     ];
-    //     $behaviors['access'] = [
-    //         'class' => AccessControl::className(),
-    //         'rules'=>[
-    //             [
-    //                 'allow' => true,
-    //                 'roles' => ['teacher'],
-    //                 'matchCallback' => function($rules, $action){
-    //                     //module = \yii::$app->controller->module->id;
-    //                     $action = Yii::$app->controller->action->id;
-    //                     $controller = Yii::$app->controller->id;
-    //                     $route = "teacher/$controller/$action";
-    //                     $post = Yii::$app->request->post();
-    //                     if(\Yii::$app->user->can($route)){
-    //                         return true;
-    //                     }
-    //                 }
-    //             ],
-    //         ],
-    //     ];
-    //     return $behaviors;
-    // }
+    public function behaviors()
+    {
+        $behaviors['verbs'] = [
+            'class' => VerbFilter::className(),
+            'actions' => [
+                'delete' => ['POST'],
+            ],
+        ];
+        $behaviors['access'] = [
+            'class' => AccessControl::className(),
+            'rules'=>[
+                [
+                    'allow' => true,
+                    'roles' => ['teacher'],
+                    'matchCallback' => function($rules, $action){
+                        //module = \yii::$app->controller->module->id;
+                        $action = Yii::$app->controller->action->id;
+                        $controller = Yii::$app->controller->id;
+                        $route = "teacher/$controller/$action";
+                        $post = Yii::$app->request->post();
+                        if(\Yii::$app->user->can($route)){
+                            return true;
+                        }
+                    }
+                ],
+            ],
+        ];
+        return $behaviors;
+    }
 
     public function actionIndex()
     {
