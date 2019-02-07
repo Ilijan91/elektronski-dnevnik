@@ -23,36 +23,36 @@ class DefaultController extends Controller
      * Renders the index view for the module
      * @return string
      */
-    public function behaviors()
-    {
-        $behaviors['verbs'] = [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ];
-        $behaviors['access'] = [
-                    'class' => AccessControl::className(),
-                    'rules'=>[
-                        [
-                        'allow' => true,
-                        'roles' => ['director'],
-                        'matchCallback' => function($rules, $action){
-                            //module = \yii::$app->controller->module->id;
-                            $action = Yii::$app->controller->action->id;
-                            $controller = Yii::$app->controller->id;
-                            $route = "director/$controller/$action";
-                            $post = Yii::$app->request->post();
-                            if(\Yii::$app->user->can($route)){
-                                return true;
-                            }
-                        }
-                    ],
-                    ],
+    // public function behaviors()
+    // {
+    //     $behaviors['verbs'] = [
+    //                 'class' => VerbFilter::className(),
+    //                 'actions' => [
+    //                     'delete' => ['POST'],
+    //                 ],
+    //             ];
+    //     $behaviors['access'] = [
+    //                 'class' => AccessControl::className(),
+    //                 'rules'=>[
+    //                     [
+    //                     'allow' => true,
+    //                     'roles' => ['director'],
+    //                     'matchCallback' => function($rules, $action){
+    //                         //module = \yii::$app->controller->module->id;
+    //                         $action = Yii::$app->controller->action->id;
+    //                         $controller = Yii::$app->controller->id;
+    //                         $route = "director/$controller/$action";
+    //                         $post = Yii::$app->request->post();
+    //                         if(\Yii::$app->user->can($route)){
+    //                             return true;
+    //                         }
+    //                     }
+    //                 ],
+    //                 ],
                     
-                ];
-                return $behaviors;
-    }
+    //             ];
+    //             return $behaviors;
+    // }
     public function actionIndex()
     {
         //Globalna promenljiva school name iz config-main.php params
@@ -88,6 +88,7 @@ class DefaultController extends Controller
         file_put_contents("prosek.json", $ite);
         return $this->render('statistics', [
         ]);
+        
     }
 
     public function actionStatistics_per_department() {

@@ -41,7 +41,7 @@ use backend\models\StudentSubject;
         ['label' => 'Grade', 'url' => ['default/grade', 'id' => $student_id]],
         ['label' => 'Schedule', 'url' => ['default/schedule', 'id' => $department_id]],
         ['label' => 'News Feed', 'url' => ['default/news']],
-        ['label' => 'Messages', 'url' => ['messages/index', 'id' => $student_id]],
+        ['label' => 'Messages', 'url' => ['messages/index', 'department_id' => $department_id]],
         ['label' => 'Teacher Meeting', 'url' => ['teachermeeting']],
 
     ];

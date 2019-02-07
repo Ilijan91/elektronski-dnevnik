@@ -25,65 +25,70 @@ use yii\filters\AccessControl;
  */
 class DefaultController extends Controller
 {
+   
     /**
      * Renders the index view for the module
      * @return string
      */
-    public function behaviors()
-    {
-        $behaviors['verbs'] = [
-            'class' => VerbFilter::className(),
-            'actions' => [
-                'delete' => ['POST'],
-            ],
-        ];
-        $behaviors['access'] = [
-            'class' => AccessControl::className(),
-            'rules'=>[
-                [
-                    'allow' => true,
-                    'roles' => ['teacher'],
-                    'matchCallback' => function($rules, $action){
-                        //module = \yii::$app->controller->module->id;
-                        $action = Yii::$app->controller->action->id;
-                        $controller = Yii::$app->controller->id;
-                        $route = "teacher/$controller/$action";
-                        $post = Yii::$app->request->post();
-                        if(\Yii::$app->user->can($route)){
-                            return true;
-                        }
-                    }
-                ],
-            ],
-        ];
-        return $behaviors;
-    }
+    // public function behaviors()
+    // {
+    //     $behaviors['verbs'] = [
+    //         'class' => VerbFilter::className(),
+    //         'actions' => [
+    //             'delete' => ['POST'],
+    //         ],
+    //     ];
+    //     $behaviors['access'] = [
+    //         'class' => AccessControl::className(),
+    //         'rules'=>[
+    //             [
+    //                 'allow' => true,
+    //                 'roles' => ['teacher'],
+    //                 'matchCallback' => function($rules, $action){
+    //                     //module = \yii::$app->controller->module->id;
+    //                     $action = Yii::$app->controller->action->id;
+    //                     $controller = Yii::$app->controller->id;
+    //                     $route = "teacher/$controller/$action";
+    //                     $post = Yii::$app->request->post();
+    //                     if(\Yii::$app->user->can($route)){
+    //                         return true;
+    //                     }
+    //                 }
+    //             ],
+    //         ],
+    //     ];
+    //     return $behaviors;
+    // }
 
     public function actionIndex()
     {
-        //Globalna promenljiva school name iz config-main.php params
-        $school_name =\Yii::$app->params['school_name'];
+       // if(Yii::$app->user->can('teacher')){
+
         
+            //Globalna promenljiva school name iz config-main.php params
+            $school_name =\Yii::$app->params['school_name'];
+            
 
-        //Svi podaci o ulogovanom korisniku
-        $user = \Yii::$app->user->identity;
+            //Svi podaci o ulogovanom korisniku
+            $user = \Yii::$app->user->identity;
 
-        //Dohvati rolu korisnika koji je trenutno ulogovan
-        $roll =$this->getLoggedUserRollTitle($user->roll_id);
+            //Dohvati rolu korisnika koji je trenutno ulogovan
+            $roll =$this->getLoggedUserRollTitle($user->roll_id);
 
-        //Dohvati ime i prezime korisnika koji je trenutno ulogovan
-        $user_full_name = $this->getLoggedUserFullName($user);
+            //Dohvati ime i prezime korisnika koji je trenutno ulogovan
+            $user_full_name = $this->getLoggedUserFullName($user);
 
-        //Dohvati sve vesti i prikazi prvo najnovije
-        $news = News::find()->orderBy(['created_at'=> SORT_DESC])->limit(3)->all();
-        
-        $this->layout = 'main';
-        return $this->render('index', [
-            'news'=> $news,
-            'user_full_name'=> $user_full_name,
-            'roll'=>$roll,
-            'school_name'=>$school_name
-        ]);
+            //Dohvati sve vesti i prikazi prvo najnovije
+            $news = News::find()->orderBy(['created_at'=> SORT_DESC])->limit(3)->all();
+            
+            $this->layout = 'main';
+            return $this->render('index', [
+                'news'=> $news,
+                'user_full_name'=> $user_full_name,
+                'roll'=>$roll,
+                'school_name'=>$school_name
+            ]);
+      //  }else echo 'dwd';
     }
 
     public function actionStudents($department_id){

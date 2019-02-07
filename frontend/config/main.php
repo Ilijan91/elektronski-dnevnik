@@ -79,6 +79,6 @@ return [
         'params'=>$params,
         'school_name'=>'osnovna skola "8.oktobar"',
         'school_phone'=>'063/100-222',
-        'school_mail'=>'schoolname@school.com'
+        'school_mail'=>'schoolname@school.com',
     ],
 ];
