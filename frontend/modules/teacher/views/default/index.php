@@ -2,8 +2,7 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
-echo $roll_id;
-?>
+echo $roll_id;?>
 
 <div class="teacher-default-index">
     <div class="front-hero">
