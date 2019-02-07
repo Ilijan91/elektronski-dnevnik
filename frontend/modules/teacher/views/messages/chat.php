@@ -15,6 +15,9 @@ $teacher_full_name =\Yii::$app->user->identity->first_name.' '.\Yii::$app->user-
     <h2><?=Html::encode($this->title) ?> <span class="department_name"><?= $parent_full_name?> <span></h2>
     <div class="message-inbox">
         <?php
+        if($message == null){
+            echo "There's no messages to show.";
+        }else{ 
              foreach($message as $msg) {
                 if($msg['receiver'] == $teacher_id){
                     echo '<div class="message received-msg">';
@@ -30,6 +33,7 @@ $teacher_full_name =\Yii::$app->user->identity->first_name.' '.\Yii::$app->user-
                     echo '</div>'; 
                 }
             }
+        }
         ?>
         
             <?= Html::a('Send new message', ['create', 'teacher_id'=>$teacher_id], ['class' => 'btn btn-success send_msg_btn']) ?>
