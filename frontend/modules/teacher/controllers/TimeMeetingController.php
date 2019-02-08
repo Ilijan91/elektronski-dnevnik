@@ -35,6 +35,7 @@ class TimeMeetingController extends Controller
      */
     public function actionIndex()
     {
+        $this->layout = "main";
         $dataProvider = new ActiveDataProvider([
             'query' => TimeMeeting::find(),
         ]);
@@ -67,6 +68,7 @@ class TimeMeetingController extends Controller
      */
     public function actionCreate()
     {
+        $this->layout = "main";
         $model = new TimeMeeting();
         $model->teacher_id = Yii::$app->user->identity->id;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

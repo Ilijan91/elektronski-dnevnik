@@ -10,7 +10,7 @@ use kartik\time\TimePicker;
 $this->title = 'Time Meetings';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="time-meeting-index">
+<div class="time-meeting-index container">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -19,41 +19,27 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?php
-    // $date = new Time();
-    // print_r($date);
-    // $t = new DateTime();
-    // echo $t;
-    foreach($meeting as $meet) {
-        // echo $meet->start_at . '<br>';
-        // $t->modify('+15 minutes');
-        // echo $datetime->format('H:i:s');
-        // $words = [' AM', ' PM'];
-        // $rep = str_replace($words, ':00', $meet->start_at);
-        // $rep = strstr($meet->start_at, $words, true);
-        // $rep = str_replace('PM', '', $meet->start_at);
-        // echo $rep;
-        // $time = strtotime($meet->start_at);
-        // $time = DateTime::setTime($meet->start_at);
-        for($i=strtotime($meet->start_at);$i<strtotime($meet->end_at);$i+=900) {
-            // if($i==0) {
-        // $times[] = $meet->start_at;
-        $times = date('H:i:s', $i) . '<br>';
-    // }
-            // $time = [];
-            // $newTime = $times;
-        // echo $newTime->modify('+15 minutes') . '<br>';
-        // $times[$i] = $newTime;
-        // $times[$i] = $newTime[$i];
-        echo $times[$i];
-        // $time->modify('+15 minutes');
-        // $meet->start_at->format('H:i:s');
+    function getAllTermins($meeting) {
+        foreach($meeting as $meet) {
+            $interval = -15;
+            $end = date_create($meet->end_at);
+            $time = '';
+            $termins = [];
+            while($time != $end){
+                $interval += 15;
+                $time = date_create($meet->start_at);
+                date_modify($time, $interval.' minutes');
+                if($time == $end) {
+                    return $termins;
+                } else {
+                    $termins[] = date_format($time, 'H:i');
+                }
+            }
+            return $termins;
         }
-        $min = strtotime($meet->start_at) + 900;
-        $day = date('H:i:s', $min);
-        echo $day;
     }
-
-    // print_r($meeting);
+    $m = getAllTermins($meeting);
+    print_r($m);
 
     echo TimePicker::widget([
         'name' => 't1',
