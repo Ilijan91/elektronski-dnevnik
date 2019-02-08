@@ -22,7 +22,8 @@
         "slavkovrn/yii2-chat": "^1.0",
         "bubasuma/yii2-simplechat": "^2.0",
         "thyseus/yii2-message": "^0.3.0",
-        "yii2mod/yii2-rbac": "*"
+        "yii2mod/yii2-rbac": "*",
+        "kartik-v/yii2-widget-timepicker": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
