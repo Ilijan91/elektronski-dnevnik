@@ -95,9 +95,7 @@ class SiteController extends Controller
                 return $this->redirect(Yii::$app->urlManagerBackend->createUrl(['/']));
             }else{
                 return $this->redirect('site/dashboard');
-            }
-            
-          
+            } 
         } else {
             $model->password = '';
             return $this->render('login', [

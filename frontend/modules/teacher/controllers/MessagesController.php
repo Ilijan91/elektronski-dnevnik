@@ -58,10 +58,7 @@ class MessagesController extends Controller
     public function actionIndex()
     {
         $this->layout = "main";
-        // $searchModel = new MessagesSearch();
-        // $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $messages = new Messages();
-        // $sender = $messages->getSenderFullName();
         $message = $messages->getMessagesByTeacher();
         $teacher_id = \Yii::$app->user->identity->id;
 
