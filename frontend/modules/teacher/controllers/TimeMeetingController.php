@@ -41,7 +41,10 @@ class TimeMeetingController extends Controller
             'query' => TimeMeeting::find(),
         ]);
         $teacher_id = Yii::$app->user->identity->id;
-        $meeting = TimeMeeting::find()->where('teacher_id = '.$teacher_id)->all();
+        $TimeMeeting = TimeMeeting::find()->where('teacher_id = '.$teacher_id)->all();
+
+        //Dohvati sve termine za odredjeni sastanak
+        $meeting = $this->getAllTermins($TimeMeeting);
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
