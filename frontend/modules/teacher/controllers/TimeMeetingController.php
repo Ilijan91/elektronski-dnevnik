@@ -4,6 +4,7 @@ namespace frontend\modules\teacher\controllers;
 
 use Yii;
 use frontend\modules\teacher\models\TimeMeeting;
+use frontend\modules\teacher\models\TimeMeetingAppointment;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -66,19 +67,31 @@ class TimeMeetingController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
+    
     public function actionCreate()
     {
-        $this->layout = "main";
-        $model = new TimeMeeting();
-        $model->teacher_id = Yii::$app->user->identity->id;
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
+       $model = new TimeMeeting();
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-    }
+       $model->teacher_id = Yii::$app->user->identity->id;
+       if ($model->load(Yii::$app->request->post()) ) {
+
+           if ( $model->save() ) {
+               $termins = $this->getAllTermins($model->start_at, $model->end_at);
+               $timeMeetingAppointmentModel = new TimeMeetingAppointment;
+               foreach($termins as $termin){
+                   $timeMeetingAppointmentModel->setIsNewRecord(true);
+                   $timeMeetingAppointmentModel->id = null;
+                   $timeMeetingAppointmentModel->teacher_id = Yii::$app->user->identity->id;
+                   $timeMeetingAppointmentModel->term = $termin;
+                   $timeMeetingAppointmentModel->save();
+               }
+           }
+       }
+
+       return $this->render('create', [
+           'model' => $model,
+       ]);
+   }
 
     /**
      * Updates an existing TimeMeeting model.
@@ -129,4 +142,29 @@ class TimeMeetingController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    public function getAllTermins($start_at, $end_at){
+
+        $interval = -15;
+        $end = date_create($end_at);
+        $time = '';
+        $termins = [];
+
+        //Proveri da li se sastanak zavrsio uporedjivanjem pocetnog i zavrsnog termina
+        while($time < $end){
+            $interval += 15;
+
+            $time = date_create($start_at);
+            date_modify($time, $interval.' minutes');
+            if($time == $end) {
+                return $termins;
+            } else {
+                $termins[]= date_format($time, 'H:i');
+            }
+        }
+        return $termins;
+
 }
+}
+
+
