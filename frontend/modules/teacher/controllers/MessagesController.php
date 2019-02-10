@@ -90,7 +90,6 @@ class MessagesController extends Controller
         //Dohvati sve poruke
         $messages = new Messages();
         $message = $messages->getTeacherChatByParent($parent_id);
-        // $messages->parent_id = $parent_id;
 
         if ($messages->load(Yii::$app->request->post())) {
             $messages->sender = \Yii::$app->user->identity->id;
@@ -230,9 +229,6 @@ class MessagesController extends Controller
         $stud_arr = array_column($students,'id');
         $impl = implode(",", $stud_arr);
             $st = Student::find()->where("id IN ($impl)")->all();
-            // $uimpl = implode(",", $st['user_id']);
-            // $user_id = $st->id;
-            // $data = User::find()->where("id IN ($uimpl)")->all();
             return $st;
     }
     //Dohvati sve roditelje 
