@@ -11,6 +11,8 @@ use backend\models\Department;
 use frontend\modules\parent\models\Messages;
 use frontend\modules\parent\models\MessagesSearch;
 use frontend\modules\parent\controllers\MessagesController;
+use frontend\modules\teacher\models\TimeMeetingAppointment;
+use frontend\modules\teacher\models\TimeMeeting;
 use backend\models\Subject;
 use backend\models\Days;
 use backend\models\Classes;
@@ -25,34 +27,34 @@ use Yii;
  */
 class DefaultController extends Controller
 {
-    public function behaviors()
-    {
-        $behaviors['verbs'] = [
-            'class' => VerbFilter::className(),
-            'actions' => [
-                'delete' => ['POST'],
-            ],
-        ];
-        $behaviors['access'] = [
-            'class' => AccessControl::className(),
-            'rules'=>[
-                [
-                    'allow' => true,
-                    'roles' => ['parent'],
-                    'matchCallback' => function($rules, $action){
-                        $action = Yii::$app->controller->action->id;
-                        $controller = Yii::$app->controller->id;
-                        $route = "parent/$controller/$action";
-                        $post = Yii::$app->request->post();
-                        if(\Yii::$app->user->can($route)){
-                            return true;
-                        }
-                    }
-                ],
-            ],
-        ];
-        return $behaviors;
-    }
+    // public function behaviors()
+    // {
+    //     $behaviors['verbs'] = [
+    //         'class' => VerbFilter::className(),
+    //         'actions' => [
+    //             'delete' => ['POST'],
+    //         ],
+    //     ];
+    //     $behaviors['access'] = [
+    //         'class' => AccessControl::className(),
+    //         'rules'=>[
+    //             [
+    //                 'allow' => true,
+    //                 'roles' => ['parent'],
+    //                 'matchCallback' => function($rules, $action){
+    //                     $action = Yii::$app->controller->action->id;
+    //                     $controller = Yii::$app->controller->id;
+    //                     $route = "parent/$controller/$action";
+    //                     $post = Yii::$app->request->post();
+    //                     if(\Yii::$app->user->can($route)){
+    //                         return true;
+    //                     }
+    //                 }
+    //             ],
+    //         ],
+    //     ];
+    //     return $behaviors;
+    // }
     /**
      * Renders the index view for the module
      * @return string
@@ -156,6 +158,73 @@ class DefaultController extends Controller
                 'department_name'=>$department_name,
             ]);
         }
+    }
+
+    public function actionTimemeeting($department_id)
+    {
+        $this->layout = 'main';
+
+        $parent_id = Yii::$app->user->identity->id;
+        $teacher_id = $this->getTeacherIdByDepartmentId($department_id);
+        //Dohvati ime i prezime ucitelja
+        $user = new User;
+        $teacherFullName = $user->getUserFullName($teacher_id);
+
+        //Dohvati sve termine za odredjeni sastanak
+        $model = new TimeMeetingAppointment;
+       $termins = $model->getAllFreeMeetingTerminsForParent($teacher_id);
+       //timeMeetingDay
+       $timeMeetingInfo = TimeMeeting::find()->select(['day', 'start_at', 'end_at'])->where(['teacher_id'=>$teacher_id])->one();
+       
+       //Proveri da li je korisnik vec zakazao sastanak i onemoguci zakazivanje jos jednog sastanka
+       $booked =TimeMeetingAppointment::find()->where(['parent_id'=>$parent_id])->one();
+
+       //Unesi podatke u bazu
+        if ($model->load(Yii::$app->request->post())) {
+
+                //Dohvati appointment id
+                $term = $_POST['TimeMeetingAppointment']['term'];
+                $appointment_id = $term[0];
+                  
+                    
+                    if(count($booked) > 0){
+                        //Obrisi stari termin
+                        $deleteOldAppointment =  Yii::$app->db->createCommand()
+                        ->update('time_meeting_appointment', ['status' => 0, 'parent_id'=>null],'parent_id='.$parent_id)
+                        ->execute();
+
+                        //zakazi novi
+                        $update =  Yii::$app->db->createCommand()
+                        ->update('time_meeting_appointment', ['status' => 1, 'parent_id'=>$parent_id],'id='.$appointment_id)
+                        ->execute();
+                        if($update){
+                            Yii::$app->session->setFlash('success', "Successfully updated appointment"); 
+                            }else{
+                                Yii::$app->session->setFlash('error', "Error"); 
+                            }
+                    }else{
+                        $update =  Yii::$app->db->createCommand()
+                        ->update('time_meeting_appointment', ['status' => 1, 'parent_id'=>$parent_id],'id='.$appointment_id)
+                        ->execute();
+                        if($update){
+                            Yii::$app->session->setFlash('success', "Success"); 
+                            }else{
+                                Yii::$app->session->setFlash('error', "Error"); 
+                            }
+                    }
+                
+        }
+        return $this->render('timemeeting', [
+            'model'=>$model,
+            'termins'=>$termins,
+            'teacherFullName'=>$teacherFullName,
+            'timeMeetingInfo'=>$timeMeetingInfo,
+            'booked'=>$booked,
+        ]);
+    }
+    function getTeacherIdByDepartmentId($department_id){
+        $teacher_id = Department::find()->select(['user_id'])->where(['id'=>$department_id])->all();
+        return $teacher_id[0]['user_id'];
     }
 
     protected function findModel($id)

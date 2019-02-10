@@ -103,7 +103,7 @@ class SignupForm extends Model
         //Dohvati naziv role preko id-ja
         $roll = Roll::find()->select('title')->where(['id'=>$roll_id])->one();
 
-        //Dodeli korisniku odgovarajuce privilegije koje su definisane u tabeli auth_item za odgovarajucu rolu
+        //Dodeli korisniku odgovarajuce privilegije za pristup stranicama koje su definisane u tabeli auth_item za odgovarajucu rolu
         $userRole = $auth->getRole($roll);
         $auth->assign($userRole,$user_id );
       }

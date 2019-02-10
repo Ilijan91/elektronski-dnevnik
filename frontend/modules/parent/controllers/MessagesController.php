@@ -57,6 +57,8 @@ class MessagesController extends Controller
      */
     public function actionIndex($department_id)
     {
+        
+
         $this->layout = "main";
         //Dohvati id ulogovanog roditelja
         $parent_id = \Yii::$app->user->identity->id;
