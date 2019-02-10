@@ -167,6 +167,7 @@ class StudentSubjectController extends Controller
                 $model->save();
             }
             Yii::$app->session->setFlash('success', "Grade inserted successfully."); 
+            return $this->redirect(['index','department_id' =>$department_id, ]);
         }
 
         return $this->render('create', [

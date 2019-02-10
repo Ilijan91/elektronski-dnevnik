@@ -73,7 +73,6 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        
         $model = new LoginForm();
         $this->layout = 'login';
         if (!Yii::$app->user->isGuest) {

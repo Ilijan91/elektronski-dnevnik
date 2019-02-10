@@ -9,7 +9,7 @@ use frontend\modules\teacher\models\StudentSubject;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Diary';
-$this->params['breadcrumbs'][] = $this->title;
+// $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="student-subject-index">
 <div class="container main">

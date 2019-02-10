@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $model frontend\modules\parent\models\Messages */
 
 $this->title = 'Send Message';
-$this->params['breadcrumbs'][] = ['label' => 'Messages', 'url' => ['index']];
+// $this->params['breadcrumbs'][] = ['label' => 'Messages', 'url' => ['index']];
 // $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="messages-index container main">

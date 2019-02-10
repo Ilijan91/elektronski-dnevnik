@@ -90,10 +90,27 @@ class MessagesController extends Controller
         //Dohvati sve poruke
         $messages = new Messages();
         $message = $messages->getTeacherChatByParent($parent_id);
+        // $messages->parent_id = $parent_id;
+
+        if ($messages->load(Yii::$app->request->post())) {
+            $messages->sender = \Yii::$app->user->identity->id;
+            
+            $messages->parent_id = $parent_id;
+            $messages->receiver = $parent_id;
+            $messages->teacher_id =\Yii::$app->user->identity->id;
+            if($messages->save()){
+                Yii::$app->session->setFlash('success', "Message has been successfully sent!"); 
+                
+            }else {
+                Yii::$app->session->setFlash('error', "Message send failed! Try again."); 
+            }
+            return $this->redirect(['chat', 'parent_id' => $messages->parent_id]);
+        }
 
         return $this->render('chat', [
             'teacher_id' => $teacher_id,
             'message' => $message,
+            'messages' => $messages,
             'parent' => $parent,
 
         ]);

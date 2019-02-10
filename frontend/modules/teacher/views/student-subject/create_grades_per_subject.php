@@ -12,8 +12,8 @@ use yii\helpers\ArrayHelper;
 /* @var $model frontend\modules\Teacher\models\StudentSubject */
 
 $this->title = 'Create Student Subject';
-$this->params['breadcrumbs'][] = ['label' => 'Student Subjects', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+// $this->params['breadcrumbs'][] = ['label' => 'Student Subjects', 'url' => ['index']];
+// $this->params['breadcrumbs'][] = $this->title;
 $subjects = Subject::find()->all();
 //Izbaci iz niza vrednost za predmete /, ona se koristi samo za raspored casova
 unset($subjects[9]);

@@ -8,7 +8,7 @@ use kartik\time\TimePicker;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Time Meetings';
-$this->params['breadcrumbs'][] = $this->title;
+// $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="time-meeting-index container message-inbox">
 

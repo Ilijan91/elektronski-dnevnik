@@ -48,7 +48,7 @@ class Messages extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'text' => 'Text',
+            'text' => '',
             'date' => 'Date',
             'teacher_id' => 'Teacher ID',
             'parent_id' => 'Parent ID',
@@ -75,9 +75,6 @@ class Messages extends \yii\db\ActiveRecord
         $stud_arr = array_column($students,'id');
         $impl = implode(",", $stud_arr);
             $st = Student::find()->where("id IN ($impl)")->all();
-            // $uimpl = implode(",", $st['user_id']);
-            // $user_id = $st->id;
-            // $data = User::find()->where("id IN ($uimpl)")->all();
             return $st;
     }
 

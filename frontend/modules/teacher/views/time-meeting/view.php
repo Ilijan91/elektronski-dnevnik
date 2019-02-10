@@ -7,8 +7,8 @@ use yii\widgets\DetailView;
 /* @var $model frontend\modules\teacher\models\TimeMeeting */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Time Meetings', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+// $this->params['breadcrumbs'][] = ['label' => 'Time Meetings', 'url' => ['index']];
+// $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="time-meeting-view">
