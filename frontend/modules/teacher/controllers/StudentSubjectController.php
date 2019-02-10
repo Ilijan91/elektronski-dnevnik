@@ -201,23 +201,19 @@ class StudentSubjectController extends Controller
                     $model->subject_id = $_POST['StudentSubject']['subject_id'];
                     $model->student_id =$_POST[$student_id];
                     
-                    //Ako nije definisana ocena za ucenika cas, ocena za tog ucenika iz defiisanog premeta ima vrednost null.
-                    // for($i=0;$i<6;$i++){
+                    //Ako nije definisana ocena za ucenika cas, ocena za tog ucenika iz definisanog predmeta ima vrednost null.
                         //dodeljujemo jedinstvenu vrednost name atributu za grade kako bismo pratili post zahteve koje saljemo nakon submitovanja forme. Tu vrednost za definisemo kao id studenta i id ocene
-                        $grade_attribute = $student_id.'ocena';     
-                    // }
+                        $grade_attribute = $student_id.'ocena'; 
                     if(!isset($_POST[$grade_attribute])){
                        $model->grade_id = null;
                     }else{
-                       
                         $model->grade_id = $_POST[$grade_attribute];
-                        
                     }
                     $model->save();
                    
             }
             Yii::$app->session->setFlash('success', "Grades inserted successfully."); 
-            // return $this->redirect(['index','department_id' =>$department_id, ]);
+            return $this->redirect(['index','department_id' =>$department_id, ]);
     }
         $this->layout = 'main';
         return $this->render('create_grades_per_subject', [

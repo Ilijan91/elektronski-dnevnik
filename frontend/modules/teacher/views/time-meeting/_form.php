@@ -13,8 +13,6 @@ use kartik\time\TimePicker;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'teacher_id')->textInput() ?>
-
     <?= $form->field($model, 'day')->dropDownList([ 'Monday' => 'Monday', 'Tuesday' => 'Tuesday', 'Wednesday' => 'Wednesday', 'Thursday' => 'Thursday', 'Friday' => 'Friday', ], ['prompt' => 'Select day']) ?>
 
     <?= $form->field($model, 'start_at')->widget(TimePicker::classname(), ['pluginOptions' => [

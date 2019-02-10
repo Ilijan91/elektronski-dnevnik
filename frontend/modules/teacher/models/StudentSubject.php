@@ -41,8 +41,8 @@ class StudentSubject extends \backend\models\StudentSubject
     {
         return [
             'id' => 'ID',
-            'student_id' => 'Student ID',
-            'subject_id' => 'Subject ID',
+            'student_id' => 'Student',
+            'subject_id' => 'Subject',
             'grade_id' => 'Grade',
             'final_grade' => 'Final Grade',
         ];

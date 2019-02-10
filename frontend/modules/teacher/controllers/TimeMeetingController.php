@@ -5,6 +5,7 @@ namespace frontend\modules\teacher\controllers;
 use Yii;
 use frontend\modules\teacher\models\TimeMeeting;
 use frontend\modules\teacher\models\TimeMeetingAppointment;
+use backend\models\User;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -41,14 +42,17 @@ class TimeMeetingController extends Controller
             'query' => TimeMeeting::find(),
         ]);
         $teacher_id = Yii::$app->user->identity->id;
-        $TimeMeeting = TimeMeeting::find()->where('teacher_id = '.$teacher_id)->all();
+        $timeMeetingAppointment = TimeMeetingAppointment::find()->where('teacher_id = '.$teacher_id)->all();
+        $user = new User();
 
         //Dohvati sve termine za odredjeni sastanak
-        $meeting = $this->getAllTermins($TimeMeeting);
+        // $meeting = $this->getAllTermins($TimeMeeting);
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
-            'meeting' => $meeting,
+            // 'meeting' => $meeting,
+            'timeMeetingAppointment' => $timeMeetingAppointment,
+            'user' => $user,
         ]);
     }
 
@@ -73,28 +77,46 @@ class TimeMeetingController extends Controller
     
     public function actionCreate()
     {
-       $model = new TimeMeeting();
+        $this->layout = "main";
+        $model = new TimeMeeting();
 
-       $model->teacher_id = Yii::$app->user->identity->id;
-       if ($model->load(Yii::$app->request->post()) ) {
+        $model->teacher_id = Yii::$app->user->identity->id;
+        if($model->load(Yii::$app->request->post())) {
+            $post = Yii::$app->request->post('TimeMeeting');
+            $start_at = $post['start_at'];
+            $end_at = $post['end_at'];
+            $day = $post['day'];
+            // $teacher_id = Yii::$app->user->identity->id;
+            $ids = TimeMeeting::find()->select('id')->where("teacher_id = $model->teacher_id")->all();
+            $count = count($ids);
+            if($count > 0) {
+                // $model2 = $this->findModel($ids);
+                $sql = "DELETE FROM time_meeting WHERE teacher_id = ".$model->teacher_id;
+                $model2 = Yii::$app->db->createCommand($sql)->execute();
+                $model->save();
+            } else {
+                $model->save();
+            }
+            Yii::$app->session->setFlash('success', "Termin inserted successfully."); 
 
-           if ( $model->save() ) {
-               $termins = $this->getAllTermins($model->start_at, $model->end_at);
-               $timeMeetingAppointmentModel = new TimeMeetingAppointment;
-               foreach($termins as $termin){
-                   $timeMeetingAppointmentModel->setIsNewRecord(true);
-                   $timeMeetingAppointmentModel->id = null;
-                   $timeMeetingAppointmentModel->teacher_id = Yii::$app->user->identity->id;
-                   $timeMeetingAppointmentModel->term = $termin;
-                   $timeMeetingAppointmentModel->save();
-               }
-           }
-       }
+            if ( $model->save() ) {
+                $termins = $this->getAllTermins($model->start_at, $model->end_at);
+                $timeMeetingAppointmentModel = new TimeMeetingAppointment;
+                foreach($termins as $termin){
+                    $timeMeetingAppointmentModel->setIsNewRecord(true);
+                    $timeMeetingAppointmentModel->id = null;
+                    $timeMeetingAppointmentModel->teacher_id = Yii::$app->user->identity->id;
+                    $timeMeetingAppointmentModel->term = $termin;
+                    $timeMeetingAppointmentModel->save();
+                }
+            }
+            return $this->redirect(['index']);
+        }
 
-       return $this->render('create', [
-           'model' => $model,
-       ]);
-   }
+        return $this->render('create', [
+            'model' => $model,
+        ]);
+    }
 
     /**
      * Updates an existing TimeMeeting model.

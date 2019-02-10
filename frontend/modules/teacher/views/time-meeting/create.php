@@ -9,7 +9,7 @@ $this->title = 'Create Time Meeting';
 $this->params['breadcrumbs'][] = ['label' => 'Time Meetings', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="time-meeting-create">
+<div class="time-meeting-create message-inbox">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

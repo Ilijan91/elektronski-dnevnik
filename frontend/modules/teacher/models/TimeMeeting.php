@@ -46,7 +46,7 @@ class TimeMeeting extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'teacher_id' => 'Teacher ID',
+            'teacher_id' => 'Teacher',
             'day' => 'Day',
             'start_at' => 'Start At',
             'end_at' => 'End At',

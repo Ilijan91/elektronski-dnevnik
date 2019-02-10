@@ -47,8 +47,8 @@ class TimeMeetingAppointment extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'teacher_id' => 'Teacher ID',
-            'parent_id' => 'Parent ID',
+            'teacher_id' => 'Teacher',
+            'parent_id' => 'Parent',
             'term' => 'Term',
             'status' => 'Status',
         ];
