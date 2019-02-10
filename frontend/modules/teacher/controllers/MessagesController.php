@@ -85,7 +85,7 @@ class MessagesController extends Controller
 
         //Dohvati ime i prezime roditelja
         $user = new User;
-        $parent = $user->getParentFullName($parent_id);
+        $parent_full_name = $user->getUserFullName($parent_id);
 
         //Dohvati sve poruke
         $messages = new Messages();
@@ -110,7 +110,7 @@ class MessagesController extends Controller
             'teacher_id' => $teacher_id,
             'message' => $message,
             'messages' => $messages,
-            'parent' => $parent,
+            'parent_full_name' => $parent_full_name,
 
         ]);
     }

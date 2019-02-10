@@ -69,4 +69,19 @@ class TimeMeetingAppointment extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'teacher_id']);
     }
+
+    public function getAllFreeMeetingTerminsForParent($teacher_id){
+        // INNER JOIN time_meeting 
+        // ON time_meeting_appointment.teacher_id = time_meeting.teacher_id 
+        $query = 
+        "SELECT term, id
+        FROM time_meeting_appointment 
+       
+        WHERE time_meeting_appointment.teacher_id = $teacher_id AND time_meeting_appointment.status=0
+        ";
+     $data = Yii::$app->db->createCommand($query)->queryAll();
+     return $data;
+    }
+   
+
 }

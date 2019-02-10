@@ -42,7 +42,7 @@ use backend\models\StudentSubject;
         ['label' => 'Schedule', 'url' => ['default/schedule', 'id' => $department_id]],
         ['label' => 'News Feed', 'url' => ['default/news']],
         ['label' => 'Messages', 'url' => ['messages/index', 'department_id' => $department_id]],
-        ['label' => 'Teacher Meeting', 'url' => ['teachermeeting']],
+        ['label' => 'Teacher Meeting', 'url' => ['default/timemeeting', 'department_id' => $department_id ]],
 
     ];
     if (Yii::$app->user->isGuest) {

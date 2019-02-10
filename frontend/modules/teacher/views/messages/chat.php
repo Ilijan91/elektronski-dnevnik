@@ -9,7 +9,7 @@ use yii\widgets\ActiveForm;
 $this->title = 'Conversation history';
 // $this->params['breadcrumbs'][] = ['label' => 'Messages', 'url' => ['index']];
 // $this->params['breadcrumbs'][] = $this->title;
-$parent_full_name = $parent[0]['first_name'].' '.$parent[0]['last_name'];
+
 $teacher_full_name =\Yii::$app->user->identity->first_name.' '.\Yii::$app->user->identity->last_name;
 ?>
 <div class="messages-index container main">
