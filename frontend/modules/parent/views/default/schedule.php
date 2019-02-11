@@ -2,14 +2,10 @@
 
 use yii\helpers\Html;
 
-// $this->title = $department_name;
-$this->title = 'View Schedule: ' . $department_name;
-$this->params['breadcrumbs'][] = ['label' => 'Schedules', 'url' => ['index']];
-$this->params['breadcrumbs'][] = 'Update';
 ?>
-<div class="container">
+<div class="container main">
 
-<h1><?=$department_name?></h1>
+<h2>Schedule <span class="department_name"><?=$department_name?><span></h2>
 
 <?php
 //$model(svi podaci dobijeni prilikom kreiranje rasporeda casova), $modelDays(dani u nedelji) i $modelClasses(casovi) salje ScheduleController
@@ -32,19 +28,31 @@ foreach($modelDays as $modelDay){
 
 ?>
 <div class="schedule-form">
-  <div class="row">
-
-  <?php foreach($modelDays as $modelDay){
-            $day= $modelDay['title'];
-            echo '
-            <div class="col-lg-2  ">
-              <h2>'.$day.'</h2>';
-            foreach($subjects[$day] as $subject){
-             echo' <p>'.$subject.'</p>';
-            }
-           echo '</div>';// End of col
-             
-  }?>
+<div class="row schedule">
+            <div class="col-lg-1 col-md-1 col-sm-1">
+            <div class="schedule_days ">
+                <h4>Class</h4>
+            </div>
+                <?php
+                for($i=1;$i<8;$i++){
+                    echo '<p class="schedule_classes">'.$i.'. </p>';
+                }
+                ?>
+            </div>
+        
+        <div class="col-lg-11 col-md-11 col-sm-11">
+        <?php foreach($modelDays as $modelDay){
+                    $day= $modelDay['title'];
+                    echo '
+                    <div class="schedule-rows col-md-2">
+                    <div class="schedule_days"><h4>'.$day.'</h4></div>';
+                    
+                    foreach($subjects[$day] as $subject){
+                    echo' <p>'.$subject.'</p>';
+                    }
+                echo '</div>';// End of col
+                    
+        }?>
 
 </div><!-- End of row -->
 </div><!-- End of schedule form -->

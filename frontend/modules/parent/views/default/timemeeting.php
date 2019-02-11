@@ -33,7 +33,7 @@ if(count($booked['parent_id']) > 0){
     <?php $form = ActiveForm::begin(); ?>
     <?= $form->field($model, "term")->checkboxList(ArrayHelper::map($termins,'id','term'))->label($model->getAttributeLabel('')); ?>
        
-    <p>Select appropriate term when to make an appointment</p>
+    <p>Select appropriate term to make an appointment</p>
     <div class="form-group">
         <?= Html::submitButton('Send', ['class' => 'btn btn-success']) ?>
     </div>

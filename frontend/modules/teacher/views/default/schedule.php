@@ -29,9 +29,9 @@ use yii\helpers\Url;
 
         ?>
         <div class="row schedule">
-            <div class="col-lg-1">
+            <div class="col-lg-1 col-md-1 col-sm-1">
             <div class="schedule_days ">
-                <h4>Classes</h4>
+                <h4>Class</h4>
             </div>
                 <?php
                 for($i=1;$i<8;$i++){
@@ -40,11 +40,11 @@ use yii\helpers\Url;
                 ?>
             </div>
         
-        <div class="col-lg-11">
+        <div class="col-lg-11 col-md-11 col-sm-11">
         <?php foreach($modelDays as $modelDay){
                     $day= $modelDay['title'];
                     echo '
-                    <div class="col-lg-2">
+                    <div class="schedule-rows col-md-2">
                     <div class="schedule_days"><h4>'.$day.'</h4></div>';
                     
                     foreach($subjects[$day] as $subject){

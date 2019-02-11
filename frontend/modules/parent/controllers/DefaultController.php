@@ -211,6 +211,7 @@ class DefaultController extends Controller
                             }else{
                                 Yii::$app->session->setFlash('error', "Error"); 
                             }
+                            return $this->redirect('default/timemeeting', ['department_id'=>$department_id]);
                     }
                 
         }
