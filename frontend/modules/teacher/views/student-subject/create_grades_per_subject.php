@@ -34,9 +34,8 @@ unset($subjects[9]);
                         echo "
                         <div class='row'>
                             <div class='col-lg-6 col-md-6'>";
-                                echo Html::label($student_name, $student_id);
-                            //    echo '<span>'. $form->field($model, 'student_id')->hiddenInput(['name'=>$student_id, 'value'=>$student_id])->label($student_name). "</span>" ;
-                                echo '<span>'. Html::textInput($student_id, $student_id, ['readonly' => true, 'class' => 'form-control']). "</span>" ;
+                               echo '<span>'. $form->field($model, 'student_id')->hiddenInput(['name'=>$student_id, 'value'=>$student_id])->label($student_name). "</span>" ;
+                               
                                 //dodeljujemo jedinstvenu vrednost name atributu za grade kako bismo pratili post zahteve koje saljemo nakon submitovanja forme. Tu vrednost za definisemo kao id studenta i id ocene
                                 $grade_attribute = $student_id.'ocena';     
                             

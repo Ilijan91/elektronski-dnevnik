@@ -15,25 +15,33 @@ use yii\helpers\Url;
 <?php
 
 //Prikaz vesti
-foreach($news as $m){
-   $title = $m['title'];
-   $body = $m['body'];
-   $image =$m['image'];
-   $created_at = $m['created_at'];
-   $news[] =[$title, $body, $image,  $created_at];
-echo '
-<div class="row news">
-   <div class="col-lg-5 col-md-5">
-   '.Html::img(Url::to("@web/img/$image"),["class"=>"img-responsive","alt"=>"news"]).'
-   </div>
-   <div class="col-lg-7">
+//Ako nema vesti za prikaz
+if(empty($news)){
+    $news= "<h4>There is no data to show!</h4>";
+    return $this->render('index', [
+    'msg'=>$msg
+    ]);
+}else{
+    foreach($news as $m){
+        $title = $m['title'];
+        $body = $m['body'];
+        $image =$m['image'];
+        $created_at = $m['created_at'];
+        $news[] =[$title, $body, $image,  $created_at];
+        echo '
+        <div class="row news">
+        <div class="col-lg-5 col-md-5">
+        '.Html::img(Url::to("@web/img/$image"),["class"=>"img-responsive","alt"=>"news"]).'
+        </div>
+        <div class="col-lg-7">
 
-   <h3>'.$title.'</h3>
-   <p>'.$body.'</p>
-   <span><i>'.$created_at.'</i></span>
-   </div>
-</div>
-';
+        <h3>'.$title.'</h3>
+        <p>'.$body.'</p>
+        <span><i>'.$created_at.'</i></span>
+        </div>
+        </div>
+        ';
+    }
 }
 ?>
 <p class="text-center">

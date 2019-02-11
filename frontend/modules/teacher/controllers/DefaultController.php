@@ -62,9 +62,6 @@ class DefaultController extends Controller
 
     public function actionIndex()
     {
-       // if(Yii::$app->user->can('teacher')){
-
-        
             //Globalna promenljiva school name iz config-main.php params
             $school_name =\Yii::$app->params['school_name'];
             
@@ -88,7 +85,7 @@ class DefaultController extends Controller
                 'roll'=>$roll,
                 'school_name'=>$school_name
             ]);
-      //  }else echo 'dwd';
+        
     }
 
     public function actionStudents($department_id){
@@ -102,10 +99,19 @@ class DefaultController extends Controller
 
         $students = $this->getStudentsByTeacherId($teacher_id);
         $this->layout = 'main';
+
+        //Ako nisu povezani ucenici za izabrano odeljenje izbaci gresku
+        if(empty($model)){
+            $msg= "<h4>There is no students for this department yet!</h4>";
+        return $this->render('empty', [
+            'msg'=>$msg
+            ]);
+        }else{
         return $this->render('students', [
             'students'=>$students,
             'department_name'=>$department_name,
         ]);
+        }
     }
 
 
@@ -124,20 +130,22 @@ class DefaultController extends Controller
         $schedule= new Schedule();
         $model = $schedule->getScheduleByDepartmentId($department_id);
         $department_name = $schedule->getDepartmentFullName($department_id);
+
         //Ako nije kreiran raspored za izabrano odeljenje izbaci gresku
-        // if(count($model) < 1){
-            // $msg= "<h4>There is no data for department</h4>";
-            // return $this->render('error', [
-            //     'msg' => $msg,
-            // ]);
-        // }else{
+        if(empty($model)){
+            $msg = "<h4>Schedule for this department is not created yet!</h4>";
+            return $this->render('empty', [
+                'msg'=>$msg
+            ]);
+        }else{
             return $this->render('schedule', [
                 'model' => $model,
                 'modelDays'=>$modelDays,
                 'modelClasses'=>$modelClasses,
                 'department_name'=>$department_name,
             ]);
-        // }
+        }  
+        
     }
 
     public function actionNews(){
@@ -150,15 +158,6 @@ class DefaultController extends Controller
         ]);
     }
 
-
-//Prikazi ovu stranicu ukoliko nema podataka za prikaz
-    public function actionEmpty()
-    {
-        // $this->layout = 'main';
-        return $this->render('default/empty', [
-            
-        ]);
-    }
     
     public function getUserByStudent($teacher_id) {
         $students = $this->getStudentsByTeacherId($teacher_id);
@@ -201,6 +200,5 @@ class DefaultController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-   
     
 }

@@ -8,12 +8,12 @@
 use yii\helpers\Html;
 
 ?>
-<div class="site-error">
+<div class="site-error container main">
 
     <h1>Error!</h1>
 
     <div class="alert alert-danger">
-    <h3>There is no data to show!</h3>
+    <h3><?= $msg?></h3>
     </div>
 
 </div>
