@@ -18,6 +18,9 @@ $parent_full_name =\Yii::$app->user->identity->first_name.' '.\Yii::$app->user->
     <h2><?=Html::encode($this->title) ?> <span class="department_name"><?= $parent_full_name?> <span></h2>
     <div class="message-inbox">
         <?php
+        if(count($message < 1)){
+            echo "<p>There is no messages o show</p>";
+        }else{
              foreach($message as $msg) {
                 if($msg['receiver'] == $parent_id){
                     echo '<div class="message received-msg">';
@@ -32,7 +35,8 @@ $parent_full_name =\Yii::$app->user->identity->first_name.' '.\Yii::$app->user->
                         echo '<span class="message-date" >'.$msg['date'].'</span>';
                     echo '</div>'; 
                 }
-            } 
+            }
+        } 
         ?>
 
         <?php $form = ActiveForm::begin(); ?>

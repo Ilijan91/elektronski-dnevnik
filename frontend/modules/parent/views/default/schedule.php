@@ -1,8 +1,48 @@
+<?php
+
+use yii\helpers\Html;
+
+?>
+<div class="container main">
+
+<h2>Schedule <span class="department_name"><?=$department_name?><span></h2>
 
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
+<div class="schedule-form">
+<div class="row schedule">
+            <div class="col-lg-1 col-md-1 col-sm-1">
+            <div class="schedule_days ">
+                <h4>Class</h4>
+            </div>
+                <?php
+                for($i=1;$i<8;$i++){
+                    echo '<p class="schedule_classes">'.$i.'. </p>';
+                }
+                ?>
+            </div>
+        
+        <div class="col-lg-11 col-md-11 col-sm-11">
+        <?php foreach($modelDays as $modelDay){
+                    $day= $modelDay['title'];
+                    echo '
+                    <div class="schedule-rows col-md-2">
+                    <div class="schedule_days"><h4>'.$day.'</h4></div>';
+                    
+                    foreach($subjects[$day] as $subject){
+                    echo' <p>'.$subject.'</p>';
+                    }
+                echo '</div>';// End of col
+                    
+        }?>
+
+</div><!-- End of row -->
+</div><!-- End of schedule form -->
+ </div>
+</div>
+
 
 <div class="teacher-default-index">
     <div class="container main">

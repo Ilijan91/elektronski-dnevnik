@@ -146,6 +146,16 @@ class DefaultController extends Controller
             'news'=>$news,
         ]);
     }
+
+
+//Prikazi ovu stranicu ukoliko nema podataka za prikaz
+    public function actionEmpty()
+    {
+        // $this->layout = 'main';
+        return $this->render('default/empty', [
+            
+        ]);
+    }
     
     public function getUserByStudent($teacher_id) {
         $students = $this->getStudentsByTeacherId($teacher_id);

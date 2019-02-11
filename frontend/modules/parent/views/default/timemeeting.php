@@ -31,14 +31,15 @@ if($count > 0){
 
 
 // foreach($termins as $termin){ ?>
-   <div >
-   <?php $form = ActiveForm::begin(); ?>
-   <?= $form->field($model, "term")->checkboxList(ArrayHelper::map($termins,'id','term'))->label($model->getAttributeLabel('')); ?>
+    <div >
+    <?php $form = ActiveForm::begin(); ?>
+    <?= $form->field($model, "term")->checkboxList(ArrayHelper::map($termins,'id','term'))->label($model->getAttributeLabel('')); ?>
+       
+    <p>Select appropriate term to make an appointment</p>
+    <div class="form-group">
+        <?= Html::submitButton('Send', ['class' => 'btn btn-success']) ?>
+    </div>
 
-   <p>Select appropriate term to make an appointment</p>
-   <div class="form-group">
-       <?= Html::submitButton('Send', ['class' => 'btn btn-success']) ?>
-   </div>
-
-   <?php ActiveForm::end(); ?>
-   </div>
+    <?php ActiveForm::end(); ?>
+    </div>
+    
