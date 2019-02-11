@@ -50,8 +50,8 @@ class Messages extends \yii\db\ActiveRecord
             'id' => 'ID',
             'text' => '',
             'date' => 'Date',
-            'teacher_id' => 'Teacher ID',
-            'parent_id' => 'Parent ID',
+            'teacher_id' => 'Teacher',
+            'parent_id' => 'Parent',
             'sender' => 'Sender',
             'receiver' => 'Receiver',
         ];
@@ -75,9 +75,6 @@ class Messages extends \yii\db\ActiveRecord
         $stud_arr = array_column($students,'id');
         $impl = implode(",", $stud_arr);
             $st = Student::find()->where("id IN ($impl)")->all();
-            // $uimpl = implode(",", $st['user_id']);
-            // $user_id = $st->id;
-            // $data = User::find()->where("id IN ($uimpl)")->all();
             return $st;
     }
 
@@ -94,7 +91,7 @@ class Messages extends \yii\db\ActiveRecord
         $sql = 'SELECT messages.id, messages.text, messages.sender FROM messages WHERE messages.receiver= '.Yii::$app->user->identity->id;
 
         $mess = \Yii::$app->db->createCommand($sql)->queryAll();
-        if(count($mess) < 1){
+        if(empty($mess)){
             return null;
         }else{
             return $mess;
@@ -105,13 +102,13 @@ class Messages extends \yii\db\ActiveRecord
     
     //Dohvati konverzaciju ucitelj-roditelj preko id roditelja
     public function getTeacherChatByParent($parent_id) {
-        $sql = "SELECT *
+        $sql = "SELECT id, text, DATE_FORMAT(date, '%d %M %Y %H:%i') AS date, sender, receiver, parent_id, teacher_id
         FROM messages
         WHERE messages.parent_id=$parent_id
         ORDER BY messages.date ASC";
 
         $mess = \Yii::$app->db->createCommand($sql)->queryAll();
-        if(count($mess) < 1){
+        if(empty($mess)){
             return null;
         }else{
             return $mess;
