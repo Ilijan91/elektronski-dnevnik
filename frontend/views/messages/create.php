@@ -2,15 +2,14 @@
 
 use yii\helpers\Html;
 
-
 /* @var $this yii\web\View */
-/* @var $model frontend\modules\Teacher\models\StudentSubject */
+/* @var $model frontend\modules\parent\models\Messages */
 
-$this->title = 'Create Student Subject';
-$this->params['breadcrumbs'][] = ['label' => 'Student Subjects', 'url' => ['index']];
+$this->title = 'Create Messages';
+$this->params['breadcrumbs'][] = ['label' => 'Messages', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="student-subject-create">
+<div class="messages-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

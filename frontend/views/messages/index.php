@@ -4,19 +4,19 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel frontend\modules\Teacher\models\StudentSubjectSearch */
+/* @var $searchModel frontend\modules\parent\models\MessagesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Student Subjects';
+$this->title = 'Messages';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="student-subject-index">
+<div class="messages-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Student Subject', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Messages', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -26,10 +26,10 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'student_id',
-            'subject_id',
-            'grade',
-            'final_grade',
+            'title',
+            'text:ntext',
+            'parent_id',
+            'teacher_id',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

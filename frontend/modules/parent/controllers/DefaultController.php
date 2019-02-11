@@ -12,6 +12,9 @@ use backend\models\Department;
 use backend\models\Subject;
 use backend\models\Days;
 use backend\models\Schedule;
+use frontend\modules\parent\models\Messages;
+use frontend\modules\parent\models\MessagesSearch;
+use frontend\modules\parent\controllers\MessagesController;
 // use backend\controllers\NewsController;
 use yii\web\Controller;
 use Yii;
@@ -84,9 +87,51 @@ class DefaultController extends Controller
         
         ]);  
     }
-    protected function findModel()
+    public function actionMessages() {
+        $this->layout = "main";
+        $searchModel = new MessagesSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $student = Student::find()
+        ->select('id')
+        ->where(['user_id'=>Yii::$app->user->identity->id])
+        ->one();
+        $student_id= $student->id;
+        return $this->render('messages/index', [
+            'student_id' => $student_id,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    public function actionCreate()
     {
-        if (($model = Yii::$app->user->identity->id) !== null) {
+        $this->layout = "main";
+        $model = new Messages();
+        $student = Student::find()
+        ->select('id')
+        ->where(['user_id'=>Yii::$app->user->identity->id])
+        ->one();
+        $student_id= $student->id;
+        $teacher = $this->getTeacherById($student_id);
+        $model->sender = Yii::$app->user->identity->id;
+        $model->receiver = $teacher->id;
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
+    }
+    public function actionView($id)
+    {
+        $this->layout = "main";
+        return $this->render('view', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+    protected function findModel($id)
+    {
+        if (($model = Messages::findOne($id)) !== null) {
             return $model;
         }
 
@@ -104,17 +149,7 @@ class DefaultController extends Controller
          return $roll;
     }
 
-    public function actionTeachermeeting()
-    {
-       
-
-        
-        $this->layout = "main";
-
-        return $this->render('teachermeeting', [
-           
-        ]);
-    }
+    
 
     public function actionSchedule($id)
     {
@@ -146,4 +181,22 @@ class DefaultController extends Controller
 
 
 
+    public function getTeacherById($student_id){
+        $student = Student::find()
+        ->select('id, department_id')
+        ->where(['id'=>$student_id])
+        ->one();
+    //    $student_id = $student->id;
+       $department_id = $student->department_id;
+       $department = Department::find()
+        ->select('id, user_id')
+        ->where(['id'=>$department_id])
+        ->one();
+        $user_id = $department->user_id;
+        $user = User::find()
+        ->select(['id', 'first_name', 'last_name'])
+        ->where(['id'=>$user_id])
+        ->one();
+        return $user;
+       }
 }

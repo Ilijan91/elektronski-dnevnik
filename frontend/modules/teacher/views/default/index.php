@@ -35,10 +35,12 @@ echo '
     </div>
 </div>
 ';
-?>    
-<?php
 }
+?> 
+ <p class="text-center">
+<?= Html::a('See all news', ['news'], ['class' => 'btn btn-success']) ?>
+</p>
 
-?>   
+  
 </div> 
 </div>

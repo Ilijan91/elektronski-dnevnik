@@ -4,6 +4,7 @@ use yii\bootstrap\NavBar;
 use yii\helpers\Html;
 use backend\models\Department;
 use backend\models\Student;
+use frontend\modules\parent\models\OpenDors;
 use backend\models\StudentSubject;
 ?>
 <div class="wrap">
@@ -35,8 +36,8 @@ use backend\models\StudentSubject;
         ['label' => 'Grade', 'url' => ['grade', 'id' => $student_id]],
         ['label' => 'Schedule', 'url' => ['schedule' ,'id'=>$department_id]],
         ['label' => 'News Feed', 'url' => ['index']],
-        ['label' => 'Teacher Meeting', 'url' => ['teachermeeting']],
-        ['label' => 'Messages', 'url' => ['messages']],
+        ['label' => 'Open Dors', 'url' => ['open-dors']],
+        ['label' => 'Messages', 'url' => ['messages','id' => $student_id]]
 
     ];
     if (Yii::$app->user->isGuest) {

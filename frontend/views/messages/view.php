@@ -4,13 +4,14 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model frontend\modules\Teacher\models\StudentSubject */
+/* @var $model frontend\modules\parent\models\Messages */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Student Subjects', 'url' => ['index']];
+$this->title = $model->title;
+$this->params['breadcrumbs'][] = ['label' => 'Messages', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+\yii\web\YiiAsset::register($this);
 ?>
-<div class="student-subject-view">
+<div class="messages-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -29,10 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'student_id',
-            'subject_id',
-            'grade',
-            'final_grade',
+            'title',
+            'text:ntext',
+            'parent_id',
+            'teacher_id',
         ],
     ]) ?>
 
