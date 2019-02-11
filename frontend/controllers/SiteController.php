@@ -24,6 +24,10 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
+                // 'allowActions' => [
+                //     'index',
+                //     // The actions listed here will be allowed to everyone including guests.
+                // ],
                 'only' => ['logout', 'signup'],
                 'rules' => [
                     [
@@ -46,21 +50,6 @@ class SiteController extends Controller
             ],
         ];
     }
-  
-//  public function actionAction(){
-//     $controllers = [];
-//         foreach (glob(APP_PATH . '/src/Controller/*Controller.php') as $controller) {
-//             $className = 'YourNamespace\Controller\\' . basename($controller, '.php');
-//             $controllers[$className] = [];
-//             $methods = (new \ReflectionClass($className))->getMethods(\ReflectionMethod::IS_PUBLIC);
-//             foreach ($methods as $method) {
-//                 if (\Phalcon\Text::endsWith($method->name, 'Action')) {
-//                     $controllers[$className][] = $method->name;
-//                 }
-//             }
-//         }
-//         return $this->render('action');
-//  }
         
     /**
      * {@inheritdoc}
@@ -94,17 +83,18 @@ class SiteController extends Controller
        
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             $roll_id = \Yii::$app->user->identity->roll_id;
+            
             if($roll_id == 2){
-                return $this->redirect('teacher');
+                return $this->redirect('@web/teacher');
             }elseif($roll_id == 3){
-                return $this->redirect('director');
+                return $this->redirect('@web/director');
             }elseif($roll_id == 4){
-                return $this->redirect('parent');
+                return $this->redirect('@web/parent');
+            }elseif($roll_id == 1){
+                return $this->redirect(Yii::$app->urlManagerBackend->createUrl(['/']));
             }else{
                 return $this->redirect('site/dashboard');
-            }
-            
-          
+            } 
         } else {
             $model->password = '';
             return $this->render('login', [
@@ -145,67 +135,16 @@ class SiteController extends Controller
     public function actionLogout()
     {
         Yii::$app->user->logout();
-        return $this->goHome();
+        return $this->redirect(['index']);
     }
-    /**
-     * Displays contact page.
-     *
-     * @return mixed
-     */
-    public function actionContact()
-    {
-       
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-                Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
-            } else {
-                Yii::$app->session->setFlash('error', 'There was an error sending your message.');
-            }
-            return $this->refresh();
-        } else {
-            return $this->render('contact', [
-                'model' => $model,
-            ]);
-        }
-    }
+  
     /**
      * Displays about page.
      *
      * @return mixed
      */
-    public function actionAbout()
-    {
-        
-        return $this->render('about');
-    }
-    /**
-     * Signs user up.
-     *
-     * @return mixed
-     */
-    public function actionSignup()
-    {
-         //Ukoliko korisnik nije ulogovan nema pristum ovoj stranici
-         if (!Yii::$app->user->isGuest) {
-            $this->layout = 'login';
-            $modelLogin = new LoginForm();
-            return $this->render('login', [
-                'model' => $modelLogin,
-            ]);
-        }
-        $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post())) {
-            if ($user = $model->signup()) {
-                if (Yii::$app->getUser()->login($user)) {
-                    return $this->goHome();
-                }
-            }
-        }
-        return $this->render('signup', [
-            'model' => $model,
-        ]);
-    }
+   
+   
     /**
      * Requests password reset.
      *

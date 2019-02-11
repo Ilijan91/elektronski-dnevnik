@@ -87,4 +87,20 @@ class User extends \common\models\User
     public function getFullName() {
         return $this->first_name . ' ' . $this->last_name;
     }
+
+    public function getUserFullName($id){
+        $sql = "SELECT first_name, last_name
+        FROM user
+        WHERE id=$id
+        LIMIT 1";
+
+        $user = \Yii::$app->db->createCommand($sql)->queryAll();
+        if(count($user) < 1){
+            return null;
+        }else{
+            $full_name = $user[0]['first_name'].' '.$user[0]['last_name'];
+            return $full_name;
+        }
+    }
+    
 }

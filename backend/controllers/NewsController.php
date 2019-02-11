@@ -4,12 +4,13 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\News;
-use backend\models\SearchNews;
+use backend\models\NewsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 use yii\web\UploadedFile;
+use yii\filters\AccessControl;
 
 
 /**
@@ -22,14 +23,32 @@ class NewsController extends Controller
      */
     public function behaviors()
     {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
+        $behaviors['verbs'] = [
+            'class' => VerbFilter::className(),
+            'actions' => [
+                'delete' => ['POST'],
+            ],
+        ];
+        $behaviors['access'] = [
+            'class' => AccessControl::className(),
+            'rules'=>[
+                [
+                    'allow' => true,
+                    'roles' => ['@'],
+                    'matchCallback' => function($rules, $action){
+                        //module = \yii::$app->controller->module->id;
+                        $action = Yii::$app->controller->action->id;
+                        $controller = Yii::$app->controller->id;
+                        $route = "$controller/$action";
+                        $post = Yii::$app->request->post();
+                        if(\Yii::$app->user->can($route)){
+                            return true;
+                        }
+                    }
                 ],
             ],
         ];
+        return $behaviors;
     }
 
     /**
@@ -46,7 +65,7 @@ class NewsController extends Controller
                 'pageSize'=>5
             ]
         ]);
-        $searchModel = new SearchNews();
+        $searchModel = new NewsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

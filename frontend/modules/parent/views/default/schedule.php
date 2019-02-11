@@ -1,19 +1,25 @@
 <?php
-//print_r($rasp);
+
 use yii\helpers\Html;
 
+// $this->title = $department_name;
+$this->title = 'View Schedule: ' . $department_name;
+$this->params['breadcrumbs'][] = ['label' => 'Schedules', 'url' => ['index']];
+$this->params['breadcrumbs'][] = 'Update';
+?>
+<div class="container">
 
-?> 
+<h1><?=$department_name?></h1>
 
 <?php
 //$model(svi podaci dobijeni prilikom kreiranje rasporeda casova), $modelDays(dani u nedelji) i $modelClasses(casovi) salje ScheduleController
-foreach($rasp as $raspored){
+foreach($modelDays as $modelDay){
   //Kreiramo array $day u koji smestamo dane u nedelji
-  $day= $raspored['days_title'];  
+  $day= $modelDay['title'];  
   //Kreiramo array $array_day gde je key dan u nedelji, a value je array sa casovima po rasporedu za taj dan. 
   //SVI PODACI IZ RASPOREDA PO DANU
   //Sve podatke za odredjeni dan dobijamo preko funkcije array_filter koja prolazi kroz sve elemente $model i smesta ih u array_day po danima
-  $array_day[$day] = array_filter($rasp, function ($element) use ($day) {
+  $array_day[$day] = array_filter($model, function ($element) use ($day) {
        return ($element['days_title'] == $day);
       })
    ;
@@ -28,8 +34,8 @@ foreach($rasp as $raspored){
 <div class="schedule-form">
   <div class="row">
 
-  <?php foreach($days as $raspDay){
-            $day= $raspDay['title'];
+  <?php foreach($modelDays as $modelDay){
+            $day= $modelDay['title'];
             echo '
             <div class="col-lg-2  ">
               <h2>'.$day.'</h2>';
@@ -38,10 +44,11 @@ foreach($rasp as $raspored){
             }
            echo '</div>';// End of col
              
-        }?>
+  }?>
 
 </div><!-- End of row -->
 </div><!-- End of schedule form -->
- 
+ </div>
 </div>
+
 

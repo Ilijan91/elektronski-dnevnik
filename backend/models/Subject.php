@@ -65,8 +65,4 @@ class Subject extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getStudentSubjects0()
-    {
-        return $this->hasMany(StudentSubjects::className(), ['subject_id' => 'id']);
-    }
 }

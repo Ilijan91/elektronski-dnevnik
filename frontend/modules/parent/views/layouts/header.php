@@ -15,6 +15,11 @@ use backend\models\StudentSubject;
      ->one();
     $student_id= $student->id;
 
+    $st = Student::find()
+     ->select('first_name, last_name')
+     ->where(['user_id'=>Yii::$app->user->identity->id])
+     ->one();
+    $fullname = $st->first_name . ' ' . $st->last_name;
 
     $department=Student::find()
     ->select('department_id')
@@ -25,19 +30,20 @@ use backend\models\StudentSubject;
     
 
     NavBar::begin([
-        'brandLabel' => 'School management system',
-        'brandUrl' => Yii::$app->homeUrl,
+        'brandLabel' => $fullname,
+        'brandUrl' => Yii::$app->homeUrl.'parent',
         'options' => [
 
             'class' => 'navbar-inverse',
         ],
     ]);
     $menuItems = [
-        ['label' => 'Grade', 'url' => ['grade', 'id' => $student_id]],
-        ['label' => 'Schedule', 'url' => ['schedule' ,'id'=>$department_id]],
-        ['label' => 'News Feed', 'url' => ['index']],
-        ['label' => 'Open Dors', 'url' => ['open-dors']],
-        ['label' => 'Messages', 'url' => ['messages','id' => $student_id]]
+        ['label' => 'Home', 'url' => ['default/index', 'id' => Yii::$app->user->identity->id]],
+        ['label' => 'Grade', 'url' => ['default/grade', 'id' => $student_id]],
+        ['label' => 'Schedule', 'url' => ['default/schedule', 'id' => $department_id]],
+        ['label' => 'News Feed', 'url' => ['default/news']],
+        ['label' => 'Messages', 'url' => ['messages/index', 'department_id' => $department_id]],
+        ['label' => 'Teacher Meeting', 'url' => ['default/timemeeting', 'department_id' => $department_id ]],
 
     ];
     if (Yii::$app->user->isGuest) {

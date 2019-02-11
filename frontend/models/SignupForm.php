@@ -3,6 +3,8 @@ namespace frontend\models;
 
 use yii\base\Model;
 use common\models\User;
+use backend\models\Roll;
+use Yii;
 
 /**
  * Signup form
@@ -55,7 +57,7 @@ class SignupForm extends Model
     {
         if (!$this->validate()) {
             return null;
-        }
+        }else
         
         $user = new User();
         $user->username = $this->username;
@@ -67,6 +69,42 @@ class SignupForm extends Model
         $user->setPassword($this->JMBG);
         $user->generateAuthKey();
         
-        return $user->save() ? $user : null;
+    //Sacuvamo podatke za kreiranog korisnika u tabeli user.
+    //Ako su podaci sacuvani dohvati id kreiranog korisnika i id role
+      if($user->save()){
+        $roll_id = $this->roll_id;
+        $user_id = $user->getId();
+
+        //U zavisnosti od id role koja je dodeljena kreiranom korisniku, posalji odgovarajuci parametar funkciji givePermissionBasedOnRolle
+        switch ($roll_id) {
+            case '1':
+                $this->givePermissionsBasedOnRolle($roll_id, $user_id);
+                break;
+            case '2':
+                $this->givePermissionsBasedOnRolle($roll_id, $user_id);
+                break;
+            case' 3':
+                $this->givePermissionsBasedOnRolle($roll_id, $user_id);
+                break;
+            case '4':
+                $this->givePermissionsBasedOnRolle($roll_id, $user_id);
+                break;
+        }
+        Yii::$app->session->setFlash('success', "User created successfully.");
+      } else{
+        Yii::$app->session->setFlash('error', "Something went wrong! Check your data and try again!"); 
+      }
     }
+
+    //Dodeli korisniku odgovarajuce privilegije u zavisnosti od role koja mu je dodeljena
+    function givePermissionsBasedOnRolle($roll_id, $user_id){
+        $auth = \Yii::$app->authManager;
+
+        //Dohvati naziv role preko id-ja
+        $roll = Roll::find()->select('title')->where(['id'=>$roll_id])->one();
+
+        //Dodeli korisniku odgovarajuce privilegije za pristup stranicama koje su definisane u tabeli auth_item za odgovarajucu rolu
+        $userRole = $auth->getRole($roll);
+        $auth->assign($userRole,$user_id );
+      }
 }

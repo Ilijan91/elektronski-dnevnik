@@ -18,7 +18,7 @@ class StudentSubjectSearch extends StudentSubject
     public function rules()
     {
         return [
-            [['id', 'student_id', 'subject_id', 'grade', 'final_grade'], 'integer'],
+            [['id', 'student_id', 'subject_id', 'grade_id', 'final_grade'], 'integer'],
         ];
     }
 
@@ -61,7 +61,7 @@ class StudentSubjectSearch extends StudentSubject
             'id' => $this->id,
             'student_id' => $this->student_id,
             'subject_id' => $this->subject_id,
-            'grade' => $this->grade,
+            'grade_id' => $this->grade,
             'final_grade' => $this->final_grade,
         ]);
 

@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'subject_id') ?>
 
-    <?= $form->field($model, 'grade') ?>
+    <?= $form->field($model, 'grade_id') ?>
 
     <?= $form->field($model, 'final_grade') ?>
 

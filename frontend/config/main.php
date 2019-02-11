@@ -21,19 +21,26 @@ return [
         'director' => [
             'class' => 'frontend\modules\director\Module',
         ],
+        'rbac' => [
+            'class' => 'yii2mod\rbac\Module',
+        ],
     ],
     'components' => [
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+            'defaultRoles' => ['guest', 'user'],
+        ],
         'request' => [
             'csrfParam' => '_csrf-frontend',
         ],
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
+            'identityCookie' => ['name' => '_identity-common', 'httpOnly' => true],
         ],
         'session' => [
             // this is the name of the session cookie used for login on the frontend
-            'name' => 'advanced-frontend',
+            'name' => 'advanced-common',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -54,13 +61,13 @@ return [
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
-        ),
+            ),
         ],
         'urlManagerBackend' => [
 
         	'class' => 'yii\web\urlManager',
 
-        	'baseUrl' => '@backend\web\img',
+        	'baseUrl' => 'http://localhost/dnevnik/backend/web',
 
         	'enablePrettyUrl' => true,
 
@@ -72,6 +79,6 @@ return [
         'params'=>$params,
         'school_name'=>'osnovna skola "8.oktobar"',
         'school_phone'=>'063/100-222',
-        'school_mail'=>'schoolname@school.com'
+        'school_mail'=>'schoolname@school.com',
     ],
 ];

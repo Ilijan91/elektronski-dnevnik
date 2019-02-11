@@ -51,4 +51,5 @@ class Roll extends \yii\db\ActiveRecord
     {
         return $this->hasMany(User::className(), ['roll_id' => 'id']);
     }
+    
 }

@@ -1,23 +1,22 @@
 <?php
 
 namespace frontend\modules\parent\models;
+
+use Yii;
 use backend\models\Student;
 use backend\models\User;
 use backend\models\Department;
-
-use Yii;
 
 /**
  * This is the model class for table "messages".
  *
  * @property int $id
- * @property string $title
  * @property string $text
+ * @property string $date
+ * @property int $teacher_id
+ * @property int $parent_id
  * @property int $sender
  * @property int $receiver
- *
- * @property User $parent
- * @property User $teacher
  */
 class Messages extends \yii\db\ActiveRecord
 {
@@ -35,12 +34,10 @@ class Messages extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'text', 'sender', 'receiver'], 'required'],
+            [['text', 'teacher_id', 'parent_id', 'sender', 'receiver'], 'required'],
             [['text'], 'string'],
-            [['sender', 'receiver'], 'integer'],
-            [['title'], 'string', 'max' => 255],
-            [['sender'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['sender' => 'id']],
-            [['receiver'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['receiver' => 'id']],
+            [['date'], 'safe'],
+            [['teacher_id', 'parent_id', 'sender', 'receiver'], 'integer'],
         ];
     }
 
@@ -51,45 +48,86 @@ class Messages extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
             'text' => 'Text',
+            'date' => 'Date',
+            'teacher_id' => 'Teacher ID',
+            'parent_id' => 'Parent ID',
             'sender' => 'Sender',
             'receiver' => 'Receiver',
         ];
     }
+    
+    public function getStudentsByTeacherId($teacher_id){
+        //Dohvati odeljenje kome predaje ulogovani ucitelj
+            $department = Department::find()
+                            ->select('id')
+                            ->where(['user_id'=>$teacher_id])
+                            ->one();
+            $department_id= $department->id;
+        //Dohvati sve ucenike koji su u odeljenju kome predaje ulogovani ucitelj
+        $s = new Student;
+        $students= $s->getAllStudentsByDepartmentId($department_id);
+        return $students;
+    }   
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getSender()
-    {
-        return $this->hasOne(User::className(), ['id' => 'sender']);
+    public function getUserByStudent($teacher_id) {
+        $students = $this->getStudentsByTeacherId($teacher_id);
+        $stud_arr = array_column($students,'id');
+        $impl = implode(",", $stud_arr);
+            $st = Student::find()->where("id IN ($impl)")->all();
+            // $uimpl = implode(",", $st['user_id']);
+            // $user_id = $st->id;
+            // $data = User::find()->where("id IN ($uimpl)")->all();
+            return $st;
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getReceiver()
-    {
-        return $this->hasOne(User::className(), ['id' => 'receiver']);
-    }
-
-    public function getTeacherById($student_id){
+    public function getStudentById() {
         $student = Student::find()
-        ->select('id, department_id')
-        ->where(['id'=>$student_id])
+        ->select('id')
+        ->where(['user_id'=>Yii::$app->user->identity->id])
         ->one();
-    //    $student_id = $student->id;
-       $department_id = $student->department_id;
-       $department = Department::find()
-        ->select('id, user_id')
-        ->where(['id'=>$department_id])
-        ->one();
-        // $user_id = $department->user_id;
-        // $user = User::find()
-        // ->select(['id', 'first_name', 'last_name'])
-        // ->where(['id'=>$user_id])
-        // ->one();
-        return $department;
-       }
+
+        return $student;
+    }
+
+    public function getMessagesByTeacher() {
+        $sql = 'SELECT messages.id, messages.text, messages.sender FROM messages WHERE messages.receiver= '.Yii::$app->user->identity->id;
+
+        $mess = \Yii::$app->db->createCommand($sql)->queryAll();
+        if(count($mess) < 1){
+            return null;
+        }else{
+            return $mess;
+        }
+       
+    }
+
+    
+    //Dohvati konverzaciju ucitelj-roditelj preko id roditelja
+    public function getTeacherChatByParent($parent_id) {
+        $sql = "SELECT *
+        FROM messages
+        WHERE messages.parent_id=$parent_id
+        ORDER BY messages.date ASC";
+
+        $mess = \Yii::$app->db->createCommand($sql)->queryAll();
+        if(count($mess) < 1){
+            return null;
+        }else{
+            return $mess;
+        }
+       
+    }
+    public function getSenderFullName() {
+        $mess = $this->getMessagesByTeacher();
+        if($mess == null){
+            return null;
+        }else{
+            $column = array_column($mess, 'sender');
+            $iml = implode(",", $column);
+                $sql = 'SELECT user.id, user.first_name, user.last_name FROM user WHERE user.id IN ('.$iml.')';
+                $sender = \Yii::$app->db->createCommand($sql)->queryAll();
+            return $sender;
+        }
+    }
 }
