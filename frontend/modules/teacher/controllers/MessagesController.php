@@ -231,6 +231,7 @@ class MessagesController extends Controller
             $st = Student::find()->where("id IN ($impl)")->all();
             return $st;
     }
+    
     //Dohvati sve roditelje 
     public function getParents($teacher_id){
         //Dohvati sve ucenike jednog odeljenja kome predaje ulogovani ucitelj

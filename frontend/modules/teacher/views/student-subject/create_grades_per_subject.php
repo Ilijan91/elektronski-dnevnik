@@ -12,8 +12,6 @@ use yii\helpers\ArrayHelper;
 /* @var $model frontend\modules\Teacher\models\StudentSubject */
 
 $this->title = 'Create Student Subject';
-// $this->params['breadcrumbs'][] = ['label' => 'Student Subjects', 'url' => ['index']];
-// $this->params['breadcrumbs'][] = $this->title;
 $subjects = Subject::find()->all();
 //Izbaci iz niza vrednost za predmete /, ona se koristi samo za raspored casova
 unset($subjects[9]);
@@ -35,7 +33,6 @@ unset($subjects[9]);
                         <div class='row'>
                             <div class='col-lg-6 col-md-6'>";
                                 echo Html::label($student_name, $student_id);
-                            //    echo '<span>'. $form->field($model, 'student_id')->hiddenInput(['name'=>$student_id, 'value'=>$student_id])->label($student_name). "</span>" ;
                                 echo '<span>'. Html::textInput($student_id, $student_id, ['readonly' => true, 'class' => 'form-control']). "</span>" ;
                                 //dodeljujemo jedinstvenu vrednost name atributu za grade kako bismo pratili post zahteve koje saljemo nakon submitovanja forme. Tu vrednost za definisemo kao id studenta i id ocene
                                 $grade_attribute = $student_id.'ocena';     

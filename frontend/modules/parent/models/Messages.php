@@ -48,10 +48,10 @@ class Messages extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'text' => 'Text',
+            'text' => '',
             'date' => 'Date',
-            'teacher_id' => 'Teacher ID',
-            'parent_id' => 'Parent ID',
+            'teacher_id' => 'Teacher',
+            'parent_id' => 'Parent',
             'sender' => 'Sender',
             'receiver' => 'Receiver',
         ];

@@ -11,7 +11,6 @@ use frontend\modules\teacher\models\Messages;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Messages';
-// $this->params['breadcrumbs'][] = $this->title;
 $teacher_full_name =\Yii::$app->user->identity->first_name.' '.\Yii::$app->user->identity->last_name;
 ?>
 

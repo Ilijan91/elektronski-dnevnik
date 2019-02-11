@@ -17,11 +17,13 @@ $this->params['breadcrumbs'][] = 'Update';
 <h3>Meeteng duration: <span><?= $timeMeetingInfo['start_at'].' - '.$timeMeetingInfo['end_at']?></span></h3>
 
 <?php
-  //Proveri da li je korisnik vec zakazao sastanak
+ //Proveri da li je korisnik vec zakazao sastanak
 
-if(count($booked['parent_id']) > 0){
-    echo '<h4>Your termin is '.$booked['term'].'</h4>';
-    echo '<h4>You can change it in form below.</h4>';
+if(count($booked) > 0){
+   echo '<h4>Your termin is '.$booked['term'].'</h4>';
+   echo '<h4>You can change it in form below.</h4>';
+//    print_r($booked);
+//    echo count($booked['term']);
 }
 ?>
 <h3>Free termins</h3>
@@ -29,15 +31,14 @@ if(count($booked['parent_id']) > 0){
 
 
 // foreach($termins as $termin){ ?>
-    <div >
-    <?php $form = ActiveForm::begin(); ?>
-    <?= $form->field($model, "term")->checkboxList(ArrayHelper::map($termins,'id','term'))->label($model->getAttributeLabel('')); ?>
-       
-    <p>Select appropriate term when to make an appointment</p>
-    <div class="form-group">
-        <?= Html::submitButton('Send', ['class' => 'btn btn-success']) ?>
-    </div>
+   <div >
+   <?php $form = ActiveForm::begin(); ?>
+   <?= $form->field($model, "term")->checkboxList(ArrayHelper::map($termins,'id','term'))->label($model->getAttributeLabel('')); ?>
 
-    <?php ActiveForm::end(); ?>
-    </div>
-    
+   <p>Select appropriate term to make an appointment</p>
+   <div class="form-group">
+       <?= Html::submitButton('Send', ['class' => 'btn btn-success']) ?>
+   </div>
+
+   <?php ActiveForm::end(); ?>
+   </div>

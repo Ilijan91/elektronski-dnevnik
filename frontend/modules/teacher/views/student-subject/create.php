@@ -7,8 +7,6 @@ use yii\helpers\Html;
 /* @var $model frontend\modules\Teacher\models\StudentSubject */
 
 $this->title = 'Create diary';
-// $this->params['breadcrumbs'][] = ['label' => 'Student Subjects', 'url' => ['index']];
-// $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 <div class="student-subject-create">

@@ -24,7 +24,7 @@ foreach($news as $m){
 echo '
 <div class="row news">
    <div class="col-lg-5 col-md-5">
-   '.Html::img(Url::to("@web/img/$image"),["class"=>"img-responsive","alt"=>"news"]).'
+   '.Html::img(Url::to("@web/img/upload/$image"),["class"=>"img-responsive","alt"=>"news"]).'
    </div>
    <div class="col-lg-7">
 

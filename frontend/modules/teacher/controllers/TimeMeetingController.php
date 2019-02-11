@@ -45,12 +45,8 @@ class TimeMeetingController extends Controller
         $timeMeetingAppointment = TimeMeetingAppointment::find()->where('teacher_id = '.$teacher_id)->all();
         $user = new User();
 
-        //Dohvati sve termine za odredjeni sastanak
-        // $meeting = $this->getAllTermins($TimeMeeting);
-
         return $this->render('index', [
             'dataProvider' => $dataProvider,
-            // 'meeting' => $meeting,
             'timeMeetingAppointment' => $timeMeetingAppointment,
             'user' => $user,
         ]);
@@ -86,11 +82,9 @@ class TimeMeetingController extends Controller
             $start_at = $post['start_at'];
             $end_at = $post['end_at'];
             $day = $post['day'];
-            // $teacher_id = Yii::$app->user->identity->id;
             $ids = TimeMeeting::find()->select('id')->where("teacher_id = $model->teacher_id")->all();
             $count = count($ids);
             if($count > 0) {
-                // $model2 = $this->findModel($ids);
                 $sql = "DELETE FROM time_meeting WHERE teacher_id = ".$model->teacher_id;
                 $model2 = Yii::$app->db->createCommand($sql)->execute();
                 $model->save();
@@ -188,8 +182,7 @@ class TimeMeetingController extends Controller
             }
         }
         return $termins;
-
-}
+    }
 }
 
 

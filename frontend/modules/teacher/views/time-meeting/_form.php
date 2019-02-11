@@ -19,14 +19,12 @@ use kartik\time\TimePicker;
             'showSeconds' => false,
             'showMeridian' => false,
             'minuteStep' => 15,
-            // 'secondStep' => 60,
         ]]) ?>
 
     <?= $form->field($model, 'end_at')->widget(TimePicker::classname(), ['pluginOptions' => [
             'showSeconds' => false,
             'showMeridian' => false,
             'minuteStep' => 15,
-            'secondStep' => 60,
         ]]) ?>
 
     <div class="form-group">

@@ -7,9 +7,6 @@ use yii\widgets\DetailView;
 /* @var $model frontend\modules\Teacher\models\StudentSubject */
 
 $this->title = $student_name;
-// $subjects = Subject::find()->all();
-//Izbaci iz niza vrednost za predmete /, ona se koristi samo za raspored casova
-// unset($subjects[9]);
 ?>
 <div class="student-subject-view">
     <div class="container main">

@@ -71,8 +71,6 @@ class TimeMeetingAppointment extends \yii\db\ActiveRecord
     }
 
     public function getAllFreeMeetingTerminsForParent($teacher_id){
-        // INNER JOIN time_meeting 
-        // ON time_meeting_appointment.teacher_id = time_meeting.teacher_id 
         $query = 
         "SELECT term, id
         FROM time_meeting_appointment 

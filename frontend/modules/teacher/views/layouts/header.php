@@ -17,7 +17,7 @@ use backend\models\User;
                             $department_id= $department->id;
         NavBar::begin([
             'brandLabel' => 'School management system',
-            'brandUrl' => Yii::$app->homeUrl,
+            'brandUrl' => Yii::$app->homeUrl.'teacher',
             'options' => [
                 'class' => 'navbar-inverse',
             ],
@@ -25,8 +25,6 @@ use backend\models\User;
         $menuItems = [
         ['label' => 'Dashboard', 'url' => ['default/index']],
         ['label' => 'Students', 'url' => ['default/students','department_id' =>$department_id]],
-        // ['label' => 'Subject', 'url' => ['/subject/index']],
-        // ['label' => 'Diary', 'url' => ['student-subject/index']],
      
         ];
         $menuItems[] = 

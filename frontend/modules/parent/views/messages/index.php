@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\modules\parent\models\MessagesSearch */
@@ -33,7 +34,16 @@ $parent_full_name =\Yii::$app->user->identity->first_name.' '.\Yii::$app->user->
                 }
             } 
         ?>
-        <?= Html::a('Send new message', ['create', 'teacher_id'=>$teacher_id], ['class' => 'btn btn-primary pull-right send_msg_btn'])?>
+
+        <?php $form = ActiveForm::begin(); ?>
+
+            <?= $form->field($messages, 'text')->textarea(['rows' => 6, 'label' => '']) ?>
+
+            <div class="form-group">
+                <?= Html::submitButton('Send', ['class' => 'btn btn-success']) ?>
+            </div>
+
+        <?php ActiveForm::end(); ?>
     </div>
 </div>
 

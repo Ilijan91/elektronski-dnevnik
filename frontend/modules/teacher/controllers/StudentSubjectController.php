@@ -125,7 +125,6 @@ class StudentSubjectController extends Controller
         $grade = array_column($diary, 'grades');unset($grade[9]);
         $grades = array_combine($title, $grade);
         
-        
         $this->layout = 'main';
         return $this->render('view', [
             'department_name'=>$department_name,

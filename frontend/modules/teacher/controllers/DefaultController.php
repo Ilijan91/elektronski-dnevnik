@@ -62,8 +62,6 @@ class DefaultController extends Controller
 
     public function actionIndex()
     {
-       // if(Yii::$app->user->can('teacher')){
-
         
             //Globalna promenljiva school name iz config-main.php params
             $school_name =\Yii::$app->params['school_name'];
@@ -88,7 +86,6 @@ class DefaultController extends Controller
                 'roll'=>$roll,
                 'school_name'=>$school_name
             ]);
-      //  }else echo 'dwd';
     }
 
     public function actionStudents($department_id){
@@ -125,19 +122,19 @@ class DefaultController extends Controller
         $model = $schedule->getScheduleByDepartmentId($department_id);
         $department_name = $schedule->getDepartmentFullName($department_id);
         //Ako nije kreiran raspored za izabrano odeljenje izbaci gresku
-        // if(count($model) < 1){
-            // $msg= "<h4>There is no data for department</h4>";
-            // return $this->render('error', [
-            //     'msg' => $msg,
-            // ]);
-        // }else{
+        if(count($model) < 1){
+            $msg= "<h4>There is no data for department</h4>";
+            return $this->render('error', [
+                'msg' => $msg,
+            ]);
+        }else{
             return $this->render('schedule', [
                 'model' => $model,
                 'modelDays'=>$modelDays,
                 'modelClasses'=>$modelClasses,
                 'department_name'=>$department_name,
             ]);
-        // }
+        }
     }
 
     public function actionNews(){
@@ -155,9 +152,6 @@ class DefaultController extends Controller
         $stud_arr = array_column($students,'id');
         $impl = implode(",", $stud_arr);
             $st = Student::find()->where("id IN ($impl)")->all();
-            // $uimpl = implode(",", $st['user_id']);
-            // $user_id = $st->id;
-            // $data = User::find()->where("id IN ($uimpl)")->all();
             return $st;
     }
 
@@ -191,6 +185,4 @@ class DefaultController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-   
-    
 }

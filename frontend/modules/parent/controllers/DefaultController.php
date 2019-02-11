@@ -87,15 +87,10 @@ class DefaultController extends Controller
 
         $diary=$studenttt->getGradesByStudent($id);
 
-      
-
         $title=array_column($diary, 'title');
         $grade=array_column($diary, 'grades');
-        
 
         $grades=array_combine($title, $grade);
-
-        
 
         $this->layout = "main";
         $subjects=Subject::find()->all();
@@ -105,16 +100,11 @@ class DefaultController extends Controller
         ->where(['student_id'=>$id])
         ->all();
 
-        
-        
-
         return $this->render('grade', [
             'student' => $student,
             'subjects' => $subjects,
             'StudentSubject' => $StudentSubject,
             'grades'=>$grades,
-            
-        
         ]);  
     }
 
@@ -124,15 +114,6 @@ class DefaultController extends Controller
 
         return $this->render('news', [
             'news' => $news,
-        ]);
-    }
-
-    public function actionTeachermeeting()
-    {
-        $this->layout = "main";
-
-        return $this->render('teachermeeting', [
-           
         ]);
     }
 
@@ -161,68 +142,69 @@ class DefaultController extends Controller
     }
 
     public function actionTimemeeting($department_id)
-    {
-        $this->layout = 'main';
+   {
+       $this->layout = 'main';
 
-        $parent_id = Yii::$app->user->identity->id;
-        $teacher_id = $this->getTeacherIdByDepartmentId($department_id);
-        //Dohvati ime i prezime ucitelja
-        $user = new User;
-        $teacherFullName = $user->getUserFullName($teacher_id);
+       $parent_id = Yii::$app->user->identity->id;
+       $teacher_id = $this->getTeacherIdByDepartmentId($department_id);
+       //Dohvati ime i prezime ucitelja
+       $user = new User;
+       $teacherFullName = $user->getUserFullName($teacher_id);
 
-        //Dohvati sve termine za odredjeni sastanak
-        $model = new TimeMeetingAppointment;
-       $termins = $model->getAllFreeMeetingTerminsForParent($teacher_id);
-       //timeMeetingDay
-       $timeMeetingInfo = TimeMeeting::find()->select(['day', 'start_at', 'end_at'])->where(['teacher_id'=>$teacher_id])->one();
-       
-       //Proveri da li je korisnik vec zakazao sastanak i onemoguci zakazivanje jos jednog sastanka
-       $booked =TimeMeetingAppointment::find()->where(['parent_id'=>$parent_id])->one();
+       //Dohvati sve termine za odredjeni sastanak
+       $model = new TimeMeetingAppointment;
+      $termins = $model->getAllFreeMeetingTerminsForParent($teacher_id);
+      //timeMeetingDay
+      $timeMeetingInfo = TimeMeeting::find()->select(['day', 'start_at', 'end_at'])->where(['teacher_id'=>$teacher_id])->one();
 
-       //Unesi podatke u bazu
-        if ($model->load(Yii::$app->request->post())) {
+      //Proveri da li je korisnik vec zakazao sastanak i onemoguci zakazivanje jos jednog sastanka
+      $booked =TimeMeetingAppointment::find()->where(['parent_id'=>$parent_id])->one();
 
-                //Dohvati appointment id
-                $term = $_POST['TimeMeetingAppointment']['term'];
-                $appointment_id = $term[0];
-                  
-                    
-                    if(count($booked) > 0){
-                        //Obrisi stari termin
-                        $deleteOldAppointment =  Yii::$app->db->createCommand()
-                        ->update('time_meeting_appointment', ['status' => 0, 'parent_id'=>null],'parent_id='.$parent_id)
-                        ->execute();
+      //Unesi podatke u bazu
+       if ($model->load(Yii::$app->request->post())) {
 
-                        //zakazi novi
-                        $update =  Yii::$app->db->createCommand()
-                        ->update('time_meeting_appointment', ['status' => 1, 'parent_id'=>$parent_id],'id='.$appointment_id)
-                        ->execute();
-                        if($update){
-                            Yii::$app->session->setFlash('success', "Successfully updated appointment"); 
-                            }else{
-                                Yii::$app->session->setFlash('error', "Error"); 
-                            }
-                    }else{
-                        $update =  Yii::$app->db->createCommand()
-                        ->update('time_meeting_appointment', ['status' => 1, 'parent_id'=>$parent_id],'id='.$appointment_id)
-                        ->execute();
-                        if($update){
-                            Yii::$app->session->setFlash('success', "Success"); 
-                            }else{
-                                Yii::$app->session->setFlash('error', "Error"); 
-                            }
-                    }
-                
-        }
-        return $this->render('timemeeting', [
-            'model'=>$model,
-            'termins'=>$termins,
-            'teacherFullName'=>$teacherFullName,
-            'timeMeetingInfo'=>$timeMeetingInfo,
-            'booked'=>$booked,
-        ]);
-    }
-    function getTeacherIdByDepartmentId($department_id){
+               //Dohvati appointment id
+               $term = $_POST['TimeMeetingAppointment']['term'];
+               $appointment_id = $term[0];
+
+
+                   if(count($booked) > 0){
+                       //Obrisi stari termin
+                       $deleteOldAppointment =  Yii::$app->db->createCommand()
+                       ->update('time_meeting_appointment', ['status' => 0, 'parent_id'=>null],'parent_id='.$parent_id)
+                       ->execute();
+
+                       //zakazi novi
+                       $update =  Yii::$app->db->createCommand()
+                       ->update('time_meeting_appointment', ['status' => 1, 'parent_id'=>$parent_id],'id='.$appointment_id)
+                       ->execute();
+                       if($update){
+                           Yii::$app->session->setFlash('success', "Successfully updated appointment");
+                           }else{
+                               Yii::$app->session->setFlash('error', "Error");
+                           }
+                   }else{
+                       $update =  Yii::$app->db->createCommand()
+                       ->update('time_meeting_appointment', ['status' => 1, 'parent_id'=>$parent_id],'id='.$appointment_id)
+                       ->execute();
+                       if($update){
+                           Yii::$app->session->setFlash('success', "Success");
+                           }else{
+                               Yii::$app->session->setFlash('error', "Error");
+                           }
+                   }
+
+       }
+       return $this->render('timemeeting', [
+           'model'=>$model,
+           'termins'=>$termins,
+           'teacherFullName'=>$teacherFullName,
+           'timeMeetingInfo'=>$timeMeetingInfo,
+           'booked'=>$booked,
+       ]);
+   }
+
+    public function getTeacherIdByDepartmentId($department_id){
         $teacher_id = Department::find()->select(['user_id'])->where(['id'=>$department_id])->all();
         return $teacher_id[0]['user_id'];
     }

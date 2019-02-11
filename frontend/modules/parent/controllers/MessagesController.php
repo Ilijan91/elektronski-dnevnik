@@ -74,14 +74,26 @@ class MessagesController extends Controller
         $messages = new Messages();
         $message = $messages->getTeacherChatByParent($parent_id);
 
-        // $searchModel = new MessagesSearch();
-        // $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        if ($messages->load(Yii::$app->request->post())) {
+            $messages->sender = \Yii::$app->user->identity->id;
+            
+            $messages->teacher_id = $teacher_id;
+            $messages->receiver = $teacher_id;
+            $messages->parent_id =\Yii::$app->user->identity->id;
+            if($messages->save()){
+                Yii::$app->session->setFlash('success', "Message has been successfully sent!"); 
+                
+            }else {
+                Yii::$app->session->setFlash('error', "Message send failed! Try again."); 
+            }
+            return $this->redirect(['index', 'id' => $messages->id, 'department_id' => $department_id]);
+        }
         return $this->render('index', [
             'teacher_id' => $teacher_id,
             'teacher'=>$teacher,
             'parent_id'=>$parent_id,
             'message' => $message,
+            'messages' => $messages,
            
         ]);
     }
@@ -110,6 +122,13 @@ class MessagesController extends Controller
     {
         $this->layout = "main";
         $model = new Messages();
+
+        $department=Student::find()
+        ->select('department_id')
+        ->where(['user_id'=>Yii::$app->user->identity->id])
+        ->one();
+        $department_id= $department->department_id;
+
         if ($model->load(Yii::$app->request->post())) {
             $model->sender = \Yii::$app->user->identity->id;
             $model->parent_id = \Yii::$app->user->identity->id;
@@ -122,7 +141,7 @@ class MessagesController extends Controller
             }else {
                 Yii::$app->session->setFlash('error', "Message send failed! Try again."); 
             }
-            return $this->redirect(['index', 'id' => $model->id]);
+            return $this->redirect(['index', 'id' => $model->id, 'department_id' => $department_id]);
             
         }
 

@@ -7,8 +7,6 @@ use yii\widgets\ActiveForm;
 /* @var $model frontend\modules\parent\models\Messages */
 
 $this->title = 'Conversation history';
-// $this->params['breadcrumbs'][] = ['label' => 'Messages', 'url' => ['index']];
-// $this->params['breadcrumbs'][] = $this->title;
 
 $teacher_full_name =\Yii::$app->user->identity->first_name.' '.\Yii::$app->user->identity->last_name;
 ?>
