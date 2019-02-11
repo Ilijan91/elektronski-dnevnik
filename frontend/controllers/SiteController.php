@@ -91,7 +91,7 @@ class SiteController extends Controller
             }elseif($roll_id == 4){
                 return $this->redirect('@web/parent');
             }elseif($roll_id == 1){
-                return $this->redirect(Yii::$app->urlManagerBackend->createUrl(['/']));
+                return $this->redirect(Yii::$app->urlManagerBackend->createUrl(['/user']));
             }else{
                 return $this->redirect('site/dashboard');
             } 

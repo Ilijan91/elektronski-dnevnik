@@ -10,6 +10,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * TimeMeetingController implements the CRUD actions for TimeMeeting model.
@@ -100,8 +101,8 @@ class TimeMeetingController extends Controller
             $end_at = $post['end_at'];
             $day = $post['day'];
             $ids = TimeMeeting::find()->select('id')->where("teacher_id = $model->teacher_id")->all();
-            $count = count($ids);
-            if($count > 0) {
+            // $count = count($ids);
+            if(empty($ids)) {
                 $sql = "DELETE FROM time_meeting WHERE teacher_id = ".$model->teacher_id;
                 $model2 = Yii::$app->db->createCommand($sql)->execute();
                 $model->save();

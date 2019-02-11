@@ -115,7 +115,7 @@ class DefaultController extends Controller
         $model = $schedule->getScheduleByDepartmentId($department_id);
         $department_name = $schedule->getDepartmentFullName($department_id);
         //Ako nije kreiran raspored za izabrano odeljenje izbaci gresku
-        if(count($model) < 1){
+        if(empty($model)){
             $msg= "<h4>There is no data for department</h4>";
             return $this->render('error', [
                 'msg' => $msg,
@@ -144,8 +144,8 @@ class DefaultController extends Controller
 //Prikazi ovu stranicu ukoliko nema podataka za prikaz
     public function actionEmpty()
     {
-        // $this->layout = 'main';
-        return $this->render('default/empty', [
+        $this->layout = 'main';
+        return $this->render('empty', [
             
         ]);
     }

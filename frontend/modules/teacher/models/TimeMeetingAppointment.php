@@ -74,7 +74,7 @@ class TimeMeetingAppointment extends \yii\db\ActiveRecord
        // INNER JOIN time_meeting
        // ON time_meeting_appointment.teacher_id = time_meeting.teacher_id
        $query =
-       "SELECT term, id
+       "SELECT DATE_FORMAT(term, '%H:%i') AS term, id
        FROM time_meeting_appointment
 
        WHERE time_meeting_appointment.teacher_id = $teacher_id AND time_meeting_appointment.status=0

@@ -174,41 +174,37 @@ class DefaultController extends Controller
        //Unesi podatke u bazu
         if ($model->load(Yii::$app->request->post())) {
 
-                //Dohvati appointment id
-                $term = $_POST['TimeMeetingAppointment']['term'];
-                $appointment_id = $term[0];
-                  
-                // var_dump(empty($booked));
-                // die;
-                    
-                    if(!empty($booked)){
-                        //Obrisi stari termin
-                        $deleteOldAppointment =  Yii::$app->db->createCommand()
-                        ->update('time_meeting_appointment', ['status' => 0, 'parent_id'=>null],'parent_id='.$parent_id)
-                        ->execute();
+        //Dohvati appointment id
+        $term = $_POST['TimeMeetingAppointment']['term'];
+        $appointment_id = $term[0];
+            
+            if(!empty($booked)){
+                //Obrisi stari termin
+                $deleteOldAppointment =  Yii::$app->db->createCommand()
+                ->update('time_meeting_appointment', ['status' => 0, 'parent_id'=>null],'parent_id='.$parent_id)
+                ->execute();
 
-                        //zakazi novi
-                        $update =  Yii::$app->db->createCommand()
-                        ->update('time_meeting_appointment', ['status' => 1, 'parent_id'=>$parent_id],'id='.$appointment_id)
-                        ->execute();
-                        
-                        if($update){
-                            Yii::$app->session->setFlash('success', "Successfully updated appointment");
-                            }else{
-                                Yii::$app->session->setFlash('error', "Error"); 
-                            }
-                    }else{
-                        $update =  Yii::$app->db->createCommand()
-                        ->update('time_meeting_appointment', ['status' => 1, 'parent_id'=>$parent_id],'id='.$appointment_id)
-                        ->execute();
-                        if($update){
-                            Yii::$app->session->setFlash('success', "Success"); 
-                            }else{
-                                Yii::$app->session->setFlash('error', "Error"); 
-                            }
-                            return $this->redirect('default/timemeeting', ['department_id'=>$department_id]);
-                    }
+                //zakazi novi
+                $reupdate =  Yii::$app->db->createCommand()
+                ->update('time_meeting_appointment', ['status' => 1, 'parent_id'=>$parent_id],'id='.$appointment_id)
+                ->execute();
                 
+                if($reupdate){
+                    Yii::$app->session->setFlash('success', "Successfully updated appointment");
+                    }else{
+                        Yii::$app->session->setFlash('error', "Error"); 
+                    }
+            }else{
+                $update =  Yii::$app->db->createCommand()
+                ->update('time_meeting_appointment', ['status' => 1, 'parent_id'=>$parent_id],'id='.$appointment_id)
+                ->execute();
+                if($update){
+                    Yii::$app->session->setFlash('success', "Success"); 
+                    }else{
+                        Yii::$app->session->setFlash('error', "Error"); 
+                    }
+            }
+            return $this->redirect(['timemeeting', 'department_id'=>$department_id]);
         }
         return $this->render('timemeeting', [
             'model'=>$model,
