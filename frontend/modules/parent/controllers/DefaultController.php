@@ -158,17 +158,17 @@ class DefaultController extends Controller
       $timeMeetingInfo = TimeMeeting::find()->select(['day', 'start_at', 'end_at'])->where(['teacher_id'=>$teacher_id])->one();
 
       //Proveri da li je korisnik vec zakazao sastanak i onemoguci zakazivanje jos jednog sastanka
-      $booked =TimeMeetingAppointment::find()->where(['parent_id'=>$parent_id])->one();
-
+      $booked = TimeMeetingAppointment::find()->where(['parent_id'=>$parent_id])->one();
+        $count = count($booked);
       //Unesi podatke u bazu
-       if ($model->load(Yii::$app->request->post())) {
+       if($model->load(Yii::$app->request->post())) {
 
                //Dohvati appointment id
                $term = $_POST['TimeMeetingAppointment']['term'];
                $appointment_id = $term[0];
 
 
-                   if(count($booked) > 0){
+                   if($count > 0){
                        //Obrisi stari termin
                        $deleteOldAppointment =  Yii::$app->db->createCommand()
                        ->update('time_meeting_appointment', ['status' => 0, 'parent_id'=>null],'parent_id='.$parent_id)
@@ -201,6 +201,7 @@ class DefaultController extends Controller
            'teacherFullName'=>$teacherFullName,
            'timeMeetingInfo'=>$timeMeetingInfo,
            'booked'=>$booked,
+           'count' => $count,
        ]);
    }
 

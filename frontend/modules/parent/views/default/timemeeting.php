@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = 'Update';
 <?php
  //Proveri da li je korisnik vec zakazao sastanak
 
-if(count($booked) > 0){
+if($count > 0){
    echo '<h4>Your termin is '.$booked['term'].'</h4>';
    echo '<h4>You can change it in form below.</h4>';
 //    print_r($booked);
