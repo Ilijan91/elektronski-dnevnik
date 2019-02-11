@@ -17,13 +17,11 @@ $this->params['breadcrumbs'][] = 'Update';
 <h3>Meeteng duration: <span><?= $timeMeetingInfo['start_at'].' - '.$timeMeetingInfo['end_at']?></span></h3>
 
 <?php
- //Proveri da li je korisnik vec zakazao sastanak
+  //Proveri da li je korisnik vec zakazao sastanak
 
-if($count > 0){
-   echo '<h4>Your termin is '.$booked['term'].'</h4>';
-   echo '<h4>You can change it in form below.</h4>';
-//    print_r($booked);
-//    echo count($booked['term']);
+if(!empty($booked['parent_id'])){
+    echo '<h4>Your termin is '.$booked['term'].'</h4>';
+    echo '<h4>You can change it in form below.</h4>';
 }
 ?>
 <h3>Free termins</h3>

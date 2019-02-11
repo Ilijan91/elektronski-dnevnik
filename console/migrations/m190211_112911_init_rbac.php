@@ -5,7 +5,7 @@ use yii\db\Migration;
 /**
  * Class m190204_092835_init_rbac
  */
-class m190205_224235_init_rbac extends Migration
+class m190211_112911_init_rbac extends Migration
 {
     /**
      * {@inheritdoc}
@@ -382,10 +382,10 @@ class m190205_224235_init_rbac extends Migration
         $parentDefaultGrade->description = 'Grade parent default';
         $auth->add($parentDefaultGrade);
 
-        // add "parentDefaultTeachermeeting" permission
-        $parentDefaultTeachermeeting = $auth->createPermission('parent/default/teachermeeting');
-        $parentDefaultTeachermeeting->description = 'Teachermeeting parent default';
-        $auth->add($parentDefaultTeachermeeting);
+        // add "parentDefaultTimemeeting" permission
+        $parentDefaultTimemeeting = $auth->createPermission('parent/default/timemeeting');
+        $parentDefaultTimemeeting->description = 'Timemeeting parent default';
+        $auth->add($parentDefaultTimemeeting);
 
         // add "parentDefaultSchedule" permission
         $parentDefaultSchedule = $auth->createPermission('parent/default/schedule');
@@ -428,12 +428,12 @@ class m190205_224235_init_rbac extends Migration
         $parent = $auth->createRole('parent');
         $auth->add($parent);
 
-        $auth->assign($parent, 18);
+        $auth->assign($parent, 8);
         
         // parent default
         $auth->addChild($parent, $parentDefaultIndex);
         $auth->addChild($parent, $parentDefaultGrade);
-        $auth->addChild($parent, $parentDefaultTeachermeeting);
+        $auth->addChild($parent, $parentDefaultTimemeeting);
         $auth->addChild($parent, $parentDefaultSchedule);
         $auth->addChild($parent, $parentDefaultNews);
 
@@ -487,6 +487,11 @@ class m190205_224235_init_rbac extends Migration
         $teacherDefaultStudents->description = 'Students teacher default';
         $auth->add($teacherDefaultStudents);
 
+        // add "teacherDefaultEmpty" permission
+        $teacherDefaultEmpty = $auth->createPermission('teacher/default/empty');
+        $teacherDefaultEmpty->description = 'Empty teacher default';
+        $auth->add($teacherDefaultEmpty);
+
         //STUDENT-SUBJECT
 
         // add "teacherStudentSubjectIndex" permission
@@ -523,35 +528,67 @@ class m190205_224235_init_rbac extends Migration
 
         // add "teacherMessagesIndex" permission
         $teacherMessagesIndex = $auth->createPermission('teacher/messages/index');
-        $teacherMessagesIndex->description = 'Index teacher messages index';
+        $teacherMessagesIndex->description = 'Index teacher messages';
         $auth->add($teacherMessagesIndex);
 
         // add "teacherMessagesCreate" permission
         $teacherMessagesCreate = $auth->createPermission('teacher/messages/create');
-        $teacherMessagesCreate->description = 'Index teacher messages create';
+        $teacherMessagesCreate->description = 'Create teacher messages';
         $auth->add($teacherMessagesCreate);
 
         // add "teacherMessagesUpdate" permission
         $teacherMessagesUpdate = $auth->createPermission('teacher/messages/update');
-        $teacherMessagesUpdate->description = 'Index teacher messages update';
+        $teacherMessagesUpdate->description = 'Update teacher messages';
         $auth->add($teacherMessagesUpdate);
 
         // add "teacherMessagesView" permission
         $teacherMessagesView = $auth->createPermission('teacher/messages/view');
-        $teacherMessagesView->description = 'Index teacher messages view';
+        $teacherMessagesView->description = 'View teacher messages';
         $auth->add($teacherMessagesView);
 
         // add "teacherMessagesDelete" permission
         $teacherMessagesDelete = $auth->createPermission('teacher/messages/delete');
-        $teacherMessagesDelete->description = 'Index teacher messages delete';
+        $teacherMessagesDelete->description = 'Delete teacher messages';
         $auth->add($teacherMessagesDelete);
+
+        // add "teacherMessagesChat" permission
+        $teacherMessagesChat = $auth->createPermission('teacher/messages/chat');
+        $teacherMessagesChat->description = 'Chat teacher messages';
+        $auth->add($teacherMessagesChat);
+
+        // TIME-MEETING
+
+        // add "teacherTimeMeetingIndex" permission
+        $teacherTimeMeetingIndex = $auth->createPermission('teacher/time-meeting/index');
+        $teacherTimeMeetingIndex->description = 'Index teacher time-meeting';
+        $auth->add($teacherTimeMeetingIndex);
+
+        // add "teacherTimeMeetingCreate" permission
+        $teacherTimeMeetingCreate = $auth->createPermission('teacher/time-meeting/create');
+        $teacherTimeMeetingCreate->description = 'Create teacher time-meeting';
+        $auth->add($teacherTimeMeetingCreate);
+
+        // add "teacherTimeMeetingUpdate" permission
+        $teacherTimeMeetingUpdate = $auth->createPermission('teacher/time-meeting/update');
+        $teacherTimeMeetingUpdate->description = 'Update teacher time-meeting';
+        $auth->add($teacherTimeMeetingUpdate);
+
+        // add "teacherTimeMeetingView" permission
+        $teacherTimeMeetingView = $auth->createPermission('teacher/time-meeting/view');
+        $teacherTimeMeetingView->description = 'View teacher time-meeting index';
+        $auth->add($teacherTimeMeetingView);
+
+        // add "teacherTimeMeetingDelete" permission
+        $teacherTimeMeetingDelete = $auth->createPermission('teacher/time-meeting/delete');
+        $teacherTimeMeetingDelete->description = 'Delete teacher time-meeting index';
+        $auth->add($teacherTimeMeetingDelete);
  
         // ROLES
 
         // add "teacher" role and give this role the permission for teacher module 
         $teacher = $auth->createRole('teacher');
         $auth->add($teacher);
-        $auth->assign($teacher, 'teacher');
+        $auth->assign($teacher, 14);
 
         //teacher messages
         $auth->addChild($teacher, $teacherMessagesView);
@@ -559,6 +596,7 @@ class m190205_224235_init_rbac extends Migration
         $auth->addChild($teacher, $teacherMessagesCreate);
         $auth->addChild($teacher, $teacherMessagesIndex);
         $auth->addChild($teacher, $teacherMessagesDelete);
+        $auth->addChild($teacher, $teacherMessagesChat);
 
         //teacher student-subject
         $auth->addChild($teacher, $teacherStudentSubjectIndex);
@@ -573,11 +611,19 @@ class m190205_224235_init_rbac extends Migration
         $auth->addChild($teacher, $teacherDefaultStudents);
         $auth->addChild($teacher, $teacherDefaultSchedule);
         $auth->addChild($teacher, $teacherDefaultNews);
+        $auth->addChild($teacher, $teacherDefaultEmpty);
+
+        // teacher time-meeting
+        $auth->addChild($teacher, $teacherTimeMeetingIndex);
+        $auth->addChild($teacher, $teacherTimeMeetingCreate);
+        $auth->addChild($teacher, $teacherTimeMeetingUpdate);
+        $auth->addChild($teacher, $teacherTimeMeetingView);
+        $auth->addChild($teacher, $teacherTimeMeetingDelete);
        
         // add "director" role and give this role the permission for director module 
         $director = $auth->createRole('director');
         $auth->add($director);
-        $auth->assign($director, 22);
+        $auth->assign($director, 15);
 
         // director default
         $auth->addChild($director, $directorDefaultIndex);

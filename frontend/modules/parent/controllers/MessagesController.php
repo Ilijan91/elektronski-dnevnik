@@ -58,22 +58,17 @@ class MessagesController extends Controller
     public function actionIndex($department_id)
     {
         
-
         $this->layout = "main";
         //Dohvati id ulogovanog roditelja
         $parent_id = \Yii::$app->user->identity->id;
-
         //Dohvati id ucitelja preko id odeljenja
         $teacher_find_id = Department::find()->select(['user_id'])->where(['id'=>$department_id])->all();
         $teacher_id = $teacher_find_id[0]['user_id'];
-
         //Dohvati ime i prezime ucitelja pomocu njegovog id-ja
         $teacher = User::find()->select(['id', 'first_name', 'last_name'])->where(['id'=> $teacher_id])->all();
-
         //Dohvati sve poruke
         $messages = new Messages();
         $message = $messages->getTeacherChatByParent($parent_id);
-
         if ($messages->load(Yii::$app->request->post())) {
             $messages->sender = \Yii::$app->user->identity->id;
             
@@ -122,13 +117,6 @@ class MessagesController extends Controller
     {
         $this->layout = "main";
         $model = new Messages();
-
-        $department=Student::find()
-        ->select('department_id')
-        ->where(['user_id'=>Yii::$app->user->identity->id])
-        ->one();
-        $department_id= $department->department_id;
-
         if ($model->load(Yii::$app->request->post())) {
             $model->sender = \Yii::$app->user->identity->id;
             $model->parent_id = \Yii::$app->user->identity->id;
@@ -141,7 +129,7 @@ class MessagesController extends Controller
             }else {
                 Yii::$app->session->setFlash('error', "Message send failed! Try again."); 
             }
-            return $this->redirect(['index', 'id' => $model->id, 'department_id' => $department_id]);
+            return $this->redirect(['index', 'id' => $model->id]);
             
         }
 

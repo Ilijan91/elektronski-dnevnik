@@ -27,34 +27,34 @@ use Yii;
  */
 class DefaultController extends Controller
 {
-    // public function behaviors()
-    // {
-    //     $behaviors['verbs'] = [
-    //         'class' => VerbFilter::className(),
-    //         'actions' => [
-    //             'delete' => ['POST'],
-    //         ],
-    //     ];
-    //     $behaviors['access'] = [
-    //         'class' => AccessControl::className(),
-    //         'rules'=>[
-    //             [
-    //                 'allow' => true,
-    //                 'roles' => ['parent'],
-    //                 'matchCallback' => function($rules, $action){
-    //                     $action = Yii::$app->controller->action->id;
-    //                     $controller = Yii::$app->controller->id;
-    //                     $route = "parent/$controller/$action";
-    //                     $post = Yii::$app->request->post();
-    //                     if(\Yii::$app->user->can($route)){
-    //                         return true;
-    //                     }
-    //                 }
-    //             ],
-    //         ],
-    //     ];
-    //     return $behaviors;
-    // }
+    public function behaviors()
+    {
+        $behaviors['verbs'] = [
+            'class' => VerbFilter::className(),
+            'actions' => [
+                'delete' => ['POST'],
+            ],
+        ];
+        $behaviors['access'] = [
+            'class' => AccessControl::className(),
+            'rules'=>[
+                [
+                    'allow' => true,
+                    'roles' => ['parent'],
+                    'matchCallback' => function($rules, $action){
+                        $action = Yii::$app->controller->action->id;
+                        $controller = Yii::$app->controller->id;
+                        $route = "parent/$controller/$action";
+                        $post = Yii::$app->request->post();
+                        if(\Yii::$app->user->can($route)){
+                            return true;
+                        }
+                    }
+                ],
+            ],
+        ];
+        return $behaviors;
+    }
     /**
      * Renders the index view for the module
      * @return string
@@ -87,10 +87,15 @@ class DefaultController extends Controller
 
         $diary=$studenttt->getGradesByStudent($id);
 
+      
+
         $title=array_column($diary, 'title');
         $grade=array_column($diary, 'grades');
+        
 
         $grades=array_combine($title, $grade);
+
+        
 
         $this->layout = "main";
         $subjects=Subject::find()->all();
@@ -100,11 +105,16 @@ class DefaultController extends Controller
         ->where(['student_id'=>$id])
         ->all();
 
+        
+        
+
         return $this->render('grade', [
             'student' => $student,
             'subjects' => $subjects,
             'StudentSubject' => $StudentSubject,
             'grades'=>$grades,
+            
+        
         ]);  
     }
 
@@ -116,6 +126,7 @@ class DefaultController extends Controller
             'news' => $news,
         ]);
     }
+
 
     public function actionSchedule($id)
     {
@@ -159,7 +170,7 @@ class DefaultController extends Controller
        
        //Proveri da li je korisnik vec zakazao sastanak i onemoguci zakazivanje jos jednog sastanka
        $booked =TimeMeetingAppointment::find()->where(['parent_id'=>$parent_id])->one();
-
+       
        //Unesi podatke u bazu
         if ($model->load(Yii::$app->request->post())) {
 
@@ -167,8 +178,10 @@ class DefaultController extends Controller
                 $term = $_POST['TimeMeetingAppointment']['term'];
                 $appointment_id = $term[0];
                   
+                // var_dump(empty($booked));
+                // die;
                     
-                    if(count($booked) > 0){
+                    if(!empty($booked)){
                         //Obrisi stari termin
                         $deleteOldAppointment =  Yii::$app->db->createCommand()
                         ->update('time_meeting_appointment', ['status' => 0, 'parent_id'=>null],'parent_id='.$parent_id)
@@ -178,8 +191,9 @@ class DefaultController extends Controller
                         $update =  Yii::$app->db->createCommand()
                         ->update('time_meeting_appointment', ['status' => 1, 'parent_id'=>$parent_id],'id='.$appointment_id)
                         ->execute();
+                        
                         if($update){
-                            Yii::$app->session->setFlash('success', "Successfully updated appointment"); 
+                            Yii::$app->session->setFlash('success', "Successfully updated appointment");
                             }else{
                                 Yii::$app->session->setFlash('error', "Error"); 
                             }

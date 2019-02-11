@@ -106,13 +106,6 @@ class DefaultController extends Controller
     }
 
 
-    
-    public function actionDiary(){
-        $this->layout = 'main';
-        return $this->render('diary', [
-        ]);
-    }
-
     public function actionSchedule($department_id){
         $this->layout = 'main';
 

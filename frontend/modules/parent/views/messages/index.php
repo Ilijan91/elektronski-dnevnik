@@ -1,13 +1,10 @@
 <?php
-
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\ActiveForm;
-
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\modules\parent\models\MessagesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
 $this->title = 'Conversation history';
 $this->params['breadcrumbs'][] = ['label' => 'Messages', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -18,7 +15,7 @@ $parent_full_name =\Yii::$app->user->identity->first_name.' '.\Yii::$app->user->
     <h2><?=Html::encode($this->title) ?> <span class="department_name"><?= $parent_full_name?> <span></h2>
     <div class="message-inbox">
         <?php
-        if(count($message < 1)){
+        if(empty($message)){
             echo "<p>There is no messages o show</p>";
         }else{
              foreach($message as $msg) {
@@ -50,4 +47,3 @@ $parent_full_name =\Yii::$app->user->identity->first_name.' '.\Yii::$app->user->
         <?php ActiveForm::end(); ?>
     </div>
 </div>
-
