@@ -214,7 +214,8 @@ a.desc:after {
       margin-top:50px;
   } */
 .count{
-    color: #a94442;;
+    color: #a94442;
+    font-weight: 900;
 }
   #frontend-header, #frontend-footer{
       width: 100%;

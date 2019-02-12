@@ -17,7 +17,7 @@ $parent_full_name =\Yii::$app->user->identity->first_name.' '.\Yii::$app->user->
     <h2><?=Html::encode($this->title) ?> <span class="department_name"><?= $parent_full_name?> <span></h2>
     <div class="message-inbox">
         <?php
-        if(count($message < 1)){
+        if(empty($message)){
             echo "<p>There is no messages o show</p>";
         }else{
              foreach($message as $msg) {
@@ -37,7 +37,7 @@ $parent_full_name =\Yii::$app->user->identity->first_name.' '.\Yii::$app->user->
             }
         } 
         ?>
-        <?= Html::a('Send new message', ['create', 'teacher_id'=>$teacher_id], ['class' => 'btn btn-primary pull-right send_msg_btn'])?>
+        <?= Html::a('Send new message', ['create', 'teacher_id'=>$teacher_id, 'department_id'=>$department_id], ['class' => 'btn btn-primary pull-right send_msg_btn'])?>
     </div>
 </div>
 

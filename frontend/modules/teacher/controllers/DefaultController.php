@@ -101,7 +101,7 @@ class DefaultController extends Controller
         $this->layout = 'main';
 
         //Ako nisu povezani ucenici za izabrano odeljenje izbaci gresku
-        if(empty($model)){
+        if(empty($students)){
             $msg= "<h4>There is no students for this department yet!</h4>";
         return $this->render('empty', [
             'msg'=>$msg

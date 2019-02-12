@@ -21,35 +21,35 @@ class MessagesController extends Controller
     /**
      * {@inheritdoc}
      */
-    public function behaviors()
-    {
-        $behaviors['verbs'] = [
-            'class' => VerbFilter::className(),
-            'actions' => [
-                'delete' => ['POST'],
-            ],
-        ];
-        $behaviors['access'] = [
-            'class' => AccessControl::className(),
-            'rules'=>[
-                [
-                    'allow' => true,
-                    'roles' => ['parent'],
-                    'matchCallback' => function($rules, $action){
-                        //module = \yii::$app->controller->module->id;
-                        $action = Yii::$app->controller->action->id;
-                        $controller = Yii::$app->controller->id;
-                        $route = "parent/$controller/$action";
-                        $post = Yii::$app->request->post();
-                        if(\Yii::$app->user->can($route)){
-                            return true;
-                        }
-                    }
-                ],
-            ],
-        ];
-        return $behaviors;
-    }
+    // public function behaviors()
+    // {
+    //     $behaviors['verbs'] = [
+    //         'class' => VerbFilter::className(),
+    //         'actions' => [
+    //             'delete' => ['POST'],
+    //         ],
+    //     ];
+    //     $behaviors['access'] = [
+    //         'class' => AccessControl::className(),
+    //         'rules'=>[
+    //             [
+    //                 'allow' => true,
+    //                 'roles' => ['parent'],
+    //                 'matchCallback' => function($rules, $action){
+    //                     //module = \yii::$app->controller->module->id;
+    //                     $action = Yii::$app->controller->action->id;
+    //                     $controller = Yii::$app->controller->id;
+    //                     $route = "parent/$controller/$action";
+    //                     $post = Yii::$app->request->post();
+    //                     if(\Yii::$app->user->can($route)){
+    //                         return true;
+    //                     }
+    //                 }
+    //             ],
+    //         ],
+    //     ];
+    //     return $behaviors;
+    // }
 
     /**
      * Lists all Messages models.
@@ -82,8 +82,35 @@ class MessagesController extends Controller
             'teacher'=>$teacher,
             'parent_id'=>$parent_id,
             'message' => $message,
+            'department_id'=>$department_id,
            
         ]);
+    }
+
+    public function actionFetch(){
+        // if request is AJAX
+        if(Yii::$app->request->isAjax){
+            // get user id
+
+            $parent_id = Yii::$app->user->identity->id;
+            // get all msg where status = 0 and receiver = $parent_id
+            $msg = Messages::find()->where(['read_msg' => 0,'receiver' => $parent_id])->all();
+            // count all msg
+            $msg = count($msg);
+            // echo Json::encode($msg);
+            echo $msg;
+           
+        }
+    }
+    public function actionInsert(){
+        // if request is AJAX
+        if(Yii::$app->request->isAjax){
+            $parent_id = Yii::$app->user->identity->id;
+            // create model msg
+            $msg = new Messages();
+            // update all statuses where is status = 0 and id_roditelj = $roditelj_id with value 1
+            $msg::updateAll(['read_msg' => 1], 'read_msg = 0 && receiver = '.$parent_id.'');
+        }
     }
 
     /**
@@ -106,14 +133,13 @@ class MessagesController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($teacher_id)
+    public function actionCreate($teacher_id, $department_id)
     {
         $this->layout = "main";
         $model = new Messages();
         if ($model->load(Yii::$app->request->post())) {
             $model->sender = \Yii::$app->user->identity->id;
             $model->parent_id = \Yii::$app->user->identity->id;
-
             $model->receiver =$teacher_id;
             $model->teacher_id = $teacher_id;
             if($model->save()){
@@ -122,10 +148,9 @@ class MessagesController extends Controller
             }else {
                 Yii::$app->session->setFlash('error', "Message send failed! Try again."); 
             }
-            return $this->redirect(['index', 'id' => $model->id]);
+            return $this->redirect(['index', 'department_id' => $department_id]);
             
         }
-
         return $this->render('create', [
             'model' => $model,
         ]);

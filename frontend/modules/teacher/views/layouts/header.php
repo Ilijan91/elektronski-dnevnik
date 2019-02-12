@@ -54,8 +54,9 @@ use backend\models\User;
         $menuItems[] = ['label' => 'Schedule', 'url' => ['default/schedule','department_id' =>$department_id ]];
         $menuItems[] = ['label' => 'News Feed', 'url' => ['default/news']];
         $menuItems[] = ['label' => 'Time Meetings', 'url' => ['time-meeting/index']];
-        $menuItems[] = ['label' => 'Messages', 'url' => ['messages/index', 'id' => Yii::$app->user->identity->id]];
-        $menuItems[] = '<span class="count">0</span><li>'
+        $menuItems[] =  ['label' => 'Messages', 'url' => ['messages/index', 'department_id' => $department_id], 'options'=> ['class'=>'count_msg']];
+        $menuItems[] = '<li><span class="count"></span></li>';
+        $menuItems[] =              '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
                     'Logout (' . Yii::$app->user->identity->username . ')',

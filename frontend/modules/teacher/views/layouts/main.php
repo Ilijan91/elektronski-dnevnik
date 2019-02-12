@@ -86,7 +86,7 @@ $scritp2 = <<<JS
                 // else put data in span element
                 $('.count').html(data);
                 // when user click on the span element
-                $('.count').on('click', function(){
+                $('.count_msg').on('click', function(){
                     // call function insert
                    
                     if(insert()){
@@ -120,7 +120,7 @@ $scritp2 = <<<JS
 JS;
 $this->registerJs($scritp2);
 ?>
-?>
+
 
 <div id="frontend-footer">
 <?= $this->render('footer')?>

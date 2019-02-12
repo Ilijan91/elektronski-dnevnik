@@ -64,7 +64,7 @@ class MessagesController extends Controller
 
             $teacher_id = Yii::$app->user->identity->id;
             // get all odgovor where status = 0 and id_roditelj = $roditelj_id
-            $odgovor = Messages::find()->where(['read_msg' => 0,'teacher_id' => $teacher_id])->all();
+            $odgovor = Messages::find()->where(['read_msg' => 0,'receiver' => $teacher_id])->all();
             // count all odgovor
             $odgovor = count($odgovor);
             echo Json::encode($odgovor);
@@ -82,7 +82,7 @@ class MessagesController extends Controller
             $msg::updateAll(['read_msg' => 1], 'read_msg = 0 && teacher_id = '.$teacher_id.'');
         }
     }
-    public function actionIndex($department_id)
+    public function actionIndex()
     {
         $this->layout = "main";
         $messages = new Messages();

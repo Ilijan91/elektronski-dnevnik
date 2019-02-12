@@ -36,9 +36,17 @@ use backend\models\StudentSubject;
         ['label' => 'Grade', 'url' => ['default/grade', 'id' => $student_id]],
         ['label' => 'Schedule', 'url' => ['default/schedule', 'id' => $department_id]],
         ['label' => 'News Feed', 'url' => ['default/news']],
-        ['label' => 'Messages', 'url' => ['messages/index', 'department_id' => $department_id]],
         ['label' => 'Teacher Meeting', 'url' => ['default/timemeeting', 'department_id' => $department_id ]],
+        ['label' => 'Messages', 'url' => ['messages/index', 'department_id' => $department_id], 'options'=> ['class'=>'count_msg']],
     ];
+    
+     $menuItems[] = '<li><span class="count_msg"><sup class="nav-icon count"></sup></span></li>';
+//     [
+//         'label' => '<span class="sidebar-menu-item-text">Messages <span ><sup class="nav-icon count">0</sup></span>',
+//         'encode' => false,
+//         'url' => ['messages/index'],
+//    [ 'department_id' => $department_id],
+    // ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
