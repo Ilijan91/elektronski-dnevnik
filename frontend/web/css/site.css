@@ -210,7 +210,12 @@ a.desc:after {
       color: #00325e;
       text-transform: uppercase;
   }
-
+  /* #frontend-main-container{
+      margin-top:50px;
+  } */
+.count{
+    color: #a94442;;
+}
   #frontend-header, #frontend-footer{
       width: 100%;
   }

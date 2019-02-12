@@ -121,10 +121,17 @@ class DefaultController extends Controller
     public function actionNews() {
         $this->layout = "main";
         $news = News::find()->all();
+        if(empty($news)){
+            $msg= "<h4>There is no data for department yet!</h4>";
+            return $this->render('empty', [
+                'msg'=>$msg
+                ]);
+        }else{
 
         return $this->render('news', [
             'news' => $news,
         ]);
+        }
     }
 
     public function actionTeachermeeting()
@@ -145,9 +152,9 @@ class DefaultController extends Controller
         $model = $schedule->getScheduleByDepartmentId($id);
         $department_name = $schedule->getDepartmentFullName($id);
         //Ako nije kreiran raspored za izabrano odeljenje izbaci gresku
-        if(count($model) < 1){
+        if(empty($model)){
             $msg= "<h4>There is no data for department</h4>";
-            return $this->render('error', [
+            return $this->render('empty', [
                 'msg' => $msg,
             ]);
         }else{

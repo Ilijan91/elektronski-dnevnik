@@ -59,7 +59,7 @@ class DefaultController extends Controller
         ];
         return $behaviors;
     }
-
+    
     public function actionIndex()
     {
             //Globalna promenljiva school name iz config-main.php params

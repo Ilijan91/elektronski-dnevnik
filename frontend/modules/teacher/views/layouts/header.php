@@ -14,7 +14,20 @@ use backend\models\User;
                             ->select('id')
                             ->where(['user_id'=>Yii::$app->user->identity->id])
                             ->one();
-                            $department_id= $department->id;
+                           
+        if(empty($department)){
+        //   if (Yii::$app->user->isGuest) {
+            echo "There is no department.";
+                echo Html::beginForm(['/site/logout'], 'post');
+                echo Html::submitButton(
+                'Logout (' . Yii::$app->user->identity->username . ')',
+                ['class' => 'btn btn-link logout']
+                );
+                echo Html::endForm();
+            
+            // }
+    }else {
+        $department_id= $department->id;
         NavBar::begin([
             'brandLabel' => 'School management system',
             'brandUrl' => Yii::$app->homeUrl,
@@ -42,19 +55,22 @@ use backend\models\User;
         $menuItems[] = ['label' => 'News Feed', 'url' => ['default/news']];
         $menuItems[] = ['label' => 'Time Meetings', 'url' => ['time-meeting/index']];
         $menuItems[] = ['label' => 'Messages', 'url' => ['messages/index', 'id' => Yii::$app->user->identity->id]];
-        $menuItems[] = '<li>'
+        $menuItems[] = '<span class="count">0</span><li>'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
                     'Logout (' . Yii::$app->user->identity->username . ')',
                     ['class' => 'btn btn-link logout']
                 )
                 . Html::endForm()
-                . '</li>';
+                . '</li> 
+               
+            
+                ';
         
         echo Nav::widget([
             'options' => ['class' => 'navbar-nav navbar-right'],
             'items' => $menuItems,
         ]);
         NavBar::end();
-        ?>
+    } ?>
     </div>
