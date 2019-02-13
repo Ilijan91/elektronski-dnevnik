@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-[{"title":"Matematika","avg_grade":"5.0000"},{"title":"Srpski jezik","avg_grade":"5.0000"}]
-=======
-[{"title":"Matematika","avg_grade":"4.0000"},{"title":"Srpski jezik","avg_grade":"2.8571"},{"title":"Engleski jezik","avg_grade":"4.2500"},{"title":"Fizicko","avg_grade":"3.7143"},{"title":"Svet oko nas","avg_grade":"4.5000"},{"title":"Likovno","avg_grade":"3.7500"},{"title":"Muzicko","avg_grade":"5.0000"}]
->>>>>>> caadb743e0534e2b0bec1f88666eb6c7cb86e479
+[{"title":"Matematika","avg_grade":"4.5000"},{"title":"Srpski jezik","avg_grade":"5.0000"},{"title":"Fizicko","avg_grade":"3.0000"}]

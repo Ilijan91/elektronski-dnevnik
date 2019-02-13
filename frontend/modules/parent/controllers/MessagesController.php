@@ -59,13 +59,17 @@ class MessagesController extends Controller
     {
         
         $this->layout = "main";
+
         //Dohvati id ulogovanog roditelja
         $parent_id = \Yii::$app->user->identity->id;
+
         //Dohvati id ucitelja preko id odeljenja
         $teacher_find_id = Department::find()->select(['user_id'])->where(['id'=>$department_id])->all();
         $teacher_id = $teacher_find_id[0]['user_id'];
+
         //Dohvati ime i prezime ucitelja pomocu njegovog id-ja
         $teacher = User::find()->select(['id', 'first_name', 'last_name'])->where(['id'=> $teacher_id])->all();
+        
         //Dohvati sve poruke
         $messages = new Messages();
         $message = $messages->getTeacherChatByParent($parent_id);
