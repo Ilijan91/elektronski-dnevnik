@@ -12,6 +12,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\helpers\Json;
 
 /**
  * MessagesController implements the CRUD actions for Messages model.
@@ -55,6 +56,32 @@ class MessagesController extends Controller
      * Lists all Messages models.
      * @return mixed
      */
+
+    public function actionFetch(){
+        // if request is AJAX
+        if(Yii::$app->request->isAjax){
+            // get user id
+
+            $teacher_id = Yii::$app->user->identity->id;
+            // get all odgovor where status = 0 and id_roditelj = $roditelj_id
+            $odgovor = Messages::find()->where(['read_msg' => 0,'receiver' => $teacher_id])->all();
+            // count all odgovor
+            $odgovor = count($odgovor);
+            echo Json::encode($odgovor);
+           
+        }
+    }
+    public function actionInsert(){
+        // if request is AJAX
+        if(Yii::$app->request->isAjax){
+            $teacher_id = Yii::$app->user->identity->id;
+           // $roditelj_id = Roditelj::find()->where(['user_id' => Yii::$app->user->identity->id])->one();
+            // create model Odgovor
+            $msg = new Messages();
+            // update all statuses where is status = 0 and id_roditelj = $roditelj_id with value 1
+            $msg::updateAll(['read_msg' => 1], 'read_msg = 0 && teacher_id = '.$teacher_id.'');
+        }
+    }
     public function actionIndex()
     {
         $this->layout = "main";

@@ -80,15 +80,21 @@ class DefaultController extends Controller
 
         $stsub = new StudentSubject();
         $avg = $stsub->getAvgGrade();
-        foreach($avg as $average) {
+        if(empty($avg)){
+            $msg= "<h4>There is no data for department yet!</h4>";
+            return $this->render('empty', [
+                'msg'=>$msg
+                ]);
+        }else{
+            foreach($avg as $average) {
 
-            $item[] = $average;
-        }
-        $ite = json_encode($item);
-        file_put_contents("prosek.json", $ite);
-        return $this->render('statistics', [
-        ]);
-        
+                $item[] = $average;
+            }
+            $ite = json_encode($item);
+            file_put_contents("prosek.json", $ite);
+            return $this->render('statistics', [
+            ]);
+        } 
     }
 
     public function actionStatistics_per_department() {
@@ -96,14 +102,25 @@ class DefaultController extends Controller
 
         $stsub = new StudentSubject();
         $avg = $stsub->getAvgGradeByDepartment();
-        foreach($avg as $average) {
-
-            $item[] = $average;
+       
+        if(empty($avg)){
+            $msg= "<h4>There is no data for department yet!</h4>";
+            return $this->render('empty', [
+                'msg'=>$msg
+                ]);
+        }else{
+            foreach($avg as $average) {
+                $item[] = $average;
+            }
+            $ite = json_encode($item);
+            file_put_contents("prosek_po_odeljenju.json", $ite);
+            return $this->render('statistics_per_department', [
+                ]);
         }
-        $ite = json_encode($item);
-        file_put_contents("prosek_po_odeljenju.json", $ite);
-        return $this->render('statistics_per_department', [
-        ]);
+       
+       
+       
+        
     }
 
 
