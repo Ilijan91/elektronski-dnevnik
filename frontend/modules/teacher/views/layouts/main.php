@@ -29,7 +29,6 @@ let crf = '$csrf';
 // get url for redirect
 let redirect = '$redirect';
 
-console.log(url);
 JS;
 
 $this->registerJs($script);
@@ -101,10 +100,10 @@ $scritp2 = <<<JS
             }
         })
     }
-    // set interval with load function
-    // function set(){
-    //     setInterval(load, 7000);
-    // }
+    //set interval with load function
+    function set(){
+        setInterval(load, 7000);
+    }
     // call function actionInsert in OdgovorController and insert status in db
     function insert(){
         $.post({
@@ -116,7 +115,7 @@ $scritp2 = <<<JS
         });
     }
     $('.wrap').on('load', load());
-   // $('.wrap').on('load', set());
+    $('.wrap').on('load', set());
 JS;
 $this->registerJs($scritp2);
 ?>

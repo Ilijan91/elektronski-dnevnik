@@ -106,9 +106,9 @@ $scritp2 = <<<JS
         })
     }
     // set interval with load function
-    // function set(){
-    //     setInterval(load, 7000);
-    // }
+    function set(){
+        setInterval(load, 7000);
+    }
     // call function actionInsert in OdgovorController and insert status in db
     function insert(){
         $.post({
@@ -120,7 +120,7 @@ $scritp2 = <<<JS
         });
     }
     $('.wrap').on('load', load());
-   // $('.wrap').on('load', set());
+   $('.wrap').on('load', set());
 JS;
 $this->registerJs($scritp2);
 ?>
