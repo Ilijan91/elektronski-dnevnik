@@ -15,20 +15,6 @@ use yii\helpers\Url;
 <?php
 
 //Prikaz vesti
-<<<<<<< HEAD
-foreach($news as $m){
-   $title = $m['title'];
-   $body = $m['body'];
-   $image =$m['image'];
-   $created_at = $m['created_at'];
-   $news[] =[$title, $body, $image,  $created_at];
-echo '
-<div class="row news">
-   <div class="col-lg-5 col-md-5">
-   '.Html::img(Url::to("@web/img/upload/$image"),["class"=>"img-responsive","alt"=>"news"]).'
-   </div>
-   <div class="col-lg-7">
-=======
 //Ako nema vesti za prikaz
 if(empty($news)){
     $news= "<h4>There is no data to show!</h4>";
@@ -48,7 +34,6 @@ if(empty($news)){
         '.Html::img(Url::to("@web/img/$image"),["class"=>"img-responsive","alt"=>"news"]).'
         </div>
         <div class="col-lg-7">
->>>>>>> caadb743e0534e2b0bec1f88666eb6c7cb86e479
 
         <h3>'.$title.'</h3>
         <p>'.$body.'</p>

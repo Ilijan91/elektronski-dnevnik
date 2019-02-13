@@ -62,10 +62,6 @@ class DefaultController extends Controller
     
     public function actionIndex()
     {
-<<<<<<< HEAD
-        
-=======
->>>>>>> caadb743e0534e2b0bec1f88666eb6c7cb86e479
             //Globalna promenljiva school name iz config-main.php params
             $school_name =\Yii::$app->params['school_name'];
             
@@ -89,10 +85,7 @@ class DefaultController extends Controller
                 'roll'=>$roll,
                 'school_name'=>$school_name
             ]);
-<<<<<<< HEAD
-=======
         
->>>>>>> caadb743e0534e2b0bec1f88666eb6c7cb86e479
     }
 
     public function actionStudents($department_id){
@@ -133,15 +126,9 @@ class DefaultController extends Controller
 
         //Ako nije kreiran raspored za izabrano odeljenje izbaci gresku
         if(empty($model)){
-<<<<<<< HEAD
-            $msg= "<h4>There is no data for department</h4>";
-            return $this->render('error', [
-                'msg' => $msg,
-=======
             $msg = "<h4>Schedule for this department is not created yet!</h4>";
             return $this->render('empty', [
                 'msg'=>$msg
->>>>>>> caadb743e0534e2b0bec1f88666eb6c7cb86e479
             ]);
         }else{
             return $this->render('schedule', [
@@ -150,12 +137,8 @@ class DefaultController extends Controller
                 'modelClasses'=>$modelClasses,
                 'department_name'=>$department_name,
             ]);
-<<<<<<< HEAD
-        }
-=======
         }  
         
->>>>>>> caadb743e0534e2b0bec1f88666eb6c7cb86e479
     }
 
     public function actionNews(){
@@ -168,18 +151,6 @@ class DefaultController extends Controller
         ]);
     }
 
-<<<<<<< HEAD
-
-//Prikazi ovu stranicu ukoliko nema podataka za prikaz
-    public function actionEmpty()
-    {
-        $this->layout = 'main';
-        return $this->render('empty', [
-            
-        ]);
-    }
-=======
->>>>>>> caadb743e0534e2b0bec1f88666eb6c7cb86e479
     
     public function getUserByStudent($teacher_id) {
         $students = $this->getStudentsByTeacherId($teacher_id);
@@ -219,8 +190,5 @@ class DefaultController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-<<<<<<< HEAD
-=======
     
->>>>>>> caadb743e0534e2b0bec1f88666eb6c7cb86e479
 }

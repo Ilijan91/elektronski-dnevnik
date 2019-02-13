@@ -20,34 +20,34 @@ class TimeMeetingController extends Controller
     /**
      * {@inheritdoc}
      */
-    // public function behaviors()
-    // {
-    //     $behaviors['verbs'] = [
-    //         'class' => VerbFilter::className(),
-    //         'actions' => [
-    //             'delete' => ['POST'],
-    //         ],
-    //     ];
-    //     $behaviors['access'] = [
-    //         'class' => AccessControl::className(),
-    //         'rules'=>[
-    //             [
-    //                 'allow' => true,
-    //                 'roles' => ['teacher'],
-    //                 'matchCallback' => function($rules, $action){
-    //                     $action = Yii::$app->controller->action->id;
-    //                     $controller = Yii::$app->controller->id;
-    //                     $route = "teacher/$controller/$action";
-    //                     $post = Yii::$app->request->post();
-    //                     if(\Yii::$app->user->can($route)){
-    //                         return true;
-    //                     }
-    //                 }
-    //             ],
-    //         ],
-    //     ];
-    //     return $behaviors;
-    // }
+    public function behaviors()
+    {
+        $behaviors['verbs'] = [
+            'class' => VerbFilter::className(),
+            'actions' => [
+                'delete' => ['POST'],
+            ],
+        ];
+        $behaviors['access'] = [
+            'class' => AccessControl::className(),
+            'rules'=>[
+                [
+                    'allow' => true,
+                    'roles' => ['teacher'],
+                    'matchCallback' => function($rules, $action){
+                        $action = Yii::$app->controller->action->id;
+                        $controller = Yii::$app->controller->id;
+                        $route = "teacher/$controller/$action";
+                        $post = Yii::$app->request->post();
+                        if(\Yii::$app->user->can($route)){
+                            return true;
+                        }
+                    }
+                ],
+            ],
+        ];
+        return $behaviors;
+    }
 
     /**
      * Lists all TimeMeeting models.
